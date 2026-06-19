@@ -1,0 +1,28 @@
+{
+  "hovering_image": "https://lh3.googleusercontent.com/aida/AP1WRLuzr7PhVHPW9cp7XjrbNJTtRi-gEOIjsclE7js4gNULE6pxC6Ii5-6DLA8HxhPbB4H5rMMLL3XZ3e9OdiueEFgln6tDoMUz-gSErGYShop_hj7HKEGcmLVqUphjLydS55_jdkZQEv-jf_o0uvmQyw4X42s24G_3ylx2vieDCuZPA6PGF3WkdQAqf9x7BE8isXkjsQfWm_7smiFRY1glds6IiuCuvN9hLsfJu-SkHtqgjRj_6WppSTdH_G4",
+  "teasers": [
+    "Mixing the stardust...",
+    "Drawing the constellations...",
+    "Our AI is hand-painting your hero's suit...",
+    "Writing magical encounters...",
+    "Adding a sprinkle of comet dust...",
+    "Folding the space-time continuum..."
+  ],
+  "facts": [
+    {
+      "icon": "rocket_launch",
+      "title": "Space Fact #1",
+      "description": "Venus is the hottest planet in our solar system, with a surface temperature of 867°F (464°C)!"
+    },
+    {
+      "icon": "nightlight_round",
+      "title": "Space Fact #2",
+      "description": "The footprints left by astronauts on the Moon will likely stay there for at least 100 million years."
+    },
+    {
+      "icon": "sunny",
+      "title": "Space Fact #3",
+      "description": "One million Earths could fit inside the Sun – that's a lot of stardust!"
+    }
+  ]
+}
