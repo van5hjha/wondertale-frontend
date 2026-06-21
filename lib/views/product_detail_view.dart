@@ -14,6 +14,8 @@ import '../widgets/story_card.dart';
 import 'home_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../core/api/api_config.dart';
+import 'maintenance_view.dart';
 import 'preview_loading_view.dart';
 import 'products_view.dart';
 
@@ -860,6 +862,15 @@ class _CustomizationFormState extends State<CustomizationForm> {
         const SnackBar(
           content: Text('⚠️ Please upload at least one photo to generate custom AI faces.'),
           backgroundColor: AppTheme.error,
+        ),
+      );
+      return;
+    }
+
+    if (ApiConfig.underMaintenance) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => const MaintenanceView(),
         ),
       );
       return;
