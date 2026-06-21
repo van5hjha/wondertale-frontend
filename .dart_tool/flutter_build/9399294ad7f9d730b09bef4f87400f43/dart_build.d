@@ -1,1 +1,0 @@
- /home/founder/Desktop/setup/frontend/.dart_tool/flutter_build/9399294ad7f9d730b09bef4f87400f43/dart_build_result.json:  /home/founder/Desktop/setup/frontend/.dart_tool/package_config.json /home/founder/Desktop/setup/frontend/pubspec.yaml /home/founder/development/flutter/bin/cache/dart-sdk/version
