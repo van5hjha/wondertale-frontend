@@ -47,7 +47,9 @@ class CreatePreviewService {
 
       if (kIsWeb) {
         if (file.bytes == null) {
-          throw Exception('File bytes are empty for ${file.name} on Web platform.');
+          throw Exception(
+            'File bytes are empty for ${file.name} on Web platform.',
+          );
         }
         request.files.add(
           http.MultipartFile.fromBytes(

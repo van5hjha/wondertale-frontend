@@ -39,7 +39,8 @@ class PreviewLoadingView extends StatefulWidget {
   State<PreviewLoadingView> createState() => _PreviewLoadingViewState();
 }
 
-class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProviderStateMixin {
+class _PreviewLoadingViewState extends State<PreviewLoadingView>
+    with TickerProviderStateMixin {
   late AnimationController _floatController;
   late Animation<double> _floatAnimation;
 
@@ -88,14 +89,18 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
 
   Future<void> _loadJsonData() async {
     try {
-      final String response = await rootBundle.loadString('assets/data/preview_loading.json');
+      final String response = await rootBundle.loadString(
+        'assets/data/preview_loading.json',
+      );
       final data = json.decode(response);
       if (mounted) {
         setState(() {
           _loadingData = data;
           _isLoadingJson = false;
           _teasers = List<String>.from(data['teasers'] ?? []);
-          _currentTeaser = _teasers.isNotEmpty ? _teasers[0] : 'Mixing the stardust...';
+          _currentTeaser = _teasers.isNotEmpty
+              ? _teasers[0]
+              : 'Mixing the stardust...';
         });
         _startPreviewPipeline();
         _startTeaserTimer();
@@ -137,7 +142,6 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
         gender: widget.gender,
         photos: widget.photos,
       );
-
 
       if (!mounted) return;
       setState(() {
@@ -186,7 +190,8 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
             timer.cancel();
             setState(() {
               _isFailed = true;
-              _errorMessage = 'AI illustration generation failed in the backend.';
+              _errorMessage =
+                  'AI illustration generation failed in the backend.';
             });
           } else {
             // Keep polling, advance progress asymptotically toward 95%
@@ -257,10 +262,14 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
       extendBodyBehindAppBar: true,
       appBar: NavBar(
         activeIndex: -1,
-        onHomeTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
-        onExploreStoriesTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
-        onHowItWorksTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
-        onPricingTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+        onHomeTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
+        onExploreStoriesTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
+        onHowItWorksTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
+        onPricingTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
         onCreatePreviewTap: () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const ProductsView()),
@@ -270,9 +279,7 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
       body: Stack(
         children: [
           // 1. Drifting background particles
-          const Positioned.fill(
-            child: StardustParticles(),
-          ),
+          const Positioned.fill(child: StardustParticles()),
 
           // 2. Main content view
           _isLoadingJson
@@ -284,15 +291,18 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
               : SingleChildScrollView(
                   child: Center(
                     child: Container(
-                      constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                      constraints: const BoxConstraints(
+                        maxWidth: AppConstants.maxContainerWidth,
+                      ),
                       padding: EdgeInsets.symmetric(
-                        horizontal: isDesktop ? AppConstants.gutter : AppConstants.mobileMargin,
+                        horizontal: isDesktop
+                            ? AppConstants.gutter
+                            : AppConstants.mobileMargin,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(height: 140.0), // Clearing navbar
-
                           // Magical image section with floating & glows
                           SizedBox(
                             width: isDesktop ? 320.0 : 260.0,
@@ -309,7 +319,9 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                     height: isDesktop ? 280.0 : 220.0,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppTheme.secondary.withOpacity(0.08),
+                                      color: AppTheme.secondary.withOpacity(
+                                        0.08,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -319,36 +331,48 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                   animation: _floatAnimation,
                                   builder: (context, child) {
                                     return Transform.translate(
-                                      offset: Offset(0.0, _floatAnimation.value),
+                                      offset: Offset(
+                                        0.0,
+                                        _floatAnimation.value,
+                                      ),
                                       child: child,
                                     );
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+                                      borderRadius: BorderRadius.circular(
+                                        AppConstants.radiusLg,
+                                      ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppTheme.secondary.withOpacity(0.15),
+                                          color: AppTheme.secondary.withOpacity(
+                                            0.15,
+                                          ),
                                           blurRadius: 40.0,
                                           offset: const Offset(0, 20),
                                         ),
                                       ],
                                     ),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+                                      borderRadius: BorderRadius.circular(
+                                        AppConstants.radiusLg,
+                                      ),
                                       child: Image.network(
                                         _loadingData?['hovering_image'] ?? '',
                                         fit: BoxFit.contain,
-                                        errorBuilder: (context, error, stackTrace) => Container(
-                                          color: AppTheme.surfaceContainerLow,
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.broken_image,
-                                              color: AppTheme.secondary,
-                                              size: 48.0,
-                                            ),
-                                          ),
-                                        ),
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Container(
+                                                  color: AppTheme
+                                                      .surfaceContainerLow,
+                                                  child: const Center(
+                                                    child: Icon(
+                                                      Icons.broken_image,
+                                                      color: AppTheme.secondary,
+                                                      size: 48.0,
+                                                    ),
+                                                  ),
+                                                ),
                                       ),
                                     ),
                                   ),
@@ -362,7 +386,10 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                     animation: _floatAnimation,
                                     builder: (context, child) {
                                       return Transform.translate(
-                                        offset: Offset(0, _floatAnimation.value * 0.4),
+                                        offset: Offset(
+                                          0,
+                                          _floatAnimation.value * 0.4,
+                                        ),
                                         child: const Icon(
                                           Icons.star_rounded,
                                           color: AppTheme.tertiary,
@@ -400,11 +427,15 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                           // Progress tracker or error box
                           _isFailed
                               ? Container(
-                                  constraints: const BoxConstraints(maxWidth: 440.0),
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 440.0,
+                                  ),
                                   padding: const EdgeInsets.all(28.0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+                                    borderRadius: BorderRadius.circular(
+                                      AppConstants.radiusLg,
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
                                         color: AppTheme.error.withOpacity(0.08),
@@ -423,7 +454,9 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                         width: 56.0,
                                         height: 56.0,
                                         decoration: BoxDecoration(
-                                          color: AppTheme.error.withOpacity(0.1),
+                                          color: AppTheme.error.withOpacity(
+                                            0.1,
+                                          ),
                                           shape: BoxShape.circle,
                                         ),
                                         child: const Icon(
@@ -443,7 +476,8 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                       ),
                                       const SizedBox(height: 12.0),
                                       Text(
-                                        _errorMessage ?? 'An error occurred during preview generation. Please check the backend services.',
+                                        _errorMessage ??
+                                            'An error occurred during preview generation. Please check the backend services.',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.plusJakartaSans(
                                           fontSize: 14.0,
@@ -456,12 +490,16 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                         width: double.infinity,
                                         height: 50.0,
                                         child: ElevatedButton(
-                                          onPressed: () => Navigator.of(context).pop(),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: AppTheme.primary,
                                             foregroundColor: Colors.white,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    AppConstants.radiusDefault,
+                                                  ),
                                             ),
                                             elevation: 0,
                                           ),
@@ -478,13 +516,18 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                   ),
                                 )
                               : Container(
-                                  constraints: const BoxConstraints(maxWidth: 440.0),
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 440.0,
+                                  ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             'Magic in Progress...',
@@ -511,24 +554,37 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                         height: 12.0,
                                         decoration: BoxDecoration(
                                           color: Colors.black.withOpacity(0.05),
-                                          borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                                          borderRadius: BorderRadius.circular(
+                                            AppConstants.radiusFull,
+                                          ),
                                         ),
                                         child: FractionallySizedBox(
                                           widthFactor: _progress / 100.0,
                                           alignment: Alignment.centerLeft,
                                           child: AnimatedContainer(
-                                            duration: const Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                              milliseconds: 300,
+                                            ),
                                             decoration: BoxDecoration(
                                               gradient: const LinearGradient(
                                                 colors: [
-                                                  Color(0xFF812DC6), // Magic Lilac
-                                                  Color(0xFFDFB7FF), // Soft Lilac
+                                                  Color(
+                                                    0xFF812DC6,
+                                                  ), // Magic Lilac
+                                                  Color(
+                                                    0xFFDFB7FF,
+                                                  ), // Soft Lilac
                                                 ],
                                               ),
-                                              borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    AppConstants.radiusFull,
+                                                  ),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: const Color(0xFF812DC6).withOpacity(0.3),
+                                                  color: const Color(
+                                                    0xFF812DC6,
+                                                  ).withOpacity(0.3),
                                                   blurRadius: 10.0,
                                                 ),
                                               ],
@@ -543,22 +599,30 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                                         height: 36.0,
                                         alignment: Alignment.center,
                                         child: AnimatedSwitcher(
-                                          duration: const Duration(milliseconds: 500),
-                                          transitionBuilder: (child, animation) {
-                                            return FadeTransition(
-                                              opacity: animation,
-                                              child: SlideTransition(
-                                                position: Tween<Offset>(
-                                                  begin: const Offset(0.0, 0.2),
-                                                  end: Offset.zero,
-                                                ).animate(animation),
-                                                child: child,
-                                              ),
-                                            );
-                                          },
+                                          duration: const Duration(
+                                            milliseconds: 500,
+                                          ),
+                                          transitionBuilder:
+                                              (child, animation) {
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: SlideTransition(
+                                                    position: Tween<Offset>(
+                                                      begin: const Offset(
+                                                        0.0,
+                                                        0.2,
+                                                      ),
+                                                      end: Offset.zero,
+                                                    ).animate(animation),
+                                                    child: child,
+                                                  ),
+                                                );
+                                              },
                                           child: Text(
                                             _currentTeaser,
-                                            key: ValueKey<String>(_currentTeaser),
+                                            key: ValueKey<String>(
+                                              _currentTeaser,
+                                            ),
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.plusJakartaSans(
                                               fontSize: 15.0,
@@ -576,16 +640,21 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                           // Space facts responsive grid
                           isDesktop
                               ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: _buildFactCards(),
                                 )
                               : Column(
                                   children: _buildFactCards()
-                                      .map((card) => Padding(
-                                            padding: const EdgeInsets.only(bottom: 20.0),
-                                            child: card,
-                                          ))
+                                      .map(
+                                        (card) => Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 20.0,
+                                          ),
+                                          child: card,
+                                        ),
+                                      )
                                       .toList(),
                                 ),
 
@@ -636,7 +705,9 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
                   height: 40.0,
                   decoration: BoxDecoration(
                     color: AppTheme.secondary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
                   ),
                   child: Center(
                     child: Icon(
@@ -673,10 +744,12 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView> with TickerProv
       );
 
       if (MediaQuery.of(context).size.width >= 768.0) {
-        return Expanded(child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: card,
-        ));
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: card,
+          ),
+        );
       } else {
         return card;
       }

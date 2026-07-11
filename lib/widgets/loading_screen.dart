@@ -5,16 +5,14 @@ import '../core/theme.dart';
 class LoadingScreen extends StatefulWidget {
   final VoidCallback? onComplete;
 
-  const LoadingScreen({
-    super.key,
-    this.onComplete,
-  });
+  const LoadingScreen({super.key, this.onComplete});
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateMixin {
+class _LoadingScreenState extends State<LoadingScreen>
+    with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
   late AnimationController _lottieController;
@@ -26,14 +24,13 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
     _fadeController.forward();
 
-    _lottieController = AnimationController(
-      vsync: this,
-    );
+    _lottieController = AnimationController(vsync: this);
   }
 
   @override
@@ -59,8 +56,12 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      AppTheme.secondary.withOpacity(0.15), // Softer Magic Lilac glow on white
-                      AppTheme.tertiary.withOpacity(0.08),  // Softer Sunset Gold glow on white
+                      AppTheme.secondary.withOpacity(
+                        0.15,
+                      ), // Softer Magic Lilac glow on white
+                      AppTheme.tertiary.withOpacity(
+                        0.08,
+                      ), // Softer Sunset Gold glow on white
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.5, 1.0],
@@ -95,11 +96,11 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                   Text(
                     'Opening the storybook...',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AppTheme.primary, // Dark text color on white
-                          fontSize: 20.0,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      color: AppTheme.primary, // Dark text color on white
+                      fontSize: 20.0,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),

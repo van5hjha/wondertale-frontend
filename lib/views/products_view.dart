@@ -51,7 +51,9 @@ class _ProductsViewState extends State<ProductsView> {
         });
       }
     } catch (e) {
-      debugPrint('Error loading products from API: $e. Falling back to local assets.');
+      debugPrint(
+        'Error loading products from API: $e. Falling back to local assets.',
+      );
       try {
         final paginated = await _productsService.loadLocalProducts();
         if (mounted) {
@@ -75,7 +77,6 @@ class _ProductsViewState extends State<ProductsView> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -86,7 +87,8 @@ class _ProductsViewState extends State<ProductsView> {
       extendBodyBehindAppBar: true,
       appBar: NavBar(
         activeIndex: -1,
-        onHomeTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+        onHomeTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
         onExploreStoriesTap: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
@@ -102,12 +104,13 @@ class _ProductsViewState extends State<ProductsView> {
         child: Column(
           children: [
             const SizedBox(height: 120.0), // Navbar height spacer
-
             // Header Section
             Container(
               padding: EdgeInsets.symmetric(
                 vertical: isTablet ? 60.0 : 40.0,
-                horizontal: isTablet ? AppConstants.gutter : AppConstants.mobileMargin,
+                horizontal: isTablet
+                    ? AppConstants.gutter
+                    : AppConstants.mobileMargin,
               ),
               child: Center(
                 child: Container(
@@ -152,89 +155,119 @@ class _ProductsViewState extends State<ProductsView> {
             // Products Grid
             Center(
               child: Container(
-                constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                constraints: const BoxConstraints(
+                  maxWidth: AppConstants.maxContainerWidth,
+                ),
                 padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? AppConstants.gutter : AppConstants.mobileMargin,
+                  horizontal: isTablet
+                      ? AppConstants.gutter
+                      : AppConstants.mobileMargin,
                 ),
                 child: _isLoading
                     ? const Center(
                         child: Padding(
                           padding: EdgeInsets.all(40.0),
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(AppTheme.secondary),
+                            valueColor: AlwaysStoppedAnimation(
+                              AppTheme.secondary,
+                            ),
                           ),
                         ),
                       )
                     : LayoutBuilder(
                         builder: (context, constraints) {
                           final width = constraints.maxWidth;
-                          final crossAxisCount = width >= 1024 ? 3 : (width >= 640 ? 2 : 1);
+                          final crossAxisCount = width >= 1024
+                              ? 3
+                              : (width >= 640 ? 2 : 1);
                           final totalSpacing = 32.0 * (crossAxisCount - 1);
-                          final cardWidth = (width - totalSpacing) / crossAxisCount;
+                          final cardWidth =
+                              (width - totalSpacing) / crossAxisCount;
                           final imageHeight = cardWidth * (2.0 / 3.0);
                           final totalHeight = imageHeight + 200.0;
                           final childAspectRatio = cardWidth / totalHeight;
 
                           return Column(
-                             crossAxisAlignment: CrossAxisAlignment.stretch,
-                             children: [
-                               GridView.builder(
-                                 shrinkWrap: true,
-                                 physics: const NeverScrollableScrollPhysics(),
-                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                   crossAxisCount: crossAxisCount,
-                                   crossAxisSpacing: 32.0,
-                                   mainAxisSpacing: 32.0,
-                                   childAspectRatio: childAspectRatio,
-                                 ),
-                                 itemCount: _products.length,
-                                 itemBuilder: (context, index) {
-                                   final product = _products[index];
-                                   return StoryCard(
-                                     title: product.title,
-                                     ageRange: product.ageRange,
-                                     description: product.description,
-                                     imageUrls: product.previewImages,
-                                     onTap: () {
-                                       Navigator.of(context).push(
-                                         MaterialPageRoute(
-                                           builder: (_) => ProductDetailView(product: product),
-                                         ),
-                                       );
-                                     },
-                                   );
-                                 },
-                               ),
-                               if (_totalPages > 1) ...[
-                                 const SizedBox(height: 40.0),
-                                 Row(
-                                   mainAxisAlignment: MainAxisAlignment.center,
-                                   children: [
-                                     IconButton(
-                                       icon: const Icon(Icons.arrow_back_ios, size: 18.0),
-                                       onPressed: _hasPrevious ? () => _loadProducts(page: _currentPage - 1) : null,
-                                       color: _hasPrevious ? AppTheme.primary : AppTheme.outlineVariant,
-                                     ),
-                                     const SizedBox(width: 16.0),
-                                     Text(
-                                       'Page $_currentPage of $_totalPages',
-                                       style: GoogleFonts.plusJakartaSans(
-                                         fontSize: 16.0,
-                                         fontWeight: FontWeight.w600,
-                                         color: AppTheme.onSurface,
-                                       ),
-                                     ),
-                                     const SizedBox(width: 16.0),
-                                     IconButton(
-                                       icon: const Icon(Icons.arrow_forward_ios, size: 18.0),
-                                       onPressed: _hasNext ? () => _loadProducts(page: _currentPage + 1) : null,
-                                       color: _hasNext ? AppTheme.primary : AppTheme.outlineVariant,
-                                     ),
-                                   ],
-                                 ),
-                               ],
-                             ],
-                           );
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: crossAxisCount,
+                                      crossAxisSpacing: 32.0,
+                                      mainAxisSpacing: 32.0,
+                                      childAspectRatio: childAspectRatio,
+                                    ),
+                                itemCount: _products.length,
+                                itemBuilder: (context, index) {
+                                  final product = _products[index];
+                                  return StoryCard(
+                                    title: product.title,
+                                    ageRange: product.ageRange,
+                                    description: product.description,
+                                    imageUrls: product.getCardImages(),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => ProductDetailView(
+                                            product: product,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                              if (_totalPages > 1) ...[
+                                const SizedBox(height: 40.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 18.0,
+                                      ),
+                                      onPressed: _hasPrevious
+                                          ? () => _loadProducts(
+                                              page: _currentPage - 1,
+                                            )
+                                          : null,
+                                      color: _hasPrevious
+                                          ? AppTheme.primary
+                                          : AppTheme.outlineVariant,
+                                    ),
+                                    const SizedBox(width: 16.0),
+                                    Text(
+                                      'Page $_currentPage of $_totalPages',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.onSurface,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16.0),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 18.0,
+                                      ),
+                                      onPressed: _hasNext
+                                          ? () => _loadProducts(
+                                              page: _currentPage + 1,
+                                            )
+                                          : null,
+                                      color: _hasNext
+                                          ? AppTheme.primary
+                                          : AppTheme.outlineVariant,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ],
+                          );
                         },
                       ),
               ),

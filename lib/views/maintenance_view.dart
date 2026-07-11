@@ -10,7 +10,8 @@ class MaintenanceView extends StatefulWidget {
   State<MaintenanceView> createState() => _MaintenanceViewState();
 }
 
-class _MaintenanceViewState extends State<MaintenanceView> with TickerProviderStateMixin {
+class _MaintenanceViewState extends State<MaintenanceView>
+    with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
   late AnimationController _lottieController;
@@ -22,14 +23,13 @@ class _MaintenanceViewState extends State<MaintenanceView> with TickerProviderSt
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
     _fadeController.forward();
 
-    _lottieController = AnimationController(
-      vsync: this,
-    );
+    _lottieController = AnimationController(vsync: this);
   }
 
   @override
@@ -65,7 +65,7 @@ class _MaintenanceViewState extends State<MaintenanceView> with TickerProviderSt
               ),
             ),
           ),
-          
+
           Center(
             child: FadeTransition(
               opacity: _fadeAnimation,
@@ -90,20 +90,20 @@ class _MaintenanceViewState extends State<MaintenanceView> with TickerProviderSt
                   Text(
                     'We are under maintenance',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: AppTheme.primary,
-                          fontSize: 24.0,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: AppTheme.primary,
+                      fontSize: 24.0,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 16.0),
                   Text(
                     'Our magical fairies are working hard to bring you\nmore enchanting stories. Please check back later!',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                          height: 1.5,
-                        ),
+                      color: AppTheme.onSurfaceVariant,
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(height: 48.0),
                   ElevatedButton(
@@ -115,7 +115,10 @@ class _MaintenanceViewState extends State<MaintenanceView> with TickerProviderSt
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32.0,
+                        vertical: 16.0,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),

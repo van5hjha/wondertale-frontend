@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -49,7 +50,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         });
       }
     } catch (e) {
-      debugPrint('Error loading products from API: $e. Falling back to local assets.');
+      debugPrint(
+        'Error loading products from API: $e. Falling back to local assets.',
+      );
       try {
         final paginated = await _productsService.loadLocalProducts();
         if (mounted) {
@@ -69,19 +72,20 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }
   }
 
-
   void _navigateBack(BuildContext context, int scrollIndex) {
     if (Navigator.of(context).canPop()) {
       Navigator.of(context).pop(scrollIndex);
     } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeView()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeView()));
     }
   }
 
   Widget _buildCatalogSection(BuildContext context, bool isTablet) {
-    final otherProducts = _allProducts.where((p) => p.id != widget.product.id).toList();
+    final otherProducts = _allProducts
+        .where((p) => p.id != widget.product.id)
+        .toList();
 
     if (_isLoadingProducts) {
       return const Center(
@@ -111,17 +115,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 Text(
                   'EXPLORE MORE MAGICAL ADVENTURES',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: isTablet ? 20.0 : 16.0,
-                        letterSpacing: 1.0,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 20.0 : 16.0,
+                    letterSpacing: 1.0,
+                  ),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
                   'Personalize another bedtime story for your little ones.',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurfaceVariant,
-                      ),
+                    color: AppTheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -154,7 +158,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   title: prod.title,
                   ageRange: prod.ageRange,
                   description: prod.description,
-                  imageUrls: prod.previewImages,
+                  imageUrls: prod.getCardImages(),
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -186,11 +190,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         onHowItWorksTap: () => _navigateBack(context, 1),
         onPricingTap: () => _navigateBack(context, 2),
         onCreatePreviewTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const ProductsView(),
-            ),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const ProductsView()));
         },
       ),
       body: SingleChildScrollView(
@@ -199,11 +201,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 40.0,
-                horizontal: isTablet ? AppConstants.desktopMargin : AppConstants.mobileMargin,
+                horizontal: isTablet
+                    ? AppConstants.desktopMargin
+                    : AppConstants.mobileMargin,
               ),
               child: Center(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                  constraints: const BoxConstraints(
+                    maxWidth: AppConstants.maxContainerWidth,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -216,18 +222,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 Expanded(
                                   flex: 7,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
-                                      ProductPreviewSection(product: widget.product),
+                                      ProductPreviewSection(
+                                        product: widget.product,
+                                      ),
                                       const SizedBox(height: 32.0),
-                                      FeaturesChips(features: widget.product.features),
+                                      FeaturesChips(
+                                        features: widget.product.features,
+                                      ),
                                     ],
                                   ),
                                 ),
                                 const SizedBox(width: AppConstants.gutter * 2),
                                 Expanded(
                                   flex: 5,
-                                  child: CustomizationForm(product: widget.product),
+                                  child: CustomizationForm(
+                                    product: widget.product,
+                                  ),
                                 ),
                               ],
                             )
@@ -236,7 +249,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               children: [
                                 ProductPreviewSection(product: widget.product),
                                 const SizedBox(height: 32.0),
-                                FeaturesChips(features: widget.product.features),
+                                FeaturesChips(
+                                  features: widget.product.features,
+                                ),
                                 const SizedBox(height: 40.0),
                                 CustomizationForm(product: widget.product),
                               ],
@@ -277,10 +292,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   Text(
                     'BACK TO STORIES',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.0,
-                        ),
+                      color: AppTheme.onSurfaceVariant,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.0,
+                    ),
                   ),
               ],
             ),
@@ -294,13 +309,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 widget.product.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: (isTablet
-                        ? Theme.of(context).textTheme.headlineMedium
-                        : Theme.of(context).textTheme.bodyLarge)
-                    ?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.primary,
-                ),
+                style:
+                    (isTablet
+                            ? Theme.of(context).textTheme.headlineMedium
+                            : Theme.of(context).textTheme.bodyLarge)
+                        ?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primary,
+                        ),
               ),
             ),
           ),
@@ -314,19 +330,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.star,
-                color: AppTheme.secondary,
-                size: 16.0,
-              ),
+              const Icon(Icons.star, color: AppTheme.secondary, size: 16.0),
               const SizedBox(width: 4.0),
               Text(
                 '${widget.product.rating}/5',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppTheme.onSecondaryContainer,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13.0,
-                    ),
+                  color: AppTheme.onSecondaryContainer,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.0,
+                ),
               ),
             ],
           ),
@@ -345,22 +357,58 @@ class ProductPreviewSection extends StatefulWidget {
 }
 
 class _ProductPreviewSectionState extends State<ProductPreviewSection> {
-  late String _activeImageUrl;
+  late PreviewItem _activeItem;
+  int _currentImageIndex = 0;
   bool _isSeeInsideBtnHovered = false;
+
+  Timer? _sliderTimer;
 
   @override
   void initState() {
     super.initState();
-    _activeImageUrl = widget.product.coverImageUrl;
+    if (widget.product.previewItems.isNotEmpty) {
+      _activeItem = widget.product.previewItems.first;
+    } else {
+      _activeItem = PreviewItem(
+        type: 'static',
+        urls: [widget.product.coverImageUrl],
+      );
+    }
+    _startTimerIfSlide();
   }
 
-  Widget _buildThumbnail(String imageUrl) {
-    final isSelected = _activeImageUrl == imageUrl;
+  @override
+  void dispose() {
+    _sliderTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimerIfSlide() {
+    _sliderTimer?.cancel();
+    _currentImageIndex = 0;
+    if (_activeItem.type == 'slide' && _activeItem.urls.length > 1) {
+      _sliderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (mounted) {
+          setState(() {
+            _currentImageIndex =
+                (_currentImageIndex + 1) % _activeItem.urls.length;
+          });
+        }
+      });
+    }
+  }
+
+  Widget _buildThumbnail(PreviewItem item) {
+    final isSelected = _activeItem == item;
+    final String imageUrl = item.urls.isNotEmpty ? item.urls.first : '';
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _activeImageUrl = imageUrl;
-        });
+        if (!isSelected) {
+          setState(() {
+            _activeItem = item;
+            _startTimerIfSlide();
+          });
+        }
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
@@ -378,20 +426,14 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
                     color: Color(0x33A258F3),
                     blurRadius: 8.0,
                     spreadRadius: 2.0,
-                  )
+                  ),
                 ]
               : null,
         ),
         clipBehavior: Clip.antiAlias,
         child: imageUrl.startsWith('http')
-            ? Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-              )
-            : Image.asset(
-                imageUrl,
-                fit: BoxFit.cover,
-              ),
+            ? Image.network(imageUrl, fit: BoxFit.cover)
+            : Image.asset(imageUrl, fit: BoxFit.cover),
       ),
     );
   }
@@ -403,7 +445,10 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
         return Dialog(
           backgroundColor: Colors.transparent,
           child: Container(
-            constraints: const BoxConstraints(maxWidth: 800.0, maxHeight: 600.0),
+            constraints: const BoxConstraints(
+              maxWidth: 800.0,
+              maxHeight: 600.0,
+            ),
             decoration: BoxDecoration(
               color: AppTheme.surface,
               borderRadius: BorderRadius.circular(AppConstants.radiusMd),
@@ -416,7 +461,8 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
                   children: [
                     Text(
                       'Sample Interior Pages',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: AppTheme.primary,
                           ),
@@ -430,17 +476,23 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
                 const SizedBox(height: 16.0),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16.0,
-                      mainAxisSpacing: 16.0,
-                      childAspectRatio: 4 / 3,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16.0,
+                          mainAxisSpacing: 16.0,
+                          childAspectRatio: 4 / 3,
+                        ),
                     itemCount: widget.product.previewImages.length,
                     itemBuilder: (context, index) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-                        child: widget.product.previewImages[index].startsWith('http')
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusDefault,
+                        ),
+                        child:
+                            widget.product.previewImages[index].startsWith(
+                              'http',
+                            )
                             ? Image.network(
                                 widget.product.previewImages[index],
                                 fit: BoxFit.cover,
@@ -484,27 +536,37 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
           clipBehavior: Clip.antiAlias,
           child: AspectRatio(
             aspectRatio: 3 / 2,
-            child: _activeImageUrl.startsWith('http')
-                ? Image.network(
-                    _activeImageUrl,
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    _activeImageUrl,
-                    fit: BoxFit.cover,
-                  ),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 800),
+              child: Builder(
+                key: ValueKey(
+                  '$_currentImageIndex-${_activeItem.urls.isNotEmpty ? _activeItem.urls[_currentImageIndex] : "empty"}',
+                ),
+                builder: (context) {
+                  if (_activeItem.urls.isEmpty) return const SizedBox.shrink();
+                  final url = _activeItem.urls[_currentImageIndex];
+                  return url.startsWith('http')
+                      ? Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                          key: ValueKey(url),
+                        )
+                      : Image.asset(url, fit: BoxFit.cover, key: ValueKey(url));
+                },
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 24.0),
-        if (widget.product.previewImages.isNotEmpty) ...[
+        if (widget.product.previewItems.isNotEmpty) ...[
           SizedBox(
             height: 64.0,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: widget.product.previewImages.length,
+              itemCount: widget.product.previewItems.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12.0),
               itemBuilder: (context, index) {
-                return _buildThumbnail(widget.product.previewImages[index]);
+                return _buildThumbnail(widget.product.previewItems[index]);
               },
             ),
           ),
@@ -521,12 +583,11 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               decoration: BoxDecoration(
-                color: _isSeeInsideBtnHovered ? AppTheme.primary : Colors.transparent,
+                color: _isSeeInsideBtnHovered
+                    ? AppTheme.primary
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-                border: Border.all(
-                  color: AppTheme.primary,
-                  width: 2.0,
-                ),
+                border: Border.all(color: AppTheme.primary, width: 2.0),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
@@ -534,18 +595,22 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
                 children: [
                   Icon(
                     Icons.auto_stories,
-                    color: _isSeeInsideBtnHovered ? Colors.white : AppTheme.primary,
+                    color: _isSeeInsideBtnHovered
+                        ? Colors.white
+                        : AppTheme.primary,
                     size: 20.0,
                   ),
                   const SizedBox(width: 12.0),
                   Text(
                     'SEE INSIDE: SAMPLE PAGES',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: _isSeeInsideBtnHovered ? Colors.white : AppTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                          letterSpacing: 0.8,
-                        ),
+                      color: _isSeeInsideBtnHovered
+                          ? Colors.white
+                          : AppTheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                      letterSpacing: 0.8,
+                    ),
                   ),
                 ],
               ),
@@ -561,7 +626,12 @@ class FeaturesChips extends StatelessWidget {
   final List<String> features;
   const FeaturesChips({super.key, required this.features});
 
-  Widget _buildFeatureCard(BuildContext context, {required IconData icon, required String text, required double width}) {
+  Widget _buildFeatureCard(
+    BuildContext context, {
+    required IconData icon,
+    required String text,
+    required double width,
+  }) {
     return Container(
       width: width,
       decoration: BoxDecoration(
@@ -578,10 +648,10 @@ class FeaturesChips extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  fontSize: 12.0,
-                  height: 1.4,
-                ),
+              color: AppTheme.onSurfaceVariant,
+              fontSize: 12.0,
+              height: 1.4,
+            ),
           ),
         ],
       ),
@@ -591,12 +661,12 @@ class FeaturesChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultIcons = [Icons.menu_book, Icons.face, Icons.local_shipping];
-    
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final double cardWidth = (constraints.maxWidth - 24.0) / 3.0;
         final double finalCardWidth = cardWidth < 120.0 ? 120.0 : cardWidth;
-        
+
         return Wrap(
           spacing: 12.0,
           runSpacing: 12.0,
@@ -604,7 +674,9 @@ class FeaturesChips extends StatelessWidget {
           children: List.generate(features.length, (index) {
             return _buildFeatureCard(
               context,
-              icon: index < defaultIcons.length ? defaultIcons[index] : Icons.star,
+              icon: index < defaultIcons.length
+                  ? defaultIcons[index]
+                  : Icons.star,
               text: features[index],
               width: finalCardWidth,
             );
@@ -679,7 +751,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('✨ Loaded ${_selectedFiles.length} photo(s). AI Face scan ready.'),
+              content: Text(
+                '✨ Loaded ${_selectedFiles.length} photo(s). AI Face scan ready.',
+              ),
               backgroundColor: AppTheme.secondary,
             ),
           );
@@ -724,12 +798,22 @@ class _CustomizationFormState extends State<CustomizationForm> {
       for (final file in droppedFiles) {
         final name = file.name;
         final extension = name.split('.').last.toLowerCase();
-        final allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'heic'];
+        final allowedExtensions = [
+          'jpg',
+          'jpeg',
+          'png',
+          'webp',
+          'gif',
+          'bmp',
+          'heic',
+        ];
         if (!allowedExtensions.contains(extension)) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('⚠️ File "$name" is not a supported image format.'),
+                content: Text(
+                  '⚠️ File "$name" is not a supported image format.',
+                ),
                 backgroundColor: AppTheme.error,
               ),
             );
@@ -755,7 +839,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('✨ Loaded ${_selectedFiles.length} photo(s). AI Face scan ready.'),
+            content: Text(
+              '✨ Loaded ${_selectedFiles.length} photo(s). AI Face scan ready.',
+            ),
             backgroundColor: AppTheme.secondary,
           ),
         );
@@ -819,7 +905,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
     if (childName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ Please enter your child\'s name to generate preview.'),
+          content: Text(
+            '⚠️ Please enter your child\'s name to generate preview.',
+          ),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -836,7 +924,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
       return;
     }
 
-    final bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    final bool emailValid = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(email);
     if (!emailValid) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -850,7 +940,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
     if (!_hasConsent) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ You must consent that you have permission to use the child\'s photos.'),
+          content: Text(
+            '⚠️ You must consent that you have permission to use the child\'s photos.',
+          ),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -860,7 +952,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
     if (_selectedFiles.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ Please upload at least one photo to generate custom AI faces.'),
+          content: Text(
+            '⚠️ Please upload at least one photo to generate custom AI faces.',
+          ),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -868,11 +962,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
     }
 
     if (ApiConfig.underMaintenance) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => const MaintenanceView(),
-        ),
-      );
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const MaintenanceView()));
       return;
     }
 
@@ -891,8 +983,6 @@ class _CustomizationFormState extends State<CustomizationForm> {
     );
   }
 
-
-
   Widget _buildSegmentedTab(String label) {
     final isSelected = _selectedAgeRange == label;
     return Expanded(
@@ -908,7 +998,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
               color: isSelected ? Colors.white : Colors.transparent,
-              borderRadius: BorderRadius.circular(AppConstants.radiusDefault - 2),
+              borderRadius: BorderRadius.circular(
+                AppConstants.radiusDefault - 2,
+              ),
               boxShadow: isSelected
                   ? const [
                       BoxShadow(
@@ -924,10 +1016,12 @@ class _CustomizationFormState extends State<CustomizationForm> {
               label,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: isSelected ? AppTheme.secondary : AppTheme.onSurfaceVariant,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                    fontSize: 13.0,
-                  ),
+                color: isSelected
+                    ? AppTheme.secondary
+                    : AppTheme.onSurfaceVariant,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 13.0,
+              ),
             ),
           ),
         ),
@@ -952,10 +1046,14 @@ class _CustomizationFormState extends State<CustomizationForm> {
           duration: const Duration(milliseconds: 200),
           width: buttonWidth,
           decoration: BoxDecoration(
-            color: isSelected ? AppTheme.secondaryContainer : Colors.transparent,
+            color: isSelected
+                ? AppTheme.secondaryContainer
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
             border: Border.all(
-              color: isSelected ? AppTheme.secondary : AppTheme.primary.withOpacity(0.1),
+              color: isSelected
+                  ? AppTheme.secondary
+                  : AppTheme.primary.withOpacity(0.1),
               width: 1.5,
             ),
           ),
@@ -964,17 +1062,17 @@ class _CustomizationFormState extends State<CustomizationForm> {
             label,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: isSelected ? AppTheme.onSecondaryContainer : AppTheme.onSurfaceVariant,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 12.0,
-                ),
+              color: isSelected
+                  ? AppTheme.onSecondaryContainer
+                  : AppTheme.onSurfaceVariant,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 12.0,
+            ),
           ),
         ),
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -1007,9 +1105,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 controller: _nameController,
                 maxLength: 12,
                 cursorColor: AppTheme.secondary,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppTheme.primary,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: AppTheme.primary),
                 decoration: InputDecoration(
                   counterText: '',
                   hintText: 'e.g. Advait',
@@ -1017,12 +1115,19 @@ class _CustomizationFormState extends State<CustomizationForm> {
                   fillColor: AppTheme.surfaceContainerLow,
                   contentPadding: const EdgeInsets.all(16.0),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
                     borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-                    borderSide: const BorderSide(color: AppTheme.secondary, width: 2.0),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
+                    borderSide: const BorderSide(
+                      color: AppTheme.secondary,
+                      width: 2.0,
+                    ),
                   ),
                 ),
               ),
@@ -1031,10 +1136,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 child: Text(
                   'MAX 12',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: AppTheme.onSurfaceVariant.withOpacity(0.5),
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    color: AppTheme.onSurfaceVariant.withOpacity(0.5),
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -1059,9 +1164,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                     textAlign: TextAlign.right,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant.withOpacity(0.7),
-                          fontSize: 11.0,
-                        ),
+                      color: AppTheme.onSurfaceVariant.withOpacity(0.7),
+                      fontSize: 11.0,
+                    ),
                   ),
                 ),
             ],
@@ -1100,14 +1205,15 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 children: [
                   _buildGenderButton('Boy (He/Him)', constraints.maxWidth),
                   _buildGenderButton('Girl (She/Her)', constraints.maxWidth),
-                  _buildGenderButton('Neutral (They/Them)', constraints.maxWidth),
+                  _buildGenderButton(
+                    'Neutral (They/Them)',
+                    constraints.maxWidth,
+                  ),
                 ],
               );
             },
           ),
           const SizedBox(height: 24.0),
-
-
 
           Text(
             'Upload Child\'s Photo',
@@ -1160,7 +1266,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                           height: 120.0,
                           decoration: BoxDecoration(
                             color: AppTheme.surfaceContainerLowest,
-                            borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusMd,
+                            ),
                             border: Border.all(
                               color: AppTheme.primary.withOpacity(0.15),
                               width: 2.0,
@@ -1175,13 +1283,16 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                 height: 24.0,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation(AppTheme.secondary),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    AppTheme.secondary,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 12.0),
                               Text(
                                 'Analyzing photo face ID...',
-                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
                                       color: AppTheme.secondary,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1197,13 +1308,18 @@ class _CustomizationFormState extends State<CustomizationForm> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppTheme.surfaceContainerLowest,
-                                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                                borderRadius: BorderRadius.circular(
+                                  AppConstants.radiusMd,
+                                ),
                                 border: Border.all(
                                   color: AppTheme.primary.withOpacity(0.15),
                                   width: 2.0,
                                 ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 32.0,
+                                horizontal: 16.0,
+                              ),
                               child: Column(
                                 children: [
                                   Container(
@@ -1222,7 +1338,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                   const SizedBox(height: 12.0),
                                   Text(
                                     'Click or drag & drop photo(s)',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: AppTheme.primary,
                                         ),
@@ -1230,7 +1349,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                   const SizedBox(height: 4.0),
                                   Text(
                                     '(Select up to 3 photos of your child)',
-                                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
                                           color: AppTheme.onSurfaceVariant,
                                           fontSize: 12.0,
                                         ),
@@ -1244,7 +1366,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                         Container(
                           decoration: BoxDecoration(
                             color: AppTheme.secondaryContainer.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusMd,
+                            ),
                             border: Border.all(
                               color: AppTheme.secondary.withOpacity(0.3),
                               width: 2.0,
@@ -1259,7 +1383,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                 runSpacing: 12.0,
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  ...List.generate(_selectedFiles.length, (index) {
+                                  ...List.generate(_selectedFiles.length, (
+                                    index,
+                                  ) {
                                     final file = _selectedFiles[index];
                                     return Stack(
                                       clipBehavior: Clip.none,
@@ -1268,8 +1394,13 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                           width: 80.0,
                                           height: 80.0,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-                                            border: Border.all(color: AppTheme.secondary, width: 1.5),
+                                            borderRadius: BorderRadius.circular(
+                                              AppConstants.radiusDefault,
+                                            ),
+                                            border: Border.all(
+                                              color: AppTheme.secondary,
+                                              width: 1.5,
+                                            ),
                                           ),
                                           clipBehavior: Clip.antiAlias,
                                           child: _buildFileThumbnail(file),
@@ -1313,9 +1444,12 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                           height: 80.0,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                                            borderRadius: BorderRadius.circular(
+                                              AppConstants.radiusDefault,
+                                            ),
                                             border: Border.all(
-                                              color: AppTheme.secondary.withOpacity(0.5),
+                                              color: AppTheme.secondary
+                                                  .withOpacity(0.5),
                                               width: 1.5,
                                             ),
                                           ),
@@ -1331,12 +1465,16 @@ class _CustomizationFormState extends State<CustomizationForm> {
                               ),
                               const SizedBox(height: 12.0),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Text(
                                       '✨ AI Face scan ready. ${_selectedFiles.length} photo(s) selected.',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
                                             color: AppTheme.secondary,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -1370,7 +1508,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppTheme.secondary.withOpacity(0.12),
-                          borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusMd,
+                          ),
                           border: Border.all(
                             color: AppTheme.secondary,
                             width: 2.0,
@@ -1388,7 +1528,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppTheme.secondary.withOpacity(0.2),
+                                      color: AppTheme.secondary.withOpacity(
+                                        0.2,
+                                      ),
                                       blurRadius: 10.0,
                                       spreadRadius: 2.0,
                                     ),
@@ -1403,7 +1545,8 @@ class _CustomizationFormState extends State<CustomizationForm> {
                               const SizedBox(height: 12.0),
                               Text(
                                 'Drop to upload photo(s)',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: AppTheme.secondary,
                                       fontSize: 16.0,
@@ -1434,14 +1577,14 @@ class _CustomizationFormState extends State<CustomizationForm> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: AppTheme.secondary,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppTheme.primary,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppTheme.primary),
             decoration: InputDecoration(
               hintText: 'Enter your email for preview delivery...',
               hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppTheme.onSurfaceVariant.withOpacity(0.5),
-                  ),
+                color: AppTheme.onSurfaceVariant.withOpacity(0.5),
+              ),
               prefixIcon: const Icon(Icons.email, color: AppTheme.secondary),
               filled: true,
               fillColor: AppTheme.surfaceContainerLow,
@@ -1452,7 +1595,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-                borderSide: const BorderSide(color: AppTheme.secondary, width: 2.0),
+                borderSide: const BorderSide(
+                  color: AppTheme.secondary,
+                  width: 2.0,
+                ),
               ),
             ),
           ),
@@ -1469,14 +1615,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: _hasConsent ? AppTheme.secondary.withOpacity(0.05) : AppTheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                  color: _hasConsent
+                      ? AppTheme.secondary.withOpacity(0.05)
+                      : AppTheme.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusDefault,
+                  ),
                   border: Border.all(
-                    color: _hasConsent ? AppTheme.secondary : AppTheme.primary.withOpacity(0.1),
+                    color: _hasConsent
+                        ? AppTheme.secondary
+                        : AppTheme.primary.withOpacity(0.1),
                     width: 1.5,
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
                 child: Row(
                   children: [
                     Checkbox(
@@ -1493,9 +1648,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                       child: Text(
                         "I have the consent from guardians to use this child's photos",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.primary,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          color: AppTheme.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -1525,14 +1680,15 @@ class _CustomizationFormState extends State<CustomizationForm> {
                     Text(
                       'Starting Price:',
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: AppTheme.onSurfaceVariant,
-                            fontSize: 12.0,
-                          ),
+                        color: AppTheme.onSurfaceVariant,
+                        fontSize: 12.0,
+                      ),
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       '${LegalConfig.currencySymbol}${widget.product.priceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.priceHardcover}',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(
                             color: AppTheme.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
@@ -1581,7 +1737,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: AppTheme.secondary,
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
                     boxShadow: _isGenerateBtnHovered
                         ? const [
                             BoxShadow(
@@ -1604,7 +1762,8 @@ class _CustomizationFormState extends State<CustomizationForm> {
                     children: [
                       Text(
                         'GENERATE MY FREE PREVIEW',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(
                               color: AppTheme.onPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
@@ -1628,15 +1787,19 @@ class _CustomizationFormState extends State<CustomizationForm> {
             '* Digital preview is 100% free. No payment details required to preview.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppTheme.onSurfaceVariant.withOpacity(0.7),
-                  fontSize: 12.0,
-                ),
+              color: AppTheme.onSurfaceVariant.withOpacity(0.7),
+              fontSize: 12.0,
+            ),
           ),
           const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Icon(Icons.local_shipping, size: 14.0, color: AppTheme.onSurfaceVariant),
+              Icon(
+                Icons.local_shipping,
+                size: 14.0,
+                color: AppTheme.onSurfaceVariant,
+              ),
               SizedBox(width: 6.0),
               Text(
                 'Free delivery in India via Delhivery & BlueDart',

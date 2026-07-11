@@ -18,7 +18,6 @@ import '../widgets/hero_background_painters.dart';
 import '../widgets/loading_screen.dart';
 import '../widgets/interactive_elements.dart';
 
-
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -53,7 +52,9 @@ class _HomeViewState extends State<HomeView> {
         });
       }
     } catch (e) {
-      debugPrint('Error loading products from API: $e. Falling back to local assets.');
+      debugPrint(
+        'Error loading products from API: $e. Falling back to local assets.',
+      );
       try {
         final paginated = await _productsService.loadLocalProducts();
         if (mounted) {
@@ -78,7 +79,6 @@ class _HomeViewState extends State<HomeView> {
       });
     }
   }
-
 
   @override
   void dispose() {
@@ -112,22 +112,25 @@ class _HomeViewState extends State<HomeView> {
         bottom: isDesktop ? 0.0 : 48.0,
       ),
       child: Column(
-        crossAxisAlignment:
-            isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        crossAxisAlignment: isDesktop
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: isDesktop ? MainAxisAlignment.start : MainAxisAlignment.center,
+            mainAxisAlignment: isDesktop
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             children: [
               const PulsingSparkle(color: AppTheme.tertiary),
               const SizedBox(width: 8.0),
               Text(
                 "MAGICAL AI STORYTELLING",
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppTheme.secondary,
-                      letterSpacing: 2.0,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
-                    ),
+                  color: AppTheme.secondary,
+                  letterSpacing: 2.0,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.0,
+                ),
               ),
               const SizedBox(width: 8.0),
               const PulsingSparkle(color: AppTheme.secondary),
@@ -135,22 +138,24 @@ class _HomeViewState extends State<HomeView> {
           ),
           const SizedBox(height: 24.0),
           Column(
-            crossAxisAlignment: isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+            crossAxisAlignment: isDesktop
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             children: [
               Text(
                 "Make your Child the",
-                style: (isTablet
-                    ? Theme.of(context).textTheme.displayLarge
-                    : Theme.of(context).textTheme.displayMedium)
-                  ?.copyWith(
-                    height: 1.1,
-                    color: AppTheme.primary,
-                  ),
+                style:
+                    (isTablet
+                            ? Theme.of(context).textTheme.displayLarge
+                            : Theme.of(context).textTheme.displayMedium)
+                        ?.copyWith(height: 1.1, color: AppTheme.primary),
                 textAlign: isDesktop ? TextAlign.left : TextAlign.center,
               ),
               const SizedBox(height: 4.0),
               Wrap(
-                alignment: isDesktop ? WrapAlignment.start : WrapAlignment.center,
+                alignment: isDesktop
+                    ? WrapAlignment.start
+                    : WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: 12.0,
                 runSpacing: 8.0,
@@ -172,35 +177,32 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       Text(
                         "Star",
-                        style: (isTablet
-                            ? Theme.of(context).textTheme.displayLarge
-                            : Theme.of(context).textTheme.displayMedium)
-                          ?.copyWith(
-                            height: 1.1,
-                            color: AppTheme.secondary,
-                          ),
+                        style:
+                            (isTablet
+                                    ? Theme.of(context).textTheme.displayLarge
+                                    : Theme.of(context).textTheme.displayMedium)
+                                ?.copyWith(
+                                  height: 1.1,
+                                  color: AppTheme.secondary,
+                                ),
                       ),
                     ],
                   ),
                   Text(
                     "of their",
-                    style: (isTablet
-                        ? Theme.of(context).textTheme.displayLarge
-                        : Theme.of(context).textTheme.displayMedium)
-                      ?.copyWith(
-                        height: 1.1,
-                        color: AppTheme.primary,
-                      ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.displayLarge
+                                : Theme.of(context).textTheme.displayMedium)
+                            ?.copyWith(height: 1.1, color: AppTheme.primary),
                   ),
                   Text(
                     "own Story!",
-                    style: (isTablet
-                        ? Theme.of(context).textTheme.displayLarge
-                        : Theme.of(context).textTheme.displayMedium)
-                      ?.copyWith(
-                        height: 1.1,
-                        color: AppTheme.secondary,
-                      ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.displayLarge
+                                : Theme.of(context).textTheme.displayMedium)
+                            ?.copyWith(height: 1.1, color: AppTheme.secondary),
                   ),
                 ],
               ),
@@ -211,9 +213,9 @@ class _HomeViewState extends State<HomeView> {
             textAlign: isDesktop ? TextAlign.left : TextAlign.center,
             text: TextSpan(
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppTheme.onSurfaceVariant,
-                    height: 1.6,
-                  ),
+                color: AppTheme.onSurfaceVariant,
+                height: 1.6,
+              ),
               children: const [
                 TextSpan(
                   text: "A keepsake they'll treasure for years to come. ",
@@ -226,7 +228,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 TextSpan(
-                  text: " and watch them transform into a premium, custom-illustrated storybook.",
+                  text:
+                      " and watch them transform into a premium, custom-illustrated storybook.",
                 ),
               ],
             ),
@@ -253,7 +256,9 @@ class _HomeViewState extends State<HomeView> {
                 ),
           const SizedBox(height: 24.0),
           Row(
-            mainAxisAlignment: isDesktop ? MainAxisAlignment.start : MainAxisAlignment.center,
+            mainAxisAlignment: isDesktop
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.timer,
@@ -264,9 +269,9 @@ class _HomeViewState extends State<HomeView> {
               Text(
                 "takes only 2 minutes",
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppTheme.onSurfaceVariant.withOpacity(0.7),
-                      fontSize: 13.0,
-                    ),
+                  color: AppTheme.onSurfaceVariant.withOpacity(0.7),
+                  fontSize: 13.0,
+                ),
               ),
             ],
           ),
@@ -300,9 +305,7 @@ class _HomeViewState extends State<HomeView> {
                 onPricingTap: () => _scrollToSection(_pricingKey, 2),
                 onCreatePreviewTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const ProductsView(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const ProductsView()),
                   );
                 },
               ),
@@ -315,7 +318,9 @@ class _HomeViewState extends State<HomeView> {
                         color: AppTheme.surface,
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0x1F110F2D), // Indigo Night tint at low opacity
+                            color: Color(
+                              0x1F110F2D,
+                            ), // Indigo Night tint at low opacity
                             blurRadius: 32.0,
                             offset: Offset(0, 16),
                           ),
@@ -324,90 +329,99 @@ class _HomeViewState extends State<HomeView> {
                       child: ClipRect(
                         child: Stack(
                           children: [
-                          Positioned.fill(
-                            child: RepaintBoundary(
-                              child: CustomPaint(
-                                painter: WarmNebulaPainter(),
-                              ),
-                            ),
-                          ),
-                          const Positioned.fill(
-                            child: RepaintBoundary(
-                              child: StardustParticles(),
-                            ),
-                          ),
-                          Center(
-                            child: Container(
-                              constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
-                              padding: EdgeInsets.only(
-                                top: 160.0,
-                                bottom: isTablet ? 120.0 : 64.0,
-                              ),
-                              child: isDesktop
-                                  ? IntrinsicHeight(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: [
-                                          // Left Content Column
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: AppConstants.gutter,
-                                                right: AppConstants.gutter + 24.0,
-                                                top: 24.0,
-                                                bottom: 24.0,
-                                              ),
-                                              child: textWidget,
-                                            ),
-                                          ),
-                                          // Right Image Column
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.all(48.0),
-                                              alignment: Alignment.center,
-                                              child: sliderWidget,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: AppConstants.mobileMargin,
-                                            vertical: 24.0,
-                                          ),
-                                          child: textWidget,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: AppConstants.mobileMargin,
-                                            vertical: 48.0,
-                                          ),
-                                          child: sliderWidget,
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                          if (isDesktop)
-                            Positioned(
-                              top: 0,
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Container(
-                                  width: 6.0,
-                                  color: AppTheme.surface,
+                            Positioned.fill(
+                              child: RepaintBoundary(
+                                child: CustomPaint(
+                                  painter: WarmNebulaPainter(),
                                 ),
                               ),
                             ),
-                        ],
+                            const Positioned.fill(
+                              child: RepaintBoundary(
+                                child: StardustParticles(),
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                constraints: const BoxConstraints(
+                                  maxWidth: AppConstants.maxContainerWidth,
+                                ),
+                                padding: EdgeInsets.only(
+                                  top: 160.0,
+                                  bottom: isTablet ? 120.0 : 64.0,
+                                ),
+                                child: isDesktop
+                                    ? IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            // Left Content Column
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: AppConstants.gutter,
+                                                  right:
+                                                      AppConstants.gutter +
+                                                      24.0,
+                                                  top: 24.0,
+                                                  bottom: 24.0,
+                                                ),
+                                                child: textWidget,
+                                              ),
+                                            ),
+                                            // Right Image Column
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(
+                                                  48.0,
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: sliderWidget,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal:
+                                                  AppConstants.mobileMargin,
+                                              vertical: 24.0,
+                                            ),
+                                            child: textWidget,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal:
+                                                  AppConstants.mobileMargin,
+                                              vertical: 48.0,
+                                            ),
+                                            child: sliderWidget,
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                            if (isDesktop)
+                              Positioned(
+                                top: 0,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Center(
+                                  child: Container(
+                                    width: 6.0,
+                                    color: AppTheme.surface,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
                     // 2. Popular Stories Section
                     Container(
@@ -429,7 +443,9 @@ class _HomeViewState extends State<HomeView> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: AppTheme.secondaryContainer,
-                                      borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                                      borderRadius: BorderRadius.circular(
+                                        AppConstants.radiusFull,
+                                      ),
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16.0,
@@ -437,8 +453,12 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                     child: Text(
                                       'POPULAR STORIES',
-                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                            color: AppTheme.onSecondaryContainer,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            color:
+                                                AppTheme.onSecondaryContainer,
                                             fontSize: 12.0,
                                             letterSpacing: 1.5,
                                           ),
@@ -448,8 +468,12 @@ class _HomeViewState extends State<HomeView> {
                                   Text(
                                     'Trending Tales',
                                     style: isTablet
-                                        ? Theme.of(context).textTheme.displayMedium
-                                        : Theme.of(context).textTheme.headlineLarge,
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.displayMedium
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.headlineLarge,
                                   ),
                                 ],
                               ),
@@ -468,7 +492,9 @@ class _HomeViewState extends State<HomeView> {
                                         color: AppTheme.outlineVariant,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                                      borderRadius: BorderRadius.circular(
+                                        AppConstants.radiusFull,
+                                      ),
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 24.0,
@@ -479,7 +505,10 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         Text(
                                           'VIEW ALL STORIES',
-                                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
                                                 color: AppTheme.onSurface,
                                                 fontSize: 12.0,
                                                 letterSpacing: 1.0,
@@ -505,29 +534,38 @@ class _HomeViewState extends State<HomeView> {
                                   child: Padding(
                                     padding: EdgeInsets.all(40.0),
                                     child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation(AppTheme.secondary),
+                                      valueColor: AlwaysStoppedAnimation(
+                                        AppTheme.secondary,
+                                      ),
                                     ),
                                   ),
                                 )
                               : LayoutBuilder(
                                   builder: (context, constraints) {
                                     final width = constraints.maxWidth;
-                                    final crossAxisCount = width >= 1024 ? 3 : (width >= 640 ? 2 : 1);
-                                    final totalSpacing = 32.0 * (crossAxisCount - 1);
-                                    final cardWidth = (width - totalSpacing) / crossAxisCount;
+                                    final crossAxisCount = width >= 1024
+                                        ? 3
+                                        : (width >= 640 ? 2 : 1);
+                                    final totalSpacing =
+                                        32.0 * (crossAxisCount - 1);
+                                    final cardWidth =
+                                        (width - totalSpacing) / crossAxisCount;
                                     final imageHeight = cardWidth * (2.0 / 3.0);
                                     final totalHeight = imageHeight + 200.0;
-                                    final childAspectRatio = cardWidth / totalHeight;
+                                    final childAspectRatio =
+                                        cardWidth / totalHeight;
 
                                     return GridView.builder(
                                       shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: crossAxisCount,
-                                        crossAxisSpacing: 32.0,
-                                        mainAxisSpacing: 48.0,
-                                        childAspectRatio: childAspectRatio,
-                                      ),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: crossAxisCount,
+                                            crossAxisSpacing: 32.0,
+                                            mainAxisSpacing: 48.0,
+                                            childAspectRatio: childAspectRatio,
+                                          ),
                                       itemCount: _products.length,
                                       itemBuilder: (context, index) {
                                         final product = _products[index];
@@ -535,11 +573,14 @@ class _HomeViewState extends State<HomeView> {
                                           title: product.title,
                                           ageRange: product.ageRange,
                                           description: product.description,
-                                          imageUrls: product.previewImages,
+                                          imageUrls: product.getCardImages(),
                                           onTap: () {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                builder: (_) => ProductDetailView(product: product),
+                                                builder: (_) =>
+                                                    ProductDetailView(
+                                                      product: product,
+                                                    ),
                                               ),
                                             );
                                           },
@@ -561,10 +602,16 @@ class _HomeViewState extends State<HomeView> {
                                   );
                                 },
                                 style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(color: AppTheme.outlineVariant),
-                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  side: const BorderSide(
+                                    color: AppTheme.outlineVariant,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16.0,
+                                  ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                                    borderRadius: BorderRadius.circular(
+                                      AppConstants.radiusFull,
+                                    ),
                                   ),
                                 ),
                                 child: Row(
@@ -572,7 +619,10 @@ class _HomeViewState extends State<HomeView> {
                                   children: [
                                     Text(
                                       'VIEW ALL STORIES',
-                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
                                             color: AppTheme.onSurface,
                                             fontSize: 14.0,
                                           ),
@@ -588,24 +638,24 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
 
-            // Reviews Section
-            const ReviewsSection(),
+                    // Reviews Section
+                    const ReviewsSection(),
 
-            // 3. How It Works Section
-            HowItWorksSection(key: _howItWorksKey),
+                    // 3. How It Works Section
+                    HowItWorksSection(key: _howItWorksKey),
 
-            // 4. Pricing Section
-            PricingSection(key: _pricingKey),
+                    // 4. Pricing Section
+                    PricingSection(key: _pricingKey),
 
-            // 5. CTA Section
-            const CtaSection(),
+                    // 5. CTA Section
+                    const CtaSection(),
 
-            // 6. Footer
-            const Footer(),
-          ],
-        ),
-      ),
-    ),
+                    // 6. Footer
+                    const Footer(),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 
@@ -640,11 +690,9 @@ class _HomeViewState extends State<HomeView> {
       children: [
         MagneticHoverButton(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const ProductsView(),
-              ),
-            );
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const ProductsView()));
           },
           child: Container(
             decoration: BoxDecoration(
@@ -665,10 +713,10 @@ class _HomeViewState extends State<HomeView> {
             child: Text(
               'GENERATE INSTANT PREVIEW',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: AppTheme.onPrimary,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: AppTheme.onPrimary,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -689,21 +737,32 @@ class _HomeViewState extends State<HomeView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildAvatar('JP', AppTheme.surfaceContainerHigh, AppTheme.primary),
-            _buildAvatar('AM', AppTheme.secondary.withOpacity(0.2), AppTheme.secondary),
-            _buildAvatar('SK', AppTheme.tertiary.withOpacity(0.2), AppTheme.tertiary),
+            _buildAvatar(
+              'AM',
+              AppTheme.secondary.withOpacity(0.2),
+              AppTheme.secondary,
+            ),
+            _buildAvatar(
+              'SK',
+              AppTheme.tertiary.withOpacity(0.2),
+              AppTheme.tertiary,
+            ),
           ],
         ),
         const SizedBox(height: 6.0),
         RichText(
           text: TextSpan(
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  fontSize: 13.0,
-                ),
+              color: AppTheme.onSurfaceVariant,
+              fontSize: 13.0,
+            ),
             children: const [
               TextSpan(
                 text: "Join 10,000+",
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primary),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.primary,
+                ),
               ),
               TextSpan(text: " happy parents"),
             ],
@@ -713,4 +772,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-

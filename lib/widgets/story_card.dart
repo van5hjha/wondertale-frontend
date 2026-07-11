@@ -43,10 +43,11 @@ class _StoryCardState extends State<StoryCard> {
 
   void _startSliderTimer() {
     if (widget.imageUrls.length <= 1) return;
-    _sliderTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    _sliderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
         setState(() {
-          _currentImageIndex = (_currentImageIndex + 1) % widget.imageUrls.length;
+          _currentImageIndex =
+              (_currentImageIndex + 1) % widget.imageUrls.length;
         });
       }
     });
@@ -137,10 +138,15 @@ class _StoryCardState extends State<StoryCard> {
                                   key: const ValueKey('empty'),
                                   color: AppTheme.surfaceContainerLow,
                                   child: const Center(
-                                    child: Icon(Icons.broken_image, color: AppTheme.outline),
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      color: AppTheme.outline,
+                                    ),
                                   ),
                                 )
-                              : _buildImage(widget.imageUrls[_currentImageIndex]),
+                              : _buildImage(
+                                  widget.imageUrls[_currentImageIndex],
+                                ),
                         ),
                       ),
                       if (widget.imageUrls.length > 1)
@@ -150,23 +156,30 @@ class _StoryCardState extends State<StoryCard> {
                           right: 0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(widget.imageUrls.length, (index) {
+                            children: List.generate(widget.imageUrls.length, (
+                              index,
+                            ) {
                               final isActive = index == _currentImageIndex;
                               return AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 3.0,
+                                ),
                                 height: 6.0,
                                 width: isActive ? 18.0 : 6.0,
                                 decoration: BoxDecoration(
-                                  color: isActive ? AppTheme.secondary : Colors.white.withOpacity(0.6),
+                                  color: isActive
+                                      ? AppTheme.secondary
+                                      : Colors.white.withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(3.0),
                                   boxShadow: isActive
                                       ? [
                                           BoxShadow(
-                                            color: AppTheme.secondary.withOpacity(0.4),
+                                            color: AppTheme.secondary
+                                                .withOpacity(0.4),
                                             blurRadius: 4.0,
                                             spreadRadius: 1.0,
-                                          )
+                                          ),
                                         ]
                                       : null,
                                 ),
@@ -178,7 +191,7 @@ class _StoryCardState extends State<StoryCard> {
                   ),
                 ),
               ),
-  
+
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -192,7 +205,8 @@ class _StoryCardState extends State<StoryCard> {
                         Expanded(
                           child: Text(
                             widget.title,
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.primary,
@@ -204,7 +218,9 @@ class _StoryCardState extends State<StoryCard> {
                         Container(
                           decoration: BoxDecoration(
                             color: AppTheme.tertiary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusFull,
+                            ),
                           ),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12.0,
@@ -212,7 +228,8 @@ class _StoryCardState extends State<StoryCard> {
                           ),
                           child: Text(
                             'Age: ${widget.ageRange}',
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
                                   color: AppTheme.onTertiaryContainer,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w600,
@@ -222,18 +239,18 @@ class _StoryCardState extends State<StoryCard> {
                       ],
                     ),
                     const SizedBox(height: 12.0),
-   
+
                     // Description
                     Text(
                       widget.description,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.onSurfaceVariant,
-                          ),
+                        color: AppTheme.onSurfaceVariant,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 16.0),
-  
+
                     // Action Button
                     MouseRegion(
                       onEnter: (_) => setState(() => _isButtonHovered = true),
@@ -246,8 +263,12 @@ class _StoryCardState extends State<StoryCard> {
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
                           decoration: BoxDecoration(
-                            color: _isButtonHovered ? AppTheme.secondary : AppTheme.surfaceContainer,
-                            borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+                            color: _isButtonHovered
+                                ? AppTheme.secondary
+                                : AppTheme.surfaceContainer,
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusLg,
+                            ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -255,13 +276,18 @@ class _StoryCardState extends State<StoryCard> {
                               Icon(
                                 Icons.edit,
                                 size: 16.0,
-                                color: _isButtonHovered ? AppTheme.onPrimary : AppTheme.primary,
+                                color: _isButtonHovered
+                                    ? AppTheme.onPrimary
+                                    : AppTheme.primary,
                               ),
                               const SizedBox(width: 8.0),
                               Text(
                                 'Personalize',
-                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      color: _isButtonHovered ? AppTheme.onPrimary : AppTheme.primary,
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      color: _isButtonHovered
+                                          ? AppTheme.onPrimary
+                                          : AppTheme.primary,
                                     ),
                               ),
                             ],

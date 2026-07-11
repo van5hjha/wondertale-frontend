@@ -20,12 +20,16 @@ class _CtaSectionState extends State<CtaSection> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: isDesktop ? AppConstants.sectionGapDesktop : AppConstants.sectionGapMobile,
+        vertical: isDesktop
+            ? AppConstants.sectionGapDesktop
+            : AppConstants.sectionGapMobile,
         horizontal: isDesktop ? AppConstants.gutter : AppConstants.mobileMargin,
       ),
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+          constraints: const BoxConstraints(
+            maxWidth: AppConstants.maxContainerWidth,
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.surfaceContainerLow,
@@ -52,13 +56,14 @@ class _CtaSectionState extends State<CtaSection> {
                 // Title
                 Text(
                   'Ready to see the magic?',
-                  style: (isDesktop
-                          ? Theme.of(context).textTheme.displayLarge
-                          : Theme.of(context).textTheme.displayMedium)
-                      ?.copyWith(
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style:
+                      (isDesktop
+                              ? Theme.of(context).textTheme.displayLarge
+                              : Theme.of(context).textTheme.displayMedium)
+                          ?.copyWith(
+                            color: AppTheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32.0),
@@ -69,8 +74,8 @@ class _CtaSectionState extends State<CtaSection> {
                   child: Text(
                     "It takes less than 2 minutes to create a digital preview of your child's magical book. No credit card required.",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                        ),
+                      color: AppTheme.onSurfaceVariant,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -89,7 +94,9 @@ class _CtaSectionState extends State<CtaSection> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppTheme.magicButtonColor,
-                          borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusFull,
+                          ),
                           boxShadow: const [
                             BoxShadow(
                               color: Color(0x4DA258F3), // magic button shadow
@@ -104,7 +111,8 @@ class _CtaSectionState extends State<CtaSection> {
                         ),
                         child: Text(
                           'START MY STORY',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(
                                 color: AppTheme.onPrimary,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,

@@ -19,18 +19,26 @@ class Footer extends StatelessWidget {
       ),
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+          constraints: const BoxConstraints(
+            maxWidth: AppConstants.maxContainerWidth,
+          ),
           padding: EdgeInsets.symmetric(
-            horizontal: isDesktop ? AppConstants.gutter : AppConstants.mobileMargin,
+            horizontal: isDesktop
+                ? AppConstants.gutter
+                : AppConstants.mobileMargin,
           ),
           child: Flex(
             direction: isDesktop ? Axis.horizontal : Axis.vertical,
-            mainAxisAlignment: isDesktop ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+            mainAxisAlignment: isDesktop
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Column 1: Brand Info
               Column(
-                crossAxisAlignment: isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+                crossAxisAlignment: isDesktop
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/images/logo.png',
@@ -41,9 +49,9 @@ class Footer extends StatelessWidget {
                   Text(
                     '© 2026 Wondertale. Hand-crafted with magic.',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: AppTheme.onSurfaceVariant,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 6.0),
                   Container(
@@ -52,11 +60,11 @@ class Footer extends StatelessWidget {
                       'Operated by ${LegalConfig.entityName}.\nReg. Office: ${LegalConfig.registeredAddress}',
                       textAlign: isDesktop ? TextAlign.left : TextAlign.center,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: AppTheme.onSurfaceVariant.withOpacity(0.6),
-                            fontSize: 10.0,
-                            fontWeight: FontWeight.normal,
-                            height: 1.4,
-                          ),
+                        color: AppTheme.onSurfaceVariant.withOpacity(0.6),
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.normal,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ],
@@ -71,27 +79,37 @@ class Footer extends StatelessWidget {
                 children: [
                   _buildFooterLink(context, 'Privacy Policy', () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InfoView(initialTabIndex: 0)),
+                      MaterialPageRoute(
+                        builder: (_) => const InfoView(initialTabIndex: 0),
+                      ),
                     );
                   }),
                   _buildFooterLink(context, 'Terms of Service', () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InfoView(initialTabIndex: 1)),
+                      MaterialPageRoute(
+                        builder: (_) => const InfoView(initialTabIndex: 1),
+                      ),
                     );
                   }),
                   _buildFooterLink(context, 'Refund Policy', () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InfoView(initialTabIndex: 2)),
+                      MaterialPageRoute(
+                        builder: (_) => const InfoView(initialTabIndex: 2),
+                      ),
                     );
                   }),
                   _buildFooterLink(context, 'Shipping Policy', () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InfoView(initialTabIndex: 3)),
+                      MaterialPageRoute(
+                        builder: (_) => const InfoView(initialTabIndex: 3),
+                      ),
                     );
                   }),
                   _buildFooterLink(context, 'Contact Us', () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const InfoView(initialTabIndex: 4)),
+                      MaterialPageRoute(
+                        builder: (_) => const InfoView(initialTabIndex: 4),
+                      ),
                     );
                   }),
                 ],
@@ -114,7 +132,11 @@ class Footer extends StatelessWidget {
     );
   }
 
-  Widget _buildFooterLink(BuildContext context, String title, VoidCallback onTap) {
+  Widget _buildFooterLink(
+    BuildContext context,
+    String title,
+    VoidCallback onTap,
+  ) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -122,9 +144,9 @@ class Footer extends StatelessWidget {
         child: Text(
           title,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: AppTheme.onSurfaceVariant,
-                fontWeight: FontWeight.normal,
-              ),
+            color: AppTheme.onSurfaceVariant,
+            fontWeight: FontWeight.normal,
+          ),
         ),
       ),
     );
@@ -149,11 +171,7 @@ class Footer extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(
-            icon,
-            color: AppTheme.primary,
-            size: 20.0,
-          ),
+          child: Icon(icon, color: AppTheme.primary, size: 20.0),
         ),
       ),
     );

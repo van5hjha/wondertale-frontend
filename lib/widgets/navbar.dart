@@ -42,9 +42,13 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           alignment: Alignment.center,
           child: Container(
-            constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+            constraints: const BoxConstraints(
+              maxWidth: AppConstants.maxContainerWidth,
+            ),
             padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? AppConstants.gutter : AppConstants.mobileMargin,
+              horizontal: isDesktop
+                  ? AppConstants.gutter
+                  : AppConstants.mobileMargin,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,11 +70,26 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 if (isDesktop)
                   Row(
                     children: [
-                      _buildNavLink(context, 'Explore Stories', onExploreStoriesTap, isActive: activeIndex == 0),
+                      _buildNavLink(
+                        context,
+                        'Explore Stories',
+                        onExploreStoriesTap,
+                        isActive: activeIndex == 0,
+                      ),
                       const SizedBox(width: 32.0),
-                      _buildNavLink(context, 'How It Works', onHowItWorksTap, isActive: activeIndex == 1),
+                      _buildNavLink(
+                        context,
+                        'How It Works',
+                        onHowItWorksTap,
+                        isActive: activeIndex == 1,
+                      ),
                       const SizedBox(width: 32.0),
-                      _buildNavLink(context, 'Pricing', onPricingTap, isActive: activeIndex == 2),
+                      _buildNavLink(
+                        context,
+                        'Pricing',
+                        onPricingTap,
+                        isActive: activeIndex == 2,
+                      ),
                     ],
                   ),
 
@@ -82,7 +101,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: AppTheme.magicButtonColor,
-                        borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusFull,
+                        ),
                         boxShadow: const [
                           BoxShadow(
                             color: Color(0x4DA258F3), // magic button shadow
@@ -98,9 +119,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                       child: Text(
                         'CREATE PREVIEW',
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: AppTheme.onPrimary,
-                              letterSpacing: 0.8,
-                            ),
+                          color: AppTheme.onPrimary,
+                          letterSpacing: 0.8,
+                        ),
                       ),
                     ),
                   ),
@@ -113,7 +134,12 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buildNavLink(BuildContext context, String title, VoidCallback? onTap, {bool isActive = false}) {
+  Widget _buildNavLink(
+    BuildContext context,
+    String title,
+    VoidCallback? onTap, {
+    bool isActive = false,
+  }) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -123,19 +149,16 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
           decoration: isActive
               ? const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(
-                      color: AppTheme.primary,
-                      width: 2.0,
-                    ),
+                    bottom: BorderSide(color: AppTheme.primary, width: 2.0),
                   ),
                 )
               : null,
           child: Text(
             title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                  color: isActive ? AppTheme.primary : AppTheme.onSurfaceVariant,
-                ),
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              color: isActive ? AppTheme.primary : AppTheme.onSurfaceVariant,
+            ),
           ),
         ),
       ),

@@ -20,70 +20,80 @@ class _ReviewsSectionState extends State<ReviewsSection> {
   static final List<ReviewModel> _fallbackReviews = [
     ReviewModel(
       id: 1,
-      quote: "Seeing my son Aarav's face on the space explorer cover was priceless! He now reads it every single night.",
+      quote:
+          "Seeing my son Aarav's face on the space explorer cover was priceless! He now reads it every single night.",
       name: "Priya Sharma",
       location: "Mumbai, Maharashtra",
       rating: 5,
     ),
     ReviewModel(
       id: 2,
-      quote: "The quality is amazing, a forever keepsake. The AI matched my daughter's curls perfectly!",
+      quote:
+          "The quality is amazing, a forever keepsake. The AI matched my daughter's curls perfectly!",
       name: "Rajesh Patel",
       location: "Bengaluru, Karnataka",
       rating: 5,
     ),
     ReviewModel(
       id: 3,
-      quote: "Best birthday gift ever. My nephew thinks he is a real superhero. Highly recommend to all parents!",
+      quote:
+          "Best birthday gift ever. My nephew thinks he is a real superhero. Highly recommend to all parents!",
       name: "Sunita Rao",
       location: "Hyderabad, Telangana",
       rating: 5,
     ),
     ReviewModel(
       id: 4,
-      quote: "I was skeptical about AI, but the art style is breathtaking. The stories are genuinely interesting too.",
+      quote:
+          "I was skeptical about AI, but the art style is breathtaking. The stories are genuinely interesting too.",
       name: "Amit Verma",
       location: "Delhi, NCR",
       rating: 5,
     ),
     ReviewModel(
       id: 5,
-      quote: "Got the hardcover for my son's 5th birthday. The print quality and paper thickness is outstanding.",
+      quote:
+          "Got the hardcover for my son's 5th birthday. The print quality and paper thickness is outstanding.",
       name: "Vikram Malhotra",
       location: "Pune, Maharashtra",
       rating: 5,
     ),
     ReviewModel(
       id: 6,
-      quote: "The process was so simple! Just uploaded a photo and got a preview in 2 minutes. Excellent service.",
+      quote:
+          "The process was so simple! Just uploaded a photo and got a preview in 2 minutes. Excellent service.",
       name: "Deepa Nair",
       location: "Kochi, Kerala",
       rating: 5,
     ),
     ReviewModel(
       id: 7,
-      quote: "My daughter started jumping with joy when she saw herself as a little wizard. Super happy!",
+      quote:
+          "My daughter started jumping with joy when she saw herself as a little wizard. Super happy!",
       name: "Sanjay Gupta",
       location: "Kolkata, West Bengal",
       rating: 5,
     ),
     ReviewModel(
       id: 8,
-      quote: "Outstanding storytelling and beautiful illustrations. It's not just a gimmick, it's a high-quality book.",
+      quote:
+          "Outstanding storytelling and beautiful illustrations. It's not just a gimmick, it's a high-quality book.",
       name: "Meenakshi Sundaram",
       location: "Chennai, Tamil Nadu",
       rating: 5,
     ),
     ReviewModel(
       id: 9,
-      quote: "The custom text options and easy checkout made this a great gifting experience. Will order again!",
+      quote:
+          "The custom text options and easy checkout made this a great gifting experience. Will order again!",
       name: "Anil Deshmukh",
       location: "Nagpur, Maharashtra",
       rating: 5,
     ),
     ReviewModel(
       id: 10,
-      quote: "A wonderful personalized gift that kids will treasure forever. Absolute value for money.",
+      quote:
+          "A wonderful personalized gift that kids will treasure forever. Absolute value for money.",
       name: "Karan Joshi",
       location: "Ahmedabad, Gujarat",
       rating: 5,
@@ -106,7 +116,9 @@ class _ReviewsSectionState extends State<ReviewsSection> {
         });
       }
     } catch (e) {
-      debugPrint("Error loading reviews from API: $e. Falling back to static data.");
+      debugPrint(
+        "Error loading reviews from API: $e. Falling back to static data.",
+      );
       if (mounted) {
         setState(() {
           _reviews = _fallbackReviews;
@@ -121,7 +133,9 @@ class _ReviewsSectionState extends State<ReviewsSection> {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= 768.0;
 
-    final displayReviews = _reviews.isEmpty && !_isLoading ? _fallbackReviews : _reviews;
+    final displayReviews = _reviews.isEmpty && !_isLoading
+        ? _fallbackReviews
+        : _reviews;
 
     // Split reviews between two rows
     final List<Widget> row1Reviews = [];
@@ -131,7 +145,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
       final review = displayReviews[i];
       // Generate delay offset between 0.0 and 1.0 based on position
       final double delayFraction = (i * 0.15) % 1.0;
-      
+
       final cardWidget = _buildFloatingCard(
         quote: review.quote,
         name: review.name,
@@ -157,7 +171,9 @@ class _ReviewsSectionState extends State<ReviewsSection> {
     return Container(
       color: AppTheme.surface,
       padding: EdgeInsets.symmetric(
-        vertical: isDesktop ? AppConstants.sectionGapDesktop : AppConstants.sectionGapMobile,
+        vertical: isDesktop
+            ? AppConstants.sectionGapDesktop
+            : AppConstants.sectionGapMobile,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -165,19 +181,22 @@ class _ReviewsSectionState extends State<ReviewsSection> {
           // Header Section
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? AppConstants.gutter : AppConstants.mobileMargin,
+              horizontal: isDesktop
+                  ? AppConstants.gutter
+                  : AppConstants.mobileMargin,
             ),
             child: Column(
               children: [
                 Text(
                   'What parents are saying',
-                  style: (isDesktop
-                          ? Theme.of(context).textTheme.displayLarge
-                          : Theme.of(context).textTheme.displayMedium)
-                      ?.copyWith(
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style:
+                      (isDesktop
+                              ? Theme.of(context).textTheme.displayLarge
+                              : Theme.of(context).textTheme.displayMedium)
+                          ?.copyWith(
+                            color: AppTheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16.0),
@@ -186,8 +205,8 @@ class _ReviewsSectionState extends State<ReviewsSection> {
                   child: Text(
                     'Discover how Stardust Tales has sparked imagination and joy in homes across India.',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                        ),
+                      color: AppTheme.onSurfaceVariant,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -209,20 +228,14 @@ class _ReviewsSectionState extends State<ReviewsSection> {
             // Row 1 (Faster)
             SizedBox(
               height: 250.0, // Enough height for the 220px card + float offset
-              child: AutoScrollRow(
-                speed: 40.0,
-                children: row1Reviews,
-              ),
+              child: AutoScrollRow(speed: 40.0, children: row1Reviews),
             ),
             const SizedBox(height: 24.0),
 
             // Row 2 (Slower)
             SizedBox(
               height: 250.0,
-              child: AutoScrollRow(
-                speed: 25.0,
-                children: row2Reviews,
-              ),
+              child: AutoScrollRow(speed: 25.0, children: row2Reviews),
             ),
           ],
         ],
@@ -310,10 +323,10 @@ class ReviewCard extends StatelessWidget {
               child: Text(
                 '"$quote"',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.onSurface,
-                      fontStyle: FontStyle.italic,
-                      height: 1.5,
-                    ),
+                  color: AppTheme.onSurface,
+                  fontStyle: FontStyle.italic,
+                  height: 1.5,
+                ),
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -323,20 +336,20 @@ class ReviewCard extends StatelessWidget {
             Text(
               name,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: AppTheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 4.0),
             // Location
             Text(
               location.toUpperCase(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: AppTheme.secondary, // Magic Lilac
-                    fontSize: 11.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                  ),
+                color: AppTheme.secondary, // Magic Lilac
+                fontSize: 11.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.0,
+              ),
             ),
           ],
         ),
@@ -363,24 +376,20 @@ class FloatingWidget extends StatefulWidget {
   State<FloatingWidget> createState() => _FloatingWidgetState();
 }
 
-class _FloatingWidgetState extends State<FloatingWidget> with SingleTickerProviderStateMixin {
+class _FloatingWidgetState extends State<FloatingWidget>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-    
-    _animation = Tween<double>(begin: 0.0, end: widget.maxOffset).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: widget.maxOffset,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.delayFraction > 0.0) {
       _controller.value = widget.delayFraction;
@@ -413,11 +422,7 @@ class AutoScrollRow extends StatefulWidget {
   final List<Widget> children;
   final double speed; // pixels per second
 
-  const AutoScrollRow({
-    super.key,
-    required this.children,
-    this.speed = 30.0,
-  });
+  const AutoScrollRow({super.key, required this.children, this.speed = 30.0});
 
   @override
   State<AutoScrollRow> createState() => _AutoScrollRowState();
@@ -500,9 +505,7 @@ class _AutoScrollRowState extends State<AutoScrollRow> {
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
       physics: const NeverScrollableScrollPhysics(),
-      child: Row(
-        children: doubleList,
-      ),
+      child: Row(children: doubleList),
     );
   }
 }

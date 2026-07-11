@@ -11,10 +11,7 @@ import 'products_view.dart';
 class InfoView extends StatefulWidget {
   final int initialTabIndex;
 
-  const InfoView({
-    super.key,
-    this.initialTabIndex = 0,
-  });
+  const InfoView({super.key, this.initialTabIndex = 0});
 
   @override
   State<InfoView> createState() => _InfoViewState();
@@ -23,37 +20,22 @@ class InfoView extends StatefulWidget {
 class _InfoViewState extends State<InfoView> {
   late int _activeTab;
   final _formKey = GlobalKey<FormState>();
-  
+
   // Contact Form controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _orderIdController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
-  
+
   bool _isSending = false;
   bool _formSubmitted = false;
 
   final List<Map<String, dynamic>> _tabs = [
-    {
-      'title': 'Privacy Policy',
-      'icon': Icons.security,
-    },
-    {
-      'title': 'Terms of Service',
-      'icon': Icons.description,
-    },
-    {
-      'title': 'Refund & Cancellation',
-      'icon': Icons.assignment_return,
-    },
-    {
-      'title': 'Shipping Policy',
-      'icon': Icons.local_shipping,
-    },
-    {
-      'title': 'Contact Us',
-      'icon': Icons.contact_support,
-    },
+    {'title': 'Privacy Policy', 'icon': Icons.security},
+    {'title': 'Terms of Service', 'icon': Icons.description},
+    {'title': 'Refund & Cancellation', 'icon': Icons.assignment_return},
+    {'title': 'Shipping Policy', 'icon': Icons.local_shipping},
+    {'title': 'Contact Us', 'icon': Icons.contact_support},
   ];
 
   @override
@@ -73,7 +55,7 @@ class _InfoViewState extends State<InfoView> {
 
   void _submitContactForm() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     setState(() {
       _isSending = true;
     });
@@ -86,7 +68,7 @@ class _InfoViewState extends State<InfoView> {
         _isSending = false;
         _formSubmitted = true;
       });
-      
+
       _nameController.clear();
       _emailController.clear();
       _orderIdController.clear();
@@ -121,11 +103,13 @@ class _InfoViewState extends State<InfoView> {
           );
         },
         onExploreStoriesTap: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomeView()),
-          ).then((_) {
-            // Scroll to stories key after routing
-          });
+          Navigator.of(context)
+              .pushReplacement(
+                MaterialPageRoute(builder: (_) => const HomeView()),
+              )
+              .then((_) {
+                // Scroll to stories key after routing
+              });
         },
         onHowItWorksTap: () {
           Navigator.of(context).pushReplacement(
@@ -138,53 +122,58 @@ class _InfoViewState extends State<InfoView> {
           );
         },
         onCreatePreviewTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const ProductsView()),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const ProductsView()));
         },
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 40.0),
-            
+
             // Header Hero Banner
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: isTablet ? AppConstants.desktopMargin : AppConstants.mobileMargin,
+                horizontal: isTablet
+                    ? AppConstants.desktopMargin
+                    : AppConstants.mobileMargin,
                 vertical: 40.0,
               ),
               child: Center(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                  constraints: const BoxConstraints(
+                    maxWidth: AppConstants.maxContainerWidth,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'CUSTOMER HELP & POLICIES',
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: AppTheme.secondary,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                            ),
+                          color: AppTheme.secondary,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        ),
                       ),
                       const SizedBox(height: 8.0),
                       Text(
                         _tabs[_activeTab]['title'],
-                        style: (isTablet
-                                ? Theme.of(context).textTheme.displayLarge
-                                : Theme.of(context).textTheme.displayMedium)
-                            ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.primary,
-                        ),
+                        style:
+                            (isTablet
+                                    ? Theme.of(context).textTheme.displayLarge
+                                    : Theme.of(context).textTheme.displayMedium)
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primary,
+                                ),
                       ),
                       const SizedBox(height: 8.0),
                       Text(
                         'Find answers to your questions, contact details, and our operational guidelines.',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.onSurfaceVariant,
-                            ),
+                          color: AppTheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),
@@ -195,27 +184,30 @@ class _InfoViewState extends State<InfoView> {
             // Main Help/Legal Workspace Layout
             Center(
               child: Container(
-                constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                constraints: const BoxConstraints(
+                  maxWidth: AppConstants.maxContainerWidth,
+                ),
                 padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? AppConstants.gutter : AppConstants.mobileMargin,
+                  horizontal: isTablet
+                      ? AppConstants.gutter
+                      : AppConstants.mobileMargin,
                 ),
                 child: isDesktop
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Left Sidebar Tabs
-                          SizedBox(
-                            width: 280.0,
-                            child: _buildSidebar(context),
-                          ),
+                          SizedBox(width: 280.0, child: _buildSidebar(context)),
                           const SizedBox(width: 48.0),
-                          
+
                           // Right Policy Content
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppTheme.surfaceContainerLowest,
-                                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                                borderRadius: BorderRadius.circular(
+                                  AppConstants.radiusMd,
+                                ),
                                 border: Border.all(
                                   color: AppTheme.primary.withOpacity(0.05),
                                   width: 1.0,
@@ -233,15 +225,17 @@ class _InfoViewState extends State<InfoView> {
                           // Top scrollable tabs
                           _buildMobileTabs(context),
                           const SizedBox(height: 24.0),
-                          
+
                           // Main Content Box
                           Container(
                             decoration: BoxDecoration(
                               color: AppTheme.surfaceContainerLowest,
-                              borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusMd,
+                              ),
                               border: Border.all(
                                 color: AppTheme.primary.withOpacity(0.05),
-                                  width: 1.0,
+                                width: 1.0,
                               ),
                             ),
                             padding: const EdgeInsets.all(24.0),
@@ -251,7 +245,7 @@ class _InfoViewState extends State<InfoView> {
                       ),
               ),
             ),
-            
+
             const SizedBox(height: 80.0),
             const Footer(),
           ],
@@ -273,7 +267,7 @@ class _InfoViewState extends State<InfoView> {
         children: List.generate(_tabs.length, (index) {
           final tab = _tabs[index];
           final isActive = _activeTab == index;
-          
+
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: MouseRegion(
@@ -288,24 +282,38 @@ class _InfoViewState extends State<InfoView> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   decoration: BoxDecoration(
-                    color: isActive ? AppTheme.secondaryContainer : Colors.transparent,
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                    color: isActive
+                        ? AppTheme.secondaryContainer
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 16.0,
+                  ),
                   child: Row(
                     children: [
                       Icon(
                         tab['icon'] as IconData,
-                        color: isActive ? AppTheme.onSecondaryContainer : AppTheme.onSurfaceVariant,
+                        color: isActive
+                            ? AppTheme.onSecondaryContainer
+                            : AppTheme.onSurfaceVariant,
                         size: 20.0,
                       ),
                       const SizedBox(width: 16.0),
                       Expanded(
                         child: Text(
                           tab['title'] as String,
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color: isActive ? AppTheme.onSecondaryContainer : AppTheme.primary,
-                                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: isActive
+                                    ? AppTheme.onSecondaryContainer
+                                    : AppTheme.primary,
+                                fontWeight: isActive
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                               ),
                         ),
                       ),
@@ -334,7 +342,7 @@ class _InfoViewState extends State<InfoView> {
         children: List.generate(_tabs.length, (index) {
           final tab = _tabs[index];
           final isActive = _activeTab == index;
-          
+
           return Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: GestureDetector(
@@ -346,25 +354,38 @@ class _InfoViewState extends State<InfoView> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: isActive ? AppTheme.secondaryContainer : AppTheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                  color: isActive
+                      ? AppTheme.secondaryContainer
+                      : AppTheme.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusDefault,
+                  ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Row(
                   children: [
                     Icon(
                       tab['icon'] as IconData,
-                      color: isActive ? AppTheme.onSecondaryContainer : AppTheme.onSurfaceVariant,
+                      color: isActive
+                          ? AppTheme.onSecondaryContainer
+                          : AppTheme.onSurfaceVariant,
                       size: 16.0,
                     ),
                     const SizedBox(width: 8.0),
                     Text(
                       tab['title'] as String,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: isActive ? AppTheme.onSecondaryContainer : AppTheme.primary,
-                            fontSize: 13.0,
-                            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                          ),
+                        color: isActive
+                            ? AppTheme.onSecondaryContainer
+                            : AppTheme.primary,
+                        fontSize: 13.0,
+                        fontWeight: isActive
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),
@@ -403,24 +424,38 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'At Wondertale, operated by ${LegalConfig.entityName}, we are highly committed to protecting the privacy of our customers and their children. This Privacy Policy describes how we collect, store, scan, use, and process personal information, specifically tailored for our personalized children\'s storybooks service.',
         ),
-        
+
         _buildSubHeader('1. Data We Collect'),
         _buildParagraph(
           'To generate your customized storybook, we collect the following information during order creation:',
         ),
-        _buildBulletPoint('Parent\'s name, email address, shipping address, and phone number.'),
-        _buildBulletPoint('Child\'s first name (used to name the protagonist in the story).'),
-        _buildBulletPoint('Child\'s approximate age and gender/pronoun preference (to tailor story text and theme complexity).'),
-        _buildBulletPoint('A photograph of your child\'s face (uploaded by the parent or guardian).'),
+        _buildBulletPoint(
+          'Parent\'s name, email address, shipping address, and phone number.',
+        ),
+        _buildBulletPoint(
+          'Child\'s first name (used to name the protagonist in the story).',
+        ),
+        _buildBulletPoint(
+          'Child\'s approximate age and gender/pronoun preference (to tailor story text and theme complexity).',
+        ),
+        _buildBulletPoint(
+          'A photograph of your child\'s face (uploaded by the parent or guardian).',
+        ),
 
         _buildSubHeader('2. How We Use and Process Children\'s Photos'),
         _buildParagraph(
           'We treat uploaded photos with the highest security and confidentiality. Here is how photo processing works:',
         ),
-        _buildBulletPoint('**AI Face-Scanning:** We run high-resolution AI face-mapping algorithms to align and blend your child\'s facial structure into our preset, artist-drawn storybook illustrations. This process is fully automated and does not involve human cataloging of facial databases.'),
-        _buildBulletPoint('**Limited Processing Purpose:** Uploaded photos are strictly used to render the customized illustrations of the ordered books.'),
-        _buildBulletPoint('**Automatic Post-Delivery Deletion:** To respect your child\'s privacy, we do not store original photos indefinitely. Both original face photos and scanned biometric tokens are permanently deleted from our primary storage databases within thirty (30) days of successful order delivery.'),
-        
+        _buildBulletPoint(
+          '**AI Face-Scanning:** We run high-resolution AI face-mapping algorithms to align and blend your child\'s facial structure into our preset, artist-drawn storybook illustrations. This process is fully automated and does not involve human cataloging of facial databases.',
+        ),
+        _buildBulletPoint(
+          '**Limited Processing Purpose:** Uploaded photos are strictly used to render the customized illustrations of the ordered books.',
+        ),
+        _buildBulletPoint(
+          '**Automatic Post-Delivery Deletion:** To respect your child\'s privacy, we do not store original photos indefinitely. Both original face photos and scanned biometric tokens are permanently deleted from our primary storage databases within thirty (30) days of successful order delivery.',
+        ),
+
         _buildSubHeader('3. Storage and Safety Measures'),
         _buildParagraph(
           'All customer data is encrypted in transit using SSL/TLS protocols and stored securely in cloud servers using AES-256 encryption. Access to original images is strictly locked down and automated, meaning no external third-party or unauthorized personnel can access your child\'s photos.',
@@ -428,7 +463,7 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'We do not sell, rent, or lease any child\'s name, gender information, or photo data to third parties. Customer address and phone number details are only shared with authorized logistics partners (${LegalConfig.courierPartners}) to complete delivery.',
         ),
-        
+
         _buildSubHeader('4. Contact Privacy Officer'),
         _buildParagraph(
           'If you have any questions about this Privacy Policy or wish to request immediate deletion of your child\'s uploaded photo and information before the 30-day automatic deletion window, please contact our privacy officer at ${LegalConfig.supportEmail}.',
@@ -447,7 +482,7 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'Welcome to Wondertale! These Terms of Service ("Terms") govern your access to and use of our website, services, and purchase of personalized children\'s storybooks. By using our website and placing an order, you agree to comply with and be bound by these Terms.',
         ),
-        
+
         _buildSubHeader('1. Order Eligibility and Customer Inputs'),
         _buildParagraph(
           'To purchase custom books, you represent that you are the parent or legal guardian of the child being personalized, or that you have received explicit authorization from the child\'s parent or guardian to upload their name and photo.',
@@ -489,11 +524,12 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'Because Wondertale storybooks are highly personalized, custom-designed, and printed-on-demand for a specific child, our refund and cancellation policy is structured as follows:',
         ),
-        
+
         _buildAlertCard(
           context,
           title: 'NO GENERAL REFUNDS',
-          content: 'Since each storybook is unique to your child, once printing begins, we cannot accept returns, exchanges, or provide refunds if you change your mind, select the wrong theme, or make spelling typos during ordering.',
+          content:
+              'Since each storybook is unique to your child, once printing begins, we cannot accept returns, exchanges, or provide refunds if you change your mind, select the wrong theme, or make spelling typos during ordering.',
         ),
 
         _buildSubHeader('1. Cancellation Window'),
@@ -508,16 +544,26 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'Your satisfaction is our magic! If your custom book arrives with any of the following issues, we will gladly arrange a **free replacement reprint** at absolutely no extra cost to you:',
         ),
-        _buildBulletPoint('Physical damage to the book cover, spine, or pages incurred during transit.'),
-        _buildBulletPoint('Clear printing defects, such as missing pages, misaligned bindings, or smeared ink.'),
-        _buildBulletPoint('The printed book differs from the digital preview you approved (e.g., wrong name or incorrect photo mapping applied).'),
-        
+        _buildBulletPoint(
+          'Physical damage to the book cover, spine, or pages incurred during transit.',
+        ),
+        _buildBulletPoint(
+          'Clear printing defects, such as missing pages, misaligned bindings, or smeared ink.',
+        ),
+        _buildBulletPoint(
+          'The printed book differs from the digital preview you approved (e.g., wrong name or incorrect photo mapping applied).',
+        ),
+
         _buildSubHeader('3. How to Request a Replacement'),
         _buildParagraph(
           'To request a free replacement, please follow these steps within **seven (7) days** of receiving your package:',
         ),
-        _buildBulletPoint('Send an email to **${LegalConfig.supportEmail}** stating your Order ID.'),
-        _buildBulletPoint('Attach a clear photo or short video showing the damage, print defect, or incorrect customization.'),
+        _buildBulletPoint(
+          'Send an email to **${LegalConfig.supportEmail}** stating your Order ID.',
+        ),
+        _buildBulletPoint(
+          'Attach a clear photo or short video showing the damage, print defect, or incorrect customization.',
+        ),
         _buildParagraph(
           'Once our team verifies the defect, we will immediately initiate printing for a replacement book. The replacement will be shipped within 48 hours and delivered within our standard timeline. You do not need to ship the damaged book back to us.',
         ),
@@ -540,9 +586,15 @@ class _InfoViewState extends State<InfoView> {
         _buildParagraph(
           'Each Wondertale storybook undergoes a careful quality check, printing, and binding process. Our standard shipping timelines are as follows:',
         ),
-        _buildBulletPoint('**Production/Binding:** 2-3 business days after you approve your book preview.'),
-        _buildBulletPoint('**Transit Shipping:** 4-5 business days depending on your delivery address.'),
-        _buildBulletPoint('**Total Delivery Time:** Typically **${LegalConfig.estimatedDeliveryTime}** across India.'),
+        _buildBulletPoint(
+          '**Production/Binding:** 2-3 business days after you approve your book preview.',
+        ),
+        _buildBulletPoint(
+          '**Transit Shipping:** 4-5 business days depending on your delivery address.',
+        ),
+        _buildBulletPoint(
+          '**Total Delivery Time:** Typically **${LegalConfig.estimatedDeliveryTime}** across India.',
+        ),
 
         _buildSubHeader('2. Delivery Zones and Shipping Charges'),
         _buildParagraph(
@@ -583,7 +635,7 @@ class _InfoViewState extends State<InfoView> {
           builder: (context, constraints) {
             final cardWidth = (constraints.maxWidth - 24.0) / 2.0;
             final useSingleColumn = constraints.maxWidth < 600.0;
-            
+
             return Column(
               children: [
                 Row(
@@ -596,8 +648,13 @@ class _InfoViewState extends State<InfoView> {
                         icon: Icons.email,
                         title: 'Email Us',
                         value: LegalConfig.supportEmail,
-                        onTap: () => _copyToClipboard(LegalConfig.supportEmail, 'Support Email'),
-                        width: useSingleColumn ? constraints.maxWidth : cardWidth,
+                        onTap: () => _copyToClipboard(
+                          LegalConfig.supportEmail,
+                          'Support Email',
+                        ),
+                        width: useSingleColumn
+                            ? constraints.maxWidth
+                            : cardWidth,
                       ),
                     ),
                     if (!useSingleColumn) const SizedBox(width: 24.0),
@@ -608,7 +665,10 @@ class _InfoViewState extends State<InfoView> {
                           icon: Icons.phone,
                           title: 'Call Us',
                           value: LegalConfig.supportPhone,
-                          onTap: () => _copyToClipboard(LegalConfig.supportPhone, 'Support Phone'),
+                          onTap: () => _copyToClipboard(
+                            LegalConfig.supportPhone,
+                            'Support Phone',
+                          ),
                           width: cardWidth,
                         ),
                       ),
@@ -621,7 +681,10 @@ class _InfoViewState extends State<InfoView> {
                     icon: Icons.phone,
                     title: 'Call Us',
                     value: LegalConfig.supportPhone,
-                    onTap: () => _copyToClipboard(LegalConfig.supportPhone, 'Support Phone'),
+                    onTap: () => _copyToClipboard(
+                      LegalConfig.supportPhone,
+                      'Support Phone',
+                    ),
                     width: constraints.maxWidth,
                   ),
                 const SizedBox(height: 16.0),
@@ -629,8 +692,12 @@ class _InfoViewState extends State<InfoView> {
                   context,
                   icon: Icons.business,
                   title: 'Registered Office',
-                  value: '${LegalConfig.entityName}\n${LegalConfig.registeredAddress}',
-                  onTap: () => _copyToClipboard(LegalConfig.registeredAddress, 'Office Address'),
+                  value:
+                      '${LegalConfig.entityName}\n${LegalConfig.registeredAddress}',
+                  onTap: () => _copyToClipboard(
+                    LegalConfig.registeredAddress,
+                    'Office Address',
+                  ),
                   width: constraints.maxWidth,
                 ),
               ],
@@ -646,16 +713,16 @@ class _InfoViewState extends State<InfoView> {
         Text(
           'Send Us a Message',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primary,
-              ),
+            fontWeight: FontWeight.bold,
+            color: AppTheme.primary,
+          ),
         ),
         const SizedBox(height: 8.0),
         Text(
           'Fill out the form below and our customer magic team will get back to you within 24 hours.',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.onSurfaceVariant,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppTheme.onSurfaceVariant),
         ),
         const SizedBox(height: 24.0),
 
@@ -679,7 +746,9 @@ class _InfoViewState extends State<InfoView> {
                   label: 'Full Name',
                   controller: _nameController,
                   hint: 'e.g. Advait Sharma',
-                  validator: (val) => val == null || val.trim().isEmpty ? 'Please enter your name' : null,
+                  validator: (val) => val == null || val.trim().isEmpty
+                      ? 'Please enter your name'
+                      : null,
                 ),
               ),
               const SizedBox(width: 24.0),
@@ -690,8 +759,11 @@ class _InfoViewState extends State<InfoView> {
                   hint: 'e.g. parent@wondertale.com',
                   keyboardType: TextInputType.emailAddress,
                   validator: (val) {
-                    if (val == null || val.trim().isEmpty) return 'Please enter your email';
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(val.trim())) {
+                    if (val == null || val.trim().isEmpty)
+                      return 'Please enter your email';
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(val.trim())) {
                       return 'Enter a valid email address';
                     }
                     return null;
@@ -712,10 +784,12 @@ class _InfoViewState extends State<InfoView> {
             controller: _messageController,
             hint: 'Type your question or support request here...',
             maxLines: 5,
-            validator: (val) => val == null || val.trim().isEmpty ? 'Please enter your message' : null,
+            validator: (val) => val == null || val.trim().isEmpty
+                ? 'Please enter your message'
+                : null,
           ),
           const SizedBox(height: 32.0),
-          
+
           // Submit Button
           Center(
             child: SizedBox(
@@ -728,7 +802,9 @@ class _InfoViewState extends State<InfoView> {
                   foregroundColor: Colors.white,
                   disabledBackgroundColor: AppTheme.secondary.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.radiusDefault,
+                    ),
                   ),
                   elevation: 0,
                 ),
@@ -746,7 +822,10 @@ class _InfoViewState extends State<InfoView> {
                         children: const [
                           Text(
                             'Send Message',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
                           ),
                           SizedBox(width: 8.0),
                           Icon(Icons.send, size: 16.0),
@@ -775,9 +854,9 @@ class _InfoViewState extends State<InfoView> {
         Text(
           label,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: AppTheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
+            color: AppTheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 8.0),
         TextFormField(
@@ -786,12 +865,14 @@ class _InfoViewState extends State<InfoView> {
           keyboardType: keyboardType,
           validator: validator,
           cursorColor: AppTheme.secondary,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.primary,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppTheme.primary),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: AppTheme.onSurfaceVariant.withOpacity(0.5)),
+            hintStyle: TextStyle(
+              color: AppTheme.onSurfaceVariant.withOpacity(0.5),
+            ),
             filled: true,
             fillColor: AppTheme.surfaceContainerLow,
             contentPadding: const EdgeInsets.all(16.0),
@@ -801,7 +882,10 @@ class _InfoViewState extends State<InfoView> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-              borderSide: const BorderSide(color: AppTheme.secondary, width: 2.0),
+              borderSide: const BorderSide(
+                color: AppTheme.secondary,
+                width: 2.0,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
@@ -841,18 +925,18 @@ class _InfoViewState extends State<InfoView> {
             'Message Sent Successfully!',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.secondary,
-                ),
+              fontWeight: FontWeight.bold,
+              color: AppTheme.secondary,
+            ),
           ),
           const SizedBox(height: 12.0),
           Text(
             'Thank you for reaching out. We have received your query, and our customer support magic team will get back to you at your email address within 24 hours.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  height: 1.5,
-                ),
+              color: AppTheme.onSurfaceVariant,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 24.0),
           Center(
@@ -864,7 +948,10 @@ class _InfoViewState extends State<InfoView> {
               },
               child: const Text(
                 'Send Another Message',
-                style: TextStyle(color: AppTheme.secondary, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: AppTheme.secondary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -906,11 +993,7 @@ class _InfoViewState extends State<InfoView> {
                   shape: BoxShape.circle,
                 ),
                 padding: const EdgeInsets.all(10.0),
-                child: Icon(
-                  icon,
-                  color: AppTheme.secondary,
-                  size: 20.0,
-                ),
+                child: Icon(icon, color: AppTheme.secondary, size: 20.0),
               ),
               const SizedBox(width: 16.0),
               Expanded(
@@ -920,18 +1003,18 @@ class _InfoViewState extends State<InfoView> {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: AppTheme.onSurfaceVariant,
-                            fontSize: 12.0,
-                          ),
+                        color: AppTheme.onSurfaceVariant,
+                        fontSize: 12.0,
+                      ),
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       value,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.primary,
-                            fontWeight: FontWeight.bold,
-                            height: 1.4,
-                          ),
+                        color: AppTheme.primary,
+                        fontWeight: FontWeight.bold,
+                        height: 1.4,
+                      ),
                     ),
                   ],
                 ),
@@ -956,9 +1039,9 @@ class _InfoViewState extends State<InfoView> {
       child: Text(
         text,
         style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-            ),
+          fontWeight: FontWeight.bold,
+          color: AppTheme.primary,
+        ),
       ),
     );
   }
@@ -969,10 +1052,10 @@ class _InfoViewState extends State<InfoView> {
       child: Text(
         text,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppTheme.onSurfaceVariant.withOpacity(0.6),
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.normal,
-            ),
+          color: AppTheme.onSurfaceVariant.withOpacity(0.6),
+          fontStyle: FontStyle.italic,
+          fontWeight: FontWeight.normal,
+        ),
       ),
     );
   }
@@ -983,10 +1066,10 @@ class _InfoViewState extends State<InfoView> {
       child: Text(
         text,
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-              fontSize: 20.0,
-            ),
+          fontWeight: FontWeight.bold,
+          color: AppTheme.primary,
+          fontSize: 20.0,
+        ),
       ),
     );
   }
@@ -997,9 +1080,9 @@ class _InfoViewState extends State<InfoView> {
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppTheme.onSurfaceVariant,
-              height: 1.6,
-            ),
+          color: AppTheme.onSurfaceVariant,
+          height: 1.6,
+        ),
       ),
     );
   }
@@ -1012,19 +1095,15 @@ class _InfoViewState extends State<InfoView> {
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 8.0, right: 8.0),
-            child: Icon(
-              Icons.circle,
-              size: 6.0,
-              color: AppTheme.secondary,
-            ),
+            child: Icon(Icons.circle, size: 6.0, color: AppTheme.secondary),
           ),
           Expanded(
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.onSurfaceVariant,
-                    height: 1.5,
-                  ),
+                color: AppTheme.onSurfaceVariant,
+                height: 1.5,
+              ),
             ),
           ),
         ],
@@ -1032,13 +1111,20 @@ class _InfoViewState extends State<InfoView> {
     );
   }
 
-  Widget _buildAlertCard(BuildContext context, {required String title, required String content}) {
+  Widget _buildAlertCard(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24.0, top: 12.0),
       decoration: BoxDecoration(
         color: AppTheme.secondaryContainer.withOpacity(0.2),
         borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
-        border: Border.all(color: AppTheme.secondary.withOpacity(0.3), width: 1.0),
+        border: Border.all(
+          color: AppTheme.secondary.withOpacity(0.3),
+          width: 1.0,
+        ),
       ),
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -1051,9 +1137,9 @@ class _InfoViewState extends State<InfoView> {
               Text(
                 title,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppTheme.onSecondaryContainer,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: AppTheme.onSecondaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -1061,9 +1147,9 @@ class _InfoViewState extends State<InfoView> {
           Text(
             content,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.onSurfaceVariant,
-                  height: 1.5,
-                ),
+              color: AppTheme.onSurfaceVariant,
+              height: 1.5,
+            ),
           ),
         ],
       ),

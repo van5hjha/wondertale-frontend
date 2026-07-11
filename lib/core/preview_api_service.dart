@@ -8,7 +8,8 @@ class PreviewApiService {
   final CreatePreviewService _createService = CreatePreviewService();
   final StartPreviewService _startService = StartPreviewService();
   final PollPreviewService _pollService = PollPreviewService();
-  final RegeneratePreviewService _regenerateService = RegeneratePreviewService();
+  final RegeneratePreviewService _regenerateService =
+      RegeneratePreviewService();
 
   // Constructor preserved for compatibility
   PreviewApiService({String? baseUrl});
@@ -34,7 +35,6 @@ class PreviewApiService {
     );
   }
 
-
   /// 2. Start Preview Generation: Triggers Celery task in the backend.
   Future<void> startPreviewGeneration(String previewRequestId) {
     return _startService.startPreviewGeneration(previewRequestId);
@@ -47,6 +47,9 @@ class PreviewApiService {
 
   /// 4. Regenerate Preview Page: Triggers regeneration of a specific page.
   Future<void> regeneratePreviewPage(String previewRequestId, int pageNumber) {
-    return _regenerateService.regeneratePreviewPage(previewRequestId, pageNumber);
+    return _regenerateService.regeneratePreviewPage(
+      previewRequestId,
+      pageNumber,
+    );
   }
 }

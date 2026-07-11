@@ -24,7 +24,9 @@ class ReviewModel {
       location: json['location'] as String,
       quote: json['quote'] as String,
       rating: json['rating'] as int,
-      productId: json['product_id'] != null ? json['product_id'].toString() : null,
+      productId: json['product_id'] != null
+          ? json['product_id'].toString()
+          : null,
       userId: json['user_id'] != null ? json['user_id'].toString() : null,
     );
   }

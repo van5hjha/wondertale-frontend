@@ -17,7 +17,7 @@ int extractAge(String ageRange) {
   if (ageRange.contains('0-3')) return 2;
   if (ageRange.contains('4-6')) return 5;
   if (ageRange.contains('7-9')) return 8;
-  
+
   final match = RegExp(r'\d+').firstMatch(ageRange);
   if (match != null) {
     return int.tryParse(match.group(0)!) ?? 5;

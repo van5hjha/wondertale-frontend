@@ -46,18 +46,25 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
         });
       }
     } catch (e) {
-      debugPrint('Error fetching sliders from API: $e. Falling back to local assets.');
+      debugPrint(
+        'Error fetching sliders from API: $e. Falling back to local assets.',
+      );
       try {
-        final jsonString = await DefaultAssetBundle.of(context)
-            .loadString('assets/data/sliders.json');
+        final jsonString = await DefaultAssetBundle.of(
+          context,
+        ).loadString('assets/data/sliders.json');
         final List<dynamic> list = json.decode(jsonString);
-        final fallbackList = list.map((json) => SliderModel(
-          id: 0,
-          title: '',
-          beforeImageUrl: json['beforeImageUrl'] as String,
-          afterImageUrl: json['afterImageUrl'] as String,
-        )).toList();
-        
+        final fallbackList = list
+            .map(
+              (json) => SliderModel(
+                id: 0,
+                title: '',
+                beforeImageUrl: json['beforeImageUrl'] as String,
+                afterImageUrl: json['afterImageUrl'] as String,
+              ),
+            )
+            .toList();
+
         if (mounted) {
           setState(() {
             _slides = fallbackList;
@@ -74,7 +81,7 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
                 title: '',
                 beforeImageUrl: "assets/images/before_image.png",
                 afterImageUrl: "assets/images/after_image.jpg",
-              )
+              ),
             ];
             _isLoading = false;
           });
@@ -141,11 +148,7 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
                   ),
                 ],
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 24.0,
-              ),
+              child: Icon(icon, color: Colors.white, size: 24.0),
             ),
           ),
         ),
@@ -165,7 +168,9 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
           height: 8.0,
           width: isActive ? 24.0 : 8.0,
           decoration: BoxDecoration(
-            color: isActive ? AppTheme.secondary : Colors.white.withOpacity(0.5),
+            color: isActive
+                ? AppTheme.secondary
+                : Colors.white.withOpacity(0.5),
             borderRadius: BorderRadius.circular(4.0),
             boxShadow: isActive
                 ? [
@@ -173,7 +178,7 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
                       color: Color(0x33A258F3),
                       blurRadius: 4.0,
                       spreadRadius: 1.0,
-                    )
+                    ),
                   ]
                 : null,
           ),
@@ -216,7 +221,8 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
                   switchInCurve: Curves.easeInOutCubic,
                   switchOutCurve: Curves.easeInOutCubic,
                   transitionBuilder: (child, animation) {
-                    final isIncoming = child.key == ValueKey<int>(_currentIndex);
+                    final isIncoming =
+                        child.key == ValueKey<int>(_currentIndex);
                     Offset beginOffset;
                     if (isIncoming) {
                       beginOffset = _movingForward

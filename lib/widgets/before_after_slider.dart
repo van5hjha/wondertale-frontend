@@ -18,7 +18,8 @@ class BeforeAfterSlider extends StatefulWidget {
   State<BeforeAfterSlider> createState() => _BeforeAfterSliderState();
 }
 
-class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProviderStateMixin {
+class _BeforeAfterSliderState extends State<BeforeAfterSlider>
+    with TickerProviderStateMixin {
   double _percent = 0.5; // Starts at 50% split
   AnimationController? _controller;
   AnimationController? _sparkleController;
@@ -113,11 +114,17 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
     return AnimatedBuilder(
       animation: _sparkleController!,
       builder: (context, child) {
-        final rotationValue = (_sparkleController!.value * 2 * pi) + phaseOffset;
-        final scaleValue = 0.8 + 0.2 * sin((_sparkleController!.value * 2 * pi) + phaseOffset * 4);
-        
+        final rotationValue =
+            (_sparkleController!.value * 2 * pi) + phaseOffset;
+        final scaleValue =
+            0.8 +
+            0.2 * sin((_sparkleController!.value * 2 * pi) + phaseOffset * 4);
+
         return Transform.translate(
-          offset: Offset(0, 3.0 * cos((_sparkleController!.value * 2 * pi) + phaseOffset * 2)),
+          offset: Offset(
+            0,
+            3.0 * cos((_sparkleController!.value * 2 * pi) + phaseOffset * 2),
+          ),
           child: Transform.rotate(
             angle: rotationValue,
             child: Transform.scale(
@@ -131,10 +138,7 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                     color: const Color(0xFFFFD54F).withOpacity(0.8),
                     blurRadius: 14.0,
                   ),
-                  Shadow(
-                    color: Colors.white,
-                    blurRadius: 4.0,
-                  ),
+                  Shadow(color: Colors.white, blurRadius: 4.0),
                 ],
               ),
             ),
@@ -187,11 +191,7 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                 child: Stack(
                   children: [
                     // 1. Base "After" Image (Magical Art) - Right side background
-                    Positioned.fill(
-                      child: _buildImage(
-                        widget.afterImageUrl,
-                      ),
-                    ),
+                    Positioned.fill(child: _buildImage(widget.afterImageUrl)),
 
                     // 2. Feather-Blended "Before" Image (Real Photo)
                     Positioned.fill(
@@ -206,9 +206,7 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                           ).createShader(rect);
                         },
                         blendMode: BlendMode.dstIn,
-                        child: _buildImage(
-                          widget.beforeImageUrl,
-                        ),
+                        child: _buildImage(widget.beforeImageUrl),
                       ),
                     ),
 
@@ -249,7 +247,9 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                       bottom: 16.0,
                       left: 16.0,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusFull,
+                        ),
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                           child: Container(
@@ -260,7 +260,8 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                             ),
                             child: Text(
                               'Real Photo',
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
                                     color: AppTheme.primary,
                                     fontSize: 13.0,
                                     fontWeight: FontWeight.w600,
@@ -276,7 +277,9 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                       bottom: 16.0,
                       right: 16.0,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusFull,
+                        ),
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                           child: Container(
@@ -287,7 +290,8 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                             ),
                             child: Text(
                               'Magic Art',
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(
                                     color: AppTheme.onPrimary,
                                     fontSize: 13.0,
                                     fontWeight: FontWeight.w600,
@@ -302,7 +306,9 @@ class _BeforeAfterSliderState extends State<BeforeAfterSlider> with TickerProvid
                       child: IgnorePointer(
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppConstants.radiusCard),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusCard,
+                            ),
                             border: Border.all(color: Colors.white, width: 4.0),
                           ),
                         ),

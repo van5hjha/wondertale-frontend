@@ -36,10 +36,10 @@ class _MagneticHoverButtonState extends State<MagneticHoverButton> {
           final size = renderBox.size;
           final centerX = size.width / 2;
           final centerY = size.height / 2;
-          
+
           final localX = event.localPosition.dx;
           final localY = event.localPosition.dy;
-          
+
           setState(() {
             // Apply a slight delay factor or standard magnetic factor
             _x = (localX - centerX) * 0.15;
@@ -53,7 +53,13 @@ class _MagneticHoverButtonState extends State<MagneticHoverButton> {
           duration: Duration(milliseconds: _isHovered ? 50 : 250),
           curve: Curves.easeOutCubic,
           transform: Matrix4.translationValues(_x, _y, 0.0)
-            ..multiply(Matrix4.diagonal3Values(_isHovered ? 1.05 : 1.0, _isHovered ? 1.05 : 1.0, 1.0)),
+            ..multiply(
+              Matrix4.diagonal3Values(
+                _isHovered ? 1.05 : 1.0,
+                _isHovered ? 1.05 : 1.0,
+                1.0,
+              ),
+            ),
           child: widget.child,
         ),
       ),
@@ -69,7 +75,8 @@ class BouncingBadge extends StatefulWidget {
   State<BouncingBadge> createState() => _BouncingBadgeState();
 }
 
-class _BouncingBadgeState extends State<BouncingBadge> with SingleTickerProviderStateMixin {
+class _BouncingBadgeState extends State<BouncingBadge>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -93,10 +100,7 @@ class _BouncingBadgeState extends State<BouncingBadge> with SingleTickerProvider
       position: Tween<Offset>(
         begin: Offset.zero,
         end: const Offset(0.0, -0.25),
-      ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      )),
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
         decoration: BoxDecoration(
@@ -132,7 +136,8 @@ class PulsingSparkle extends StatefulWidget {
   State<PulsingSparkle> createState() => _PulsingSparkleState();
 }
 
-class _PulsingSparkleState extends State<PulsingSparkle> with SingleTickerProviderStateMixin {
+class _PulsingSparkleState extends State<PulsingSparkle>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -153,18 +158,15 @@ class _PulsingSparkleState extends State<PulsingSparkle> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: Tween<double>(begin: 0.8, end: 1.2).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-      ),
+      scale: Tween<double>(
+        begin: 0.8,
+        end: 1.2,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut)),
       child: FadeTransition(
         opacity: Tween<double>(begin: 0.6, end: 1.0).animate(
           CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
         ),
-        child: Icon(
-          Icons.auto_awesome,
-          color: widget.color,
-          size: 18.0,
-        ),
+        child: Icon(Icons.auto_awesome, color: widget.color, size: 18.0),
       ),
     );
   }

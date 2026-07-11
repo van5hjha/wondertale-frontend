@@ -85,7 +85,9 @@ class _PreviewViewState extends State<PreviewView> {
     if (address.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚠️ Please enter your shipping address to finalize the order.'),
+          content: Text(
+            '⚠️ Please enter your shipping address to finalize the order.',
+          ),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -151,7 +153,8 @@ class _PreviewViewState extends State<PreviewView> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        final orderId = 'ST-${DateTime.now().year}-${1000 + math.Random().nextInt(9000)}';
+        final orderId =
+            'ST-${DateTime.now().year}-${1000 + math.Random().nextInt(9000)}';
         return AlertDialog(
           backgroundColor: AppTheme.surface,
           shape: RoundedRectangleBorder(
@@ -207,7 +210,8 @@ class _PreviewViewState extends State<PreviewView> {
       extendBodyBehindAppBar: true,
       appBar: NavBar(
         activeIndex: -1, // No active section highlight
-        onHomeTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+        onHomeTap: () =>
+            Navigator.of(context).popUntil((route) => route.isFirst),
         onExploreStoriesTap: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
@@ -218,24 +222,23 @@ class _PreviewViewState extends State<PreviewView> {
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
         onCreatePreviewTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const ProductsView(),
-            ),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const ProductsView()));
         },
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 120.0), // Spacer for navbar
-
             // Book Section at the top
             Center(
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 1000.0),
                 padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? AppConstants.gutter : AppConstants.mobileMargin,
+                  horizontal: isTablet
+                      ? AppConstants.gutter
+                      : AppConstants.mobileMargin,
                   vertical: 24.0,
                 ),
                 child: Column(
@@ -303,9 +306,14 @@ class _PreviewViewState extends State<PreviewView> {
                         Container(
                           decoration: BoxDecoration(
                             color: AppTheme.surfaceContainer,
-                            borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusFull,
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 8.0,
+                          ),
                           child: Text(
                             isMobile
                                 ? "Page ${_currentSpreadIndex + 1} of ${math.max(1, _pageUrls.length)}"
@@ -325,8 +333,12 @@ class _PreviewViewState extends State<PreviewView> {
                           cursor: SystemMouseCursors.click,
                           child: GestureDetector(
                             onTap: () {
-                              final totalSpreads = math.max(1, (_pageUrls.length / 2).ceil());
-                              final canGoForward = _currentSpreadIndex < totalSpreads - 1;
+                              final totalSpreads = math.max(
+                                1,
+                                (_pageUrls.length / 2).ceil(),
+                              );
+                              final canGoForward =
+                                  _currentSpreadIndex < totalSpreads - 1;
                               if (canGoForward) {
                                 _bookKey.currentState?.flipForward();
                               }
@@ -338,7 +350,13 @@ class _PreviewViewState extends State<PreviewView> {
                                   style: GoogleFonts.plusJakartaSans(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13.0,
-                                    color: (_currentSpreadIndex < math.max(1, (_pageUrls.length / 2).ceil()) - 1)
+                                    color:
+                                        (_currentSpreadIndex <
+                                            math.max(
+                                                  1,
+                                                  (_pageUrls.length / 2).ceil(),
+                                                ) -
+                                                1)
                                         ? AppTheme.primary
                                         : AppTheme.outlineVariant,
                                   ),
@@ -346,7 +364,13 @@ class _PreviewViewState extends State<PreviewView> {
                                 const SizedBox(width: 4.0),
                                 Icon(
                                   Icons.chevron_right,
-                                  color: (_currentSpreadIndex < math.max(1, (_pageUrls.length / 2).ceil()) - 1)
+                                  color:
+                                      (_currentSpreadIndex <
+                                          math.max(
+                                                1,
+                                                (_pageUrls.length / 2).ceil(),
+                                              ) -
+                                              1)
                                       ? AppTheme.secondary
                                       : AppTheme.outlineVariant,
                                 ),
@@ -366,9 +390,13 @@ class _PreviewViewState extends State<PreviewView> {
             // Checkout Section (Split Grid)
             Center(
               child: Container(
-                constraints: const BoxConstraints(maxWidth: AppConstants.maxContainerWidth),
+                constraints: const BoxConstraints(
+                  maxWidth: AppConstants.maxContainerWidth,
+                ),
                 padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? AppConstants.gutter : AppConstants.mobileMargin,
+                  horizontal: isTablet
+                      ? AppConstants.gutter
+                      : AppConstants.mobileMargin,
                 ),
                 child: isDesktop
                     ? Row(
@@ -461,7 +489,10 @@ class _PreviewViewState extends State<PreviewView> {
           decoration: BoxDecoration(
             color: AppTheme.secondaryContainer.withOpacity(0.08),
             borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-            border: Border.all(color: AppTheme.secondary.withOpacity(0.3), width: 1.5),
+            border: Border.all(
+              color: AppTheme.secondary.withOpacity(0.3),
+              width: 1.5,
+            ),
           ),
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -510,7 +541,9 @@ class _PreviewViewState extends State<PreviewView> {
                 border: Border.all(
                   color: _addStickers
                       ? AppTheme.secondary
-                      : (_isStickersHovered ? AppTheme.secondary.withOpacity(0.5) : AppTheme.outlineVariant),
+                      : (_isStickersHovered
+                            ? AppTheme.secondary.withOpacity(0.5)
+                            : AppTheme.outlineVariant),
                   width: 2.0,
                 ),
               ),
@@ -524,10 +557,14 @@ class _PreviewViewState extends State<PreviewView> {
                         width: 24.0,
                         height: 24.0,
                         decoration: BoxDecoration(
-                          color: _addStickers ? AppTheme.secondary : Colors.transparent,
+                          color: _addStickers
+                              ? AppTheme.secondary
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
-                            color: _addStickers ? AppTheme.secondary : AppTheme.outlineVariant,
+                            color: _addStickers
+                                ? AppTheme.secondary
+                                : AppTheme.outlineVariant,
                             width: 2.0,
                           ),
                         ),
@@ -586,7 +623,9 @@ class _PreviewViewState extends State<PreviewView> {
                 border: Border.all(
                   color: _addPdf
                       ? AppTheme.secondary
-                      : (_isPdfHovered ? AppTheme.secondary.withOpacity(0.5) : AppTheme.outlineVariant),
+                      : (_isPdfHovered
+                            ? AppTheme.secondary.withOpacity(0.5)
+                            : AppTheme.outlineVariant),
                   width: 2.0,
                 ),
               ),
@@ -600,10 +639,14 @@ class _PreviewViewState extends State<PreviewView> {
                         width: 24.0,
                         height: 24.0,
                         decoration: BoxDecoration(
-                          color: _addPdf ? AppTheme.secondary : Colors.transparent,
+                          color: _addPdf
+                              ? AppTheme.secondary
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(6.0),
                           border: Border.all(
-                            color: _addPdf ? AppTheme.secondary : AppTheme.outlineVariant,
+                            color: _addPdf
+                                ? AppTheme.secondary
+                                : AppTheme.outlineVariant,
                             width: 2.0,
                           ),
                         ),
@@ -659,8 +702,13 @@ class _PreviewViewState extends State<PreviewView> {
           style: GoogleFonts.plusJakartaSans(color: AppTheme.primary),
           decoration: InputDecoration(
             hintText: 'Enter your delivery address...',
-            hintStyle: GoogleFonts.plusJakartaSans(color: AppTheme.outlineVariant),
-            prefixIcon: const Icon(Icons.local_shipping, color: AppTheme.secondary),
+            hintStyle: GoogleFonts.plusJakartaSans(
+              color: AppTheme.outlineVariant,
+            ),
+            prefixIcon: const Icon(
+              Icons.local_shipping,
+              color: AppTheme.secondary,
+            ),
             filled: true,
             fillColor: AppTheme.surfaceContainerLow,
             contentPadding: const EdgeInsets.all(20.0),
@@ -670,7 +718,10 @@ class _PreviewViewState extends State<PreviewView> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-              borderSide: const BorderSide(color: AppTheme.secondary, width: 2.0),
+              borderSide: const BorderSide(
+                color: AppTheme.secondary,
+                width: 2.0,
+              ),
             ),
           ),
         ),
@@ -763,7 +814,11 @@ class _PreviewViewState extends State<PreviewView> {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      const Icon(Icons.rocket_launch, color: Colors.white, size: 18.0),
+                      const Icon(
+                        Icons.rocket_launch,
+                        color: Colors.white,
+                        size: 18.0,
+                      ),
                     ],
                   ),
                 ),
@@ -791,11 +846,31 @@ class _PreviewViewState extends State<PreviewView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.credit_card, color: AppTheme.primary.withOpacity(0.6), size: 28.0),
-              Container(width: 1.0, height: 20.0, color: AppTheme.outlineVariant),
-              Icon(Icons.account_balance, color: AppTheme.primary.withOpacity(0.6), size: 28.0),
-              Container(width: 1.0, height: 20.0, color: AppTheme.outlineVariant),
-              Icon(Icons.contactless, color: AppTheme.primary.withOpacity(0.6), size: 28.0),
+              Icon(
+                Icons.credit_card,
+                color: AppTheme.primary.withOpacity(0.6),
+                size: 28.0,
+              ),
+              Container(
+                width: 1.0,
+                height: 20.0,
+                color: AppTheme.outlineVariant,
+              ),
+              Icon(
+                Icons.account_balance,
+                color: AppTheme.primary.withOpacity(0.6),
+                size: 28.0,
+              ),
+              Container(
+                width: 1.0,
+                height: 20.0,
+                color: AppTheme.outlineVariant,
+              ),
+              Icon(
+                Icons.contactless,
+                color: AppTheme.primary.withOpacity(0.6),
+                size: 28.0,
+              ),
             ],
           ),
 
@@ -814,7 +889,11 @@ class _PreviewViewState extends State<PreviewView> {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(top: 2.0),
-                  child: Icon(Icons.verified_user, color: AppTheme.secondary, size: 16.0),
+                  child: Icon(
+                    Icons.verified_user,
+                    color: AppTheme.secondary,
+                    size: 16.0,
+                  ),
                 ),
                 const SizedBox(width: 12.0),
                 Expanded(
@@ -835,7 +914,11 @@ class _PreviewViewState extends State<PreviewView> {
     );
   }
 
-  Widget _buildBookFormatSelectionCard(String format, int price, String description) {
+  Widget _buildBookFormatSelectionCard(
+    String format,
+    int price,
+    String description,
+  ) {
     final isSelected = _selectedBookType == format;
     return GestureDetector(
       onTap: () {
@@ -848,7 +931,9 @@ class _PreviewViewState extends State<PreviewView> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
-            color: isSelected ? AppTheme.secondaryContainer.withOpacity(0.15) : Colors.white,
+            color: isSelected
+                ? AppTheme.secondaryContainer.withOpacity(0.15)
+                : Colors.white,
             borderRadius: BorderRadius.circular(AppConstants.radiusMd),
             border: Border.all(
               color: isSelected ? AppTheme.secondary : AppTheme.outlineVariant,
@@ -876,10 +961,14 @@ class _PreviewViewState extends State<PreviewView> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: isSelected ? AppTheme.secondary : AppTheme.outlineVariant,
+                        color: isSelected
+                            ? AppTheme.secondary
+                            : AppTheme.outlineVariant,
                         width: 2.0,
                       ),
-                      color: isSelected ? AppTheme.secondary : Colors.transparent,
+                      color: isSelected
+                          ? AppTheme.secondary
+                          : Colors.transparent,
                     ),
                     child: isSelected
                         ? const Icon(

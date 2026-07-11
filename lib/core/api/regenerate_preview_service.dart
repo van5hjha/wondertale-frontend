@@ -4,8 +4,13 @@ import 'api_utils.dart';
 
 class RegeneratePreviewService {
   /// Calls `POST /api/previews/<id>/regenerate/<page_number>/` to trigger page regeneration.
-  Future<void> regeneratePreviewPage(String previewRequestId, int pageNumber) async {
-    final url = Uri.parse('${ApiConfig.baseUrl}/api/previews/$previewRequestId/regenerate/$pageNumber/');
+  Future<void> regeneratePreviewPage(
+    String previewRequestId,
+    int pageNumber,
+  ) async {
+    final url = Uri.parse(
+      '${ApiConfig.baseUrl}/api/previews/$previewRequestId/regenerate/$pageNumber/',
+    );
     final response = await http.post(url);
 
     if (response.statusCode != 200) {

@@ -8,7 +8,8 @@ class StardustParticles extends StatefulWidget {
   State<StardustParticles> createState() => _StardustParticlesState();
 }
 
-class _StardustParticlesState extends State<StardustParticles> with SingleTickerProviderStateMixin {
+class _StardustParticlesState extends State<StardustParticles>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   final List<StardustParticle> _particles = [];
   final Random _random = Random();
@@ -51,9 +52,7 @@ class _StardustParticlesState extends State<StardustParticles> with SingleTicker
             for (final particle in _particles) {
               particle.update(size);
             }
-            return CustomPaint(
-              painter: StardustPainter(particles: _particles),
-            );
+            return CustomPaint(painter: StardustPainter(particles: _particles));
           },
         );
       },
@@ -83,7 +82,7 @@ class StardustParticle {
     speedX = (random.nextDouble() - 0.5) * 0.3;
     speedY = (random.nextDouble() - 0.5) * 0.3;
     alpha = random.nextDouble() * 0.5 + 0.1;
-    
+
     final colorVal = random.nextDouble();
     if (colorVal > 0.6) {
       color = const Color(0xFFA258F3); // magic lilac
@@ -92,7 +91,7 @@ class StardustParticle {
     } else {
       color = Colors.white;
     }
-    
+
     twinkleSpeed = random.nextDouble() * 0.01 + 0.005;
   }
 

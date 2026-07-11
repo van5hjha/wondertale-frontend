@@ -6,8 +6,12 @@ import 'api_utils.dart';
 class PollPreviewService {
   /// Calls `GET /api/previews/<id>/status/` to poll for completion.
   /// Returns a map with 'status' (String) and 'pages' (List<String> of URLs).
-  Future<Map<String, dynamic>> pollPreviewStatus(String previewRequestId) async {
-    final url = Uri.parse('${ApiConfig.baseUrl}/api/previews/$previewRequestId/status/');
+  Future<Map<String, dynamic>> pollPreviewStatus(
+    String previewRequestId,
+  ) async {
+    final url = Uri.parse(
+      '${ApiConfig.baseUrl}/api/previews/$previewRequestId/status/',
+    );
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -22,10 +26,7 @@ class PollPreviewService {
         }
       }
 
-      return {
-        'status': status,
-        'pages': imageUrls,
-      };
+      return {'status': status, 'pages': imageUrls};
     } else {
       final errorMsg = parseError(response.body);
       throw Exception('Failed to check preview status: $errorMsg');

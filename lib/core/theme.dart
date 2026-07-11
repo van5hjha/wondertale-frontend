@@ -11,23 +11,23 @@ class AppTheme {
   static const Color surfaceContainer = Color(0xFFEFEEEB);
   static const Color surfaceContainerHigh = Color(0xFFEAE8E5);
   static const Color surfaceContainerHighest = Color(0xFFE4E2DF);
-  
+
   static const Color onSurface = Color(0xFF110F2D);
   static const Color onSurfaceVariant = Color(0xFF47464D);
-  
+
   static const Color outline = Color(0xFF78767E);
   static const Color outlineVariant = Color(0xFFC9C5CE);
-  
+
   static const Color primary = Color(0xFF110F2D); // Indigo Night
   static const Color onPrimary = Color(0xFFFFFFFF);
   static const Color primaryContainer = Color(0xFF1A1833);
   static const Color onPrimaryContainer = Color(0xFF8480A0);
-  
+
   static const Color secondary = Color(0xFFA258F3); // Magic Lilac
   static const Color onSecondary = Color(0xFFFFFFFF);
   static const Color secondaryContainer = Color(0xFFF1DAFF);
   static const Color onSecondaryContainer = Color(0xFF2D004F);
-  
+
   static const Color tertiary = Color(0xFFFF9933); // Sunset Gold
   static const Color onTertiary = Color(0xFFFFFFFF);
   static const Color tertiaryContainer = Color(0xFF2F1500);
@@ -35,12 +35,14 @@ class AppTheme {
 
   static const Color error = Color(0xFFBA1A1A);
   static const Color onError = Color(0xFFFFFFFF);
-  
+
   static const Color shadowColor = Color(0x0D110F2D); // 5% opacity of primary
 
   // Magic button linear gradient or solid color
-  static const Color magicButtonColor = Color(0xFFB159F7); // HSL 275, 85%, 65% is approx #B352F7
-  
+  static const Color magicButtonColor = Color(
+    0xFFB159F7,
+  ); // HSL 275, 85%, 65% is approx #B352F7
+
   static ThemeData get lightTheme {
     final baseTextTheme = GoogleFonts.plusJakartaSansTextTheme();
 

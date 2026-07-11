@@ -40,7 +40,8 @@ class BookWidget extends StatefulWidget {
   State<BookWidget> createState() => BookWidgetState();
 }
 
-class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMixin {
+class BookWidgetState extends State<BookWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   FlipDirection _direction = FlipDirection.none;
   late int _currentIndex;
@@ -61,14 +62,16 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
       duration: const Duration(milliseconds: 700),
     );
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed && _direction == FlipDirection.forward) {
+      if (status == AnimationStatus.completed &&
+          _direction == FlipDirection.forward) {
         setState(() {
           _currentIndex += 1;
           _direction = FlipDirection.none;
           _controller.reset();
         });
         widget.onPageChanged?.call(_currentIndex);
-      } else if (status == AnimationStatus.dismissed && _direction == FlipDirection.backward) {
+      } else if (status == AnimationStatus.dismissed &&
+          _direction == FlipDirection.backward) {
         setState(() {
           _currentIndex -= 1;
           _direction = FlipDirection.none;
@@ -96,11 +99,14 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
     super.dispose();
   }
 
-  int get currentPageNumber => _currentIndex * 2 + 1; // e.g. Spread 0 is page 1 & 2
+  int get currentPageNumber =>
+      _currentIndex * 2 + 1; // e.g. Spread 0 is page 1 & 2
   int get totalPages => _totalSpreads * 2;
 
-  bool get canFlipForward => _currentIndex < _totalSpreads - 1 && _direction == FlipDirection.none;
-  bool get canFlipBackward => _currentIndex > 0 && _direction == FlipDirection.none;
+  bool get canFlipForward =>
+      _currentIndex < _totalSpreads - 1 && _direction == FlipDirection.none;
+  bool get canFlipBackward =>
+      _currentIndex > 0 && _direction == FlipDirection.none;
 
   void flipForward() {
     if (!canFlipForward) return;
@@ -139,7 +145,8 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
       was = "was";
       isStr = "is";
       s = "s";
-    } else if (genderLower.contains("girl") || genderLower.contains("she/her")) {
+    } else if (genderLower.contains("girl") ||
+        genderLower.contains("she/her")) {
       he = "she";
       him = "her";
       his = "her";
@@ -181,48 +188,58 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
       final templates = [
         {
           "title": "Chapter 1: The Spark of Adventure",
-          "body": "\"{name} peered through the telescope, eyes wide with wonder. Tonight, the stardust stars {was} calling, and a glowing rocket stood ready for a journey beyond the Milky Way...\""
+          "body":
+              "\"{name} peered through the telescope, eyes wide with wonder. Tonight, the stardust stars {was} calling, and a glowing rocket stood ready for a journey beyond the Milky Way...\"",
         },
         {
           "title": "Chapter 2: Into the Cosmic Swirl",
-          "body": "\"With a soft hum, the engines ignited! {he} soared past swirling nebulas of purple and blue, feeling weightless, painting the dark sky with {his} glittering stardust paths...\""
+          "body":
+              "\"With a soft hum, the engines ignited! {he} soared past swirling nebulas of purple and blue, feeling weightless, painting the dark sky with {his} glittering stardust paths...\"",
         },
         {
           "title": "Chapter 3: Stardust Tea Party",
-          "body": "\"On a friendly, floating asteroid, space bunnies served liquid starlight tea. {name} giggled as star-cookies floated around {him}, catching them in mid-air...\""
+          "body":
+              "\"On a friendly, floating asteroid, space bunnies served liquid starlight tea. {name} giggled as star-cookies floated around {him}, catching them in mid-air...\"",
         },
         {
           "title": "Chapter 4: Saturn's Lullaby",
-          "body": "\"{he} soared past the rings of Saturn, looking for the lost star-cookies that had floated away during the great asteroid tea party. Every swirl of space dust hummed a gentle lullaby...\""
+          "body":
+              "\"{he} soared past the rings of Saturn, looking for the lost star-cookies that had floated away during the great asteroid tea party. Every swirl of space dust hummed a gentle lullaby...\"",
         },
         {
           "title": "Chapter 5: Finding the Stardust Star",
-          "body": "\"Finally, the legendary Stardust Star appeared, wrapping {name} in a warm, sleepy glow. With a heart full of stardust memories, it {was} time to drift back home to bed...\""
-        }
+          "body":
+              "\"Finally, the legendary Stardust Star appeared, wrapping {name} in a warm, sleepy glow. With a heart full of stardust memories, it {was} time to drift back home to bed...\"",
+        },
       ];
       return templates[index];
     } else if (prodId == 'jurassic-friend') {
       final templates = [
         {
           "title": "Chapter 1: The Secret Valley",
-          "body": "\"{name} stepped through the tall ferns, holding {his} wooden magnifying glass. A giant footprint on the ground suggested a friendly giant {was} nearby...\""
+          "body":
+              "\"{name} stepped through the tall ferns, holding {his} wooden magnifying glass. A giant footprint on the ground suggested a friendly giant {was} nearby...\"",
         },
         {
           "title": "Chapter 2: Hello Bronty!",
-          "body": "\"Poking out from behind a canopy of leaves {was} a very long neck. A gentle Brontosaurus looked down and offered {him} a sweet, leafy snack with a soft nudge...\""
+          "body":
+              "\"Poking out from behind a canopy of leaves {was} a very long neck. A gentle Brontosaurus looked down and offered {him} a sweet, leafy snack with a soft nudge...\"",
         },
         {
           "title": "Chapter 3: Dino Tag",
-          "body": "\"Small, colorful raptors zipped through the flowers. {name} laughed, playing a game of tag, running under the warm prehistoric sun...\""
+          "body":
+              "\"Small, colorful raptors zipped through the flowers. {name} laughed, playing a game of tag, running under the warm prehistoric sun...\"",
         },
         {
           "title": "Chapter 4: Sky High Glide",
-          "body": "\"A friendly Pterodactyl swept down, inviting {name} for a ride. Together {he} soared over the sparkling rivers, watching the valley glow below...\""
+          "body":
+              "\"A friendly Pterodactyl swept down, inviting {name} for a ride. Together {he} soared over the sparkling rivers, watching the valley glow below...\"",
         },
         {
           "title": "Chapter 5: Sleepy Giants",
-          "body": "\"As the volcano blew gentle smoke rings in the orange twilight, the valley settled. {name} snuggled close to Bronty, safe and warm under the starlit canopy...\""
-        }
+          "body":
+              "\"As the volcano blew gentle smoke rings in the orange twilight, the valley settled. {name} snuggled close to Bronty, safe and warm under the starlit canopy...\"",
+        },
       ];
       return templates[index];
     } else {
@@ -230,24 +247,29 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
       final templates = [
         {
           "title": "Chapter 1: Into the Wild",
-          "body": "\"{name} climbed aboard the green safari jeep, wearing {his} tiny explorer hat. The binoculars showed a path leading deep into the golden savannah...\""
+          "body":
+              "\"{name} climbed aboard the green safari jeep, wearing {his} tiny explorer hat. The binoculars showed a path leading deep into the golden savannah...\"",
         },
         {
           "title": "Chapter 2: Watering Hole Wonders",
-          "body": "\"At the blue lake, baby elephants splashed water in the air. {name} waved as a tall giraffe bent down to drink, its spots shimmering in the sun...\""
+          "body":
+              "\"At the blue lake, baby elephants splashed water in the air. {name} waved as a tall giraffe bent down to drink, its spots shimmering in the sun...\"",
         },
         {
           "title": "Chapter 3: The Golden Whispers",
-          "body": "\"Rustling leaves in the acacia tree revealed a family of playful monkeys. They tossed a sweet mango to {him}, chatter filling the air...\""
+          "body":
+              "\"Rustling leaves in the acacia tree revealed a family of playful monkeys. They tossed a sweet mango to {him}, chatter filling the air...\"",
         },
         {
           "title": "Chapter 4: The Lion's Pride",
-          "body": "\"{name} spotted the majestic Golden Lion resting on a warm rock. The lion gave a gentle, friendly yawn, welcoming the brave little explorer to the pride...\""
+          "body":
+              "\"{name} spotted the majestic Golden Lion resting on a warm rock. The lion gave a gentle, friendly yawn, welcoming the brave little explorer to the pride...\"",
         },
         {
           "title": "Chapter 5: Sunset Serenade",
-          "body": "\"The sun dipped low, turning the safari sky into a canvas of pink and gold. {he} fell asleep in the jeep, listening to the crickets hum {his} bedtime song...\""
-        }
+          "body":
+              "\"The sun dipped low, turning the safari sky into a canvas of pink and gold. {he} fell asleep in the jeep, listening to the crickets hum {his} bedtime song...\"",
+        },
       ];
       return templates[index];
     }
@@ -258,7 +280,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
     if (pageIndex >= _pageUrls.length) return null;
 
     final isLeft = pageIndex % 2 == 0;
-    
+
     return Positioned(
       top: 24.0,
       left: 0,
@@ -271,7 +293,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
             child: GestureDetector(
               onTap: () => _regeneratePage(pageIndex),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [AppTheme.primary, AppTheme.secondary],
@@ -332,7 +357,9 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                     width: 32.0,
                     height: 32.0,
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.secondary),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppTheme.secondary,
+                      ),
                       strokeWidth: 3.0,
                     ),
                   ),
@@ -365,7 +392,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
   Future<void> _regeneratePage(int pageIndex) async {
     final requestId = widget.previewRequestId;
     if (requestId == null) return;
-    
+
     final pageNumber = pageIndex + 1;
 
     setState(() {
@@ -377,41 +404,47 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
 
       _pollingTimers[pageIndex]?.cancel();
 
-      _pollingTimers[pageIndex] = Timer.periodic(const Duration(milliseconds: 2500), (timer) async {
-        try {
-          final result = await _previewApiService.pollPreviewStatus(requestId);
-          final status = result['status'] as String;
-          final List<String> pages = List<String>.from(result['pages'] ?? []);
+      _pollingTimers[pageIndex] = Timer.periodic(
+        const Duration(milliseconds: 2500),
+        (timer) async {
+          try {
+            final result = await _previewApiService.pollPreviewStatus(
+              requestId,
+            );
+            final status = result['status'] as String;
+            final List<String> pages = List<String>.from(result['pages'] ?? []);
 
-          if (status == 'completed' || status == 'failed') {
-            timer.cancel();
-            _pollingTimers[pageIndex] = null;
+            if (status == 'completed' || status == 'failed') {
+              timer.cancel();
+              _pollingTimers[pageIndex] = null;
 
-            if (status == 'completed' && pages.length > pageIndex) {
-              setState(() {
-                final rawUrl = pages[pageIndex];
-                final separator = rawUrl.contains('?') ? '&' : '?';
-                _pageUrls[pageIndex] = '$rawUrl${separator}t=${DateTime.now().millisecondsSinceEpoch}';
-                _loadingPages[pageIndex] = false;
-              });
-            } else {
-              setState(() {
-                _loadingPages[pageIndex] = false;
-              });
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('⚠️ Illustration regeneration failed.'),
-                    backgroundColor: AppTheme.error,
-                  ),
-                );
+              if (status == 'completed' && pages.length > pageIndex) {
+                setState(() {
+                  final rawUrl = pages[pageIndex];
+                  final separator = rawUrl.contains('?') ? '&' : '?';
+                  _pageUrls[pageIndex] =
+                      '$rawUrl${separator}t=${DateTime.now().millisecondsSinceEpoch}';
+                  _loadingPages[pageIndex] = false;
+                });
+              } else {
+                setState(() {
+                  _loadingPages[pageIndex] = false;
+                });
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('⚠️ Illustration regeneration failed.'),
+                      backgroundColor: AppTheme.error,
+                    ),
+                  );
+                }
               }
             }
+          } catch (e) {
+            debugPrint('Error polling regeneration status: $e');
           }
-        } catch (e) {
-          debugPrint('Error polling regeneration status: $e');
-        }
-      });
+        },
+      );
     } catch (e) {
       debugPrint('Error initiating regeneration: $e');
       setState(() {
@@ -451,7 +484,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: AppTheme.surfaceContainerLow,
-                    child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                    child: const Icon(
+                      Icons.broken_image,
+                      color: AppTheme.outline,
+                    ),
                   ),
                 )
               : Image.asset(
@@ -459,7 +495,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: AppTheme.surfaceContainerLow,
-                    child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                    child: const Icon(
+                      Icons.broken_image,
+                      color: AppTheme.outline,
+                    ),
                   ),
                 ),
           // Gradient overlay for visual magic/premium feel
@@ -468,10 +507,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-                colors: [
-                  Colors.black.withOpacity(0.35),
-                  Colors.transparent,
-                ],
+                colors: [Colors.black.withOpacity(0.35), Colors.transparent],
               ),
             ),
           ),
@@ -486,10 +522,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 gradient: LinearGradient(
                   begin: Alignment.centerRight,
                   end: Alignment.centerLeft,
-                  colors: [
-                    Colors.black.withOpacity(0.08),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.black.withOpacity(0.08), Colors.transparent],
                 ),
               ),
             ),
@@ -504,7 +537,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
                 border: Border.all(color: Colors.white.withOpacity(0.2)),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 6.0,
+              ),
               child: Text(
                 "ILLUSTRATION PREVIEW",
                 style: GoogleFonts.plusJakartaSans(
@@ -553,7 +589,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: AppTheme.surfaceContainerLow,
-                    child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                    child: const Icon(
+                      Icons.broken_image,
+                      color: AppTheme.outline,
+                    ),
                   ),
                 )
               : Image.asset(
@@ -561,7 +600,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: AppTheme.surfaceContainerLow,
-                    child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                    child: const Icon(
+                      Icons.broken_image,
+                      color: AppTheme.outline,
+                    ),
                   ),
                 ),
           // Gradient overlay for visual magic/premium feel
@@ -570,10 +612,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-                colors: [
-                  Colors.black.withOpacity(0.35),
-                  Colors.transparent,
-                ],
+                colors: [Colors.black.withOpacity(0.35), Colors.transparent],
               ),
             ),
           ),
@@ -588,10 +627,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [
-                    Colors.black.withOpacity(0.08),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.black.withOpacity(0.08), Colors.transparent],
                 ),
               ),
             ),
@@ -606,7 +642,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
                 border: Border.all(color: Colors.white.withOpacity(0.2)),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 6.0,
+              ),
               child: Text(
                 "ILLUSTRATION PREVIEW",
                 style: GoogleFonts.plusJakartaSans(
@@ -656,7 +695,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
                       color: AppTheme.surfaceContainerLow,
-                      child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: AppTheme.outline,
+                      ),
                     ),
                   )
                 : Image.asset(
@@ -664,7 +706,10 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
                       color: AppTheme.surfaceContainerLow,
-                      child: const Icon(Icons.broken_image, color: AppTheme.outline),
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: AppTheme.outline,
+                      ),
                     ),
                   ),
             // Gradient overlay for visual magic/premium feel
@@ -673,10 +718,7 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.4),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.black.withOpacity(0.4), Colors.transparent],
                 ),
               ),
             ),
@@ -687,10 +729,15 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.radiusDefault,
+                  ),
                   border: Border.all(color: Colors.white.withOpacity(0.2)),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 4.0,
+                ),
                 child: Text(
                   "ILLUSTRATION PREVIEW",
                   style: GoogleFonts.plusJakartaSans(
@@ -794,14 +841,17 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                 children: [
                   // Underneath page
                   _buildSinglePageMobile(
-                    _direction == FlipDirection.forward ? nextOrPrevPage : currentPage,
+                    _direction == FlipDirection.forward
+                        ? nextOrPrevPage
+                        : currentPage,
                   ),
                   // Flipping page on top
                   AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) {
                       final double t = _controller.value;
-                      final double angle = startAngle + (endAngle - startAngle) * t;
+                      final double angle =
+                          startAngle + (endAngle - startAngle) * t;
 
                       if (t > 0.9) {
                         return const SizedBox.shrink();
@@ -813,7 +863,9 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
                           ..rotateY(angle),
                         alignment: Alignment.centerLeft,
                         child: _buildSinglePageMobile(
-                          _direction == FlipDirection.forward ? currentPage : nextOrPrevPage,
+                          _direction == FlipDirection.forward
+                              ? currentPage
+                              : nextOrPrevPage,
                         ),
                       );
                     },
@@ -845,142 +897,143 @@ class BookWidgetState extends State<BookWidget> with SingleTickerProviderStateMi
           }
 
           bookWidget = Container(
-          width: bookWidth,
-          height: bookHeight,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x2E5D39DF), // 18% primary shadow
-                blurRadius: 40.0,
-                offset: Offset(0, 15),
-              ),
-            ],
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // 1. Static Left Page
-              Positioned(
-                left: 0,
-                width: bookWidth / 2,
-                top: 0,
-                bottom: 0,
-                child: _buildLeftPage(leftIndex),
-              ),
+            width: bookWidth,
+            height: bookHeight,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x2E5D39DF), // 18% primary shadow
+                  blurRadius: 40.0,
+                  offset: Offset(0, 15),
+                ),
+              ],
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // 1. Static Left Page
+                Positioned(
+                  left: 0,
+                  width: bookWidth / 2,
+                  top: 0,
+                  bottom: 0,
+                  child: _buildLeftPage(leftIndex),
+                ),
 
-              // 2. Static Right Page
-              Positioned(
-                left: bookWidth / 2,
-                width: bookWidth / 2,
-                top: 0,
-                bottom: 0,
-                child: _buildRightPage(rightIndex),
-              ),
-
-              // 3. Flipping Page (drawn on top of background pages when animating)
-              if (_direction != FlipDirection.none)
+                // 2. Static Right Page
                 Positioned(
                   left: bookWidth / 2,
                   width: bookWidth / 2,
                   top: 0,
                   bottom: 0,
-                  child: AnimatedBuilder(
-                    animation: _controller,
-                    builder: (context, child) {
-                      final double t = _controller.value;
-                      // Rotate from 0 to -pi
-                      final double angle = -t * math.pi;
-                      final isFront = t < 0.5;
-
-                      return Transform(
-                        transform: Matrix4.identity()
-                          ..setEntry(3, 2, -0.001) // perspective
-                          ..rotateY(angle),
-                        alignment: Alignment.centerLeft,
-                        child: isFront
-                            ? _buildRightPage(turningFrontIndex)
-                            : Transform(
-                                transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-                                alignment: Alignment.center,
-                                child: _buildLeftPage(turningBackIndex),
-                              ),
-                      );
-                    },
-                  ),
+                  child: _buildRightPage(rightIndex),
                 ),
 
-              // 4. Center Spine Crease Overlay (always visible to give depth)
-              Positioned(
-                left: (bookWidth / 2) - 16.0,
-                width: 32.0,
-                top: 0,
-                bottom: 0,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.black.withOpacity(0.18),
-                          Colors.black.withOpacity(0.04),
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.04),
-                          Colors.black.withOpacity(0.18),
-                        ],
-                        stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+                // 3. Flipping Page (drawn on top of background pages when animating)
+                if (_direction != FlipDirection.none)
+                  Positioned(
+                    left: bookWidth / 2,
+                    width: bookWidth / 2,
+                    top: 0,
+                    bottom: 0,
+                    child: AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        final double t = _controller.value;
+                        // Rotate from 0 to -pi
+                        final double angle = -t * math.pi;
+                        final isFront = t < 0.5;
+
+                        return Transform(
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, -0.001) // perspective
+                            ..rotateY(angle),
+                          alignment: Alignment.centerLeft,
+                          child: isFront
+                              ? _buildRightPage(turningFrontIndex)
+                              : Transform(
+                                  transform: Matrix4.identity()
+                                    ..scale(-1.0, 1.0, 1.0),
+                                  alignment: Alignment.center,
+                                  child: _buildLeftPage(turningBackIndex),
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+
+                // 4. Center Spine Crease Overlay (always visible to give depth)
+                Positioned(
+                  left: (bookWidth / 2) - 16.0,
+                  width: 32.0,
+                  top: 0,
+                  bottom: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withOpacity(0.18),
+                            Colors.black.withOpacity(0.04),
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.04),
+                            Colors.black.withOpacity(0.18),
+                          ],
+                          stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              // 5. Left Page Outer Curl Shadow (left edge)
-              Positioned(
-                left: 0,
-                width: 8.0,
-                top: 0,
-                bottom: 0,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Colors.black.withOpacity(0.06),
-                          Colors.transparent,
-                        ],
+                // 5. Left Page Outer Curl Shadow (left edge)
+                Positioned(
+                  left: 0,
+                  width: 8.0,
+                  top: 0,
+                  bottom: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Colors.black.withOpacity(0.06),
+                            Colors.transparent,
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              // 6. Right Page Outer Curl Shadow (right edge)
-              Positioned(
-                right: 0,
-                width: 8.0,
-                top: 0,
-                bottom: 0,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          Colors.black.withOpacity(0.06),
-                          Colors.transparent,
-                        ],
+                // 6. Right Page Outer Curl Shadow (right edge)
+                Positioned(
+                  right: 0,
+                  width: 8.0,
+                  top: 0,
+                  bottom: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [
+                            Colors.black.withOpacity(0.06),
+                            Colors.transparent,
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
         }
 
         if (widget.isFullScreen) {
@@ -1110,7 +1163,11 @@ class _FullScreenBookViewerState extends State<FullScreenBookViewer> {
                       color: Colors.white.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.close, color: Colors.white, size: 28.0),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 28.0,
+                    ),
                   ),
                 ),
               ),
@@ -1120,7 +1177,10 @@ class _FullScreenBookViewerState extends State<FullScreenBookViewer> {
           // Central Book widget container
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 40.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 80.0,
+                vertical: 40.0,
+              ),
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 1200.0),
                 child: BookWidget(
@@ -1161,7 +1221,11 @@ class _FullScreenBookViewerState extends State<FullScreenBookViewer> {
                         color: Colors.white.withOpacity(0.15),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.chevron_left, color: Colors.white, size: 36.0),
+                      child: const Icon(
+                        Icons.chevron_left,
+                        color: Colors.white,
+                        size: 36.0,
+                      ),
                     ),
                   ),
                 ),
@@ -1184,7 +1248,11 @@ class _FullScreenBookViewerState extends State<FullScreenBookViewer> {
                         color: Colors.white.withOpacity(0.15),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.chevron_right, color: Colors.white, size: 36.0),
+                      child: const Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                        size: 36.0,
+                      ),
                     ),
                   ),
                 ),
