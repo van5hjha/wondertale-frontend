@@ -1,0 +1,60 @@
+[
+  {
+    "id": "galactic-kid",
+    "title": "The Galactic Kid",
+    "ageRange": "3-8 yrs",
+    "description": "An interstellar journey to save the Stardust Star. Perfect for dreamers.",
+    "rating": 4.9,
+    "reviewCount": 120,
+    "priceHardcover": 1499,
+    "priceSoftcover": 999,
+    "previewImages": [
+      "assets/images/galactic_cover.png",
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDFLtaGpNexdOSZrynMkKr5QiGWyQ9UbV626c_wZw1ZCPwgBwUX1hWm0sc1PnkUCjmaT5ZGBXnOJGZpe-GZv5gt1rysaHMPDwLj_u-l6mbEV2IpVZX6I-xWBBbU0msPLSu9Bcf3sFjrPWKfD_AD8-gAFyaCAqDrwPvL0hSGcTxSKuMH80o0NPM9f9ZroNw--_p1uUsecJQPcZdyOmOR68qbbjQahLC73LxuDMrC035QzSxvcEqcUZGSvAm09SerjGAnr6JeuBhdjTs",
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuD0ggPv8jvrTQOkFB3ZF3iRoKhSk_jg7mdhjjC_f5_BI6p1i8tnuvYxbUmCipN-oQC1u61TryhXBM-UV12J5SHl5_wecHXvNTMezbiZyEwa8Llw1GaDX8yjWqnknm8MG_MHDG348wsTdpdkCo8ks_Th4Z8QW8M-z-oGqgs0_wJSKN0BQpDKYLFwZrGLGkVPD1q3Wv1w3qRwXzTN5FHxJ1x0udzwbiqKPzLrCYb_brIYB0O2ZqpUT1763zIni-dv9TCRFdOzVQmU94Q",
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCGCUNadGyYSg2VSR7EK9k3sAyIHAlQwtbTg9QrT8WC6WHJrlDyojYZEL094n1T7-hA6dO3SF_PbxJoDcougllEXFX7GupenRW4GXCJHB_ilJT0NTmv4d97v0Wsau9fxUWCUIMVfZKPv3oK8VzeJP0iq8kSC8KiIyH-71LDuGcku-RnThnKVPtwPUeLm9aaM4XA5VZMgkIlJbIUBpYCtf3ax1D2DQg6c9KyiC1QKsnimCjX08NGr9tjz8kVaY815TTpRQUcpu559DU",
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBHbAK_cVio6utEDPailYl1_ziEgDacRBkNMMH6B_GoZf7KADBeOPVx6_qb8cbJtyU6N8YrSCSjlnWbghWsPG22M05B8eNVjGGtSknvqRC_duGG4Jqx3VuEhHXfJCqW6N6Y7crk7n4875CmccKANImBM8JcY23-nZSi0CAb_zFZEtk5CGiRz-NxNAQgyJ1QRFI88AyRbh7c7A08tK3Y0EGhLLP7zSWyja1PGakav6ft14yfTkDBDZTht54HBgD2VNv1V1-YHCnRV2I"
+    ],
+    "features": [
+      "28 Custom Illustrated Pages",
+      "High-res Face Mapping",
+      "Printed in India (7 day ship)"
+    ]
+  },
+  {
+    "id": "jurassic-friend",
+    "title": "Jurassic Friend",
+    "ageRange": "2-6 yrs",
+    "description": "Travel back in time to find the friendliest dinosaurs in the valley.",
+    "rating": 4.8,
+    "reviewCount": 94,
+    "priceHardcover": 1499,
+    "priceSoftcover": 999,
+    "previewImages": [
+      "assets/images/jurassic_cover.png"
+    ],
+    "features": [
+      "24 Custom Illustrated Pages",
+      "High-res Face Mapping",
+      "Printed in India (7 day ship)"
+    ]
+  },
+  {
+    "id": "wild-safari",
+    "title": "Wild Safari Trip",
+    "ageRange": "4-9 yrs",
+    "description": "A thrilling exploration through the deepest jungles to find the Golden Lion.",
+    "rating": 4.9,
+    "reviewCount": 156,
+    "priceHardcover": 1499,
+    "priceSoftcover": 999,
+    "previewImages": [
+      "assets/images/safari_cover.png"
+    ],
+    "features": [
+      "26 Custom Illustrated Pages",
+      "High-res Face Mapping",
+      "Printed in India (7 day ship)"
+    ]
+  }
+]
