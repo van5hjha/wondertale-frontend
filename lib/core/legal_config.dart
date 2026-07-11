@@ -1,16 +1,16 @@
 class LegalConfig {
   // --- BUSINESS ENTITY DETAILS ---
   /// The registered legal name of your business entity.
-  static const String entityName = 'Wondertale Private Limited';
+  static const String entityName = 'MD AAQIF';
 
   /// The physical registered office address of your company.
-  static const String registeredAddress = '3rd Floor, Room no 29, P2 Unispace, Plot No: 128, EPIP Zone Whitefield Rd, Brookefield, Bengaluru, Karnataka 560066';
+  static const String registeredAddress = 'B-278/ GALI NO-4, JAITPUR PART-2, KHADDA COLONY, NEAR SONI MODERN PUBLIC SCHOOL,  NEW DELHI-110044';
 
   /// The customer support phone number.
-  static const String supportPhone = '+91 80 4718 0474';
+  static const String supportPhone = '+91 8506021247';
 
   /// The customer support email address.
-  static const String supportEmail = 'support@wondertale.com';
+  static const String supportEmail = 'support@wondertale.in';
 
   /// The business hours or operational hours.
   static const String supportHours = 'Mon - Fri, 10:00 AM - 6:00 PM';
