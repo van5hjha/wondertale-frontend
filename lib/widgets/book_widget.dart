@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '../core/constants.dart';
 import '../core/theme.dart';
@@ -469,6 +471,44 @@ class BookWidgetState extends State<BookWidget>
     return '';
   }
 
+  
+  Widget _buildNetworkOrAssetImage(String imageUrl) {
+    if (imageUrl.isEmpty) return const SizedBox.shrink();
+    final isSvg = imageUrl.toLowerCase().contains('.svg');
+    if (imageUrl.startsWith('http')) {
+      if (isSvg) {
+        return SvgPicture.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          placeholderBuilder: (context) => Container(
+            color: AppTheme.surfaceContainerLow,
+            child: const Center(child: CircularProgressIndicator()),
+          ),
+        );
+      }
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: AppTheme.surfaceContainerLow,
+          child: const Icon(Icons.broken_image, color: AppTheme.outline),
+        ),
+      );
+    } else {
+      if (isSvg) {
+        return SvgPicture.asset(imageUrl, fit: BoxFit.cover);
+      }
+      return Image.asset(
+        imageUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: AppTheme.surfaceContainerLow,
+          child: const Icon(Icons.broken_image, color: AppTheme.outline),
+        ),
+      );
+    }
+  }
+
   Widget _buildLeftPage(int index) {
     final imageUrl = _getSpreadImageUrl(index * 2);
 
@@ -478,29 +518,7 @@ class BookWidgetState extends State<BookWidget>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          imageUrl.startsWith('http')
-              ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: AppTheme.surfaceContainerLow,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: AppTheme.outline,
-                    ),
-                  ),
-                )
-              : Image.asset(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: AppTheme.surfaceContainerLow,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: AppTheme.outline,
-                    ),
-                  ),
-                ),
+          _buildNetworkOrAssetImage(imageUrl),
           // Gradient overlay for visual magic/premium feel
           Container(
             decoration: BoxDecoration(
@@ -583,29 +601,7 @@ class BookWidgetState extends State<BookWidget>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          imageUrl.startsWith('http')
-              ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: AppTheme.surfaceContainerLow,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: AppTheme.outline,
-                    ),
-                  ),
-                )
-              : Image.asset(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: AppTheme.surfaceContainerLow,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: AppTheme.outline,
-                    ),
-                  ),
-                ),
+          _buildNetworkOrAssetImage(imageUrl),
           // Gradient overlay for visual magic/premium feel
           Container(
             decoration: BoxDecoration(
@@ -689,29 +685,7 @@ class BookWidgetState extends State<BookWidget>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            imageUrl.startsWith('http')
-                ? Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: AppTheme.surfaceContainerLow,
-                      child: const Icon(
-                        Icons.broken_image,
-                        color: AppTheme.outline,
-                      ),
-                    ),
-                  )
-                : Image.asset(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: AppTheme.surfaceContainerLow,
-                      child: const Icon(
-                        Icons.broken_image,
-                        color: AppTheme.outline,
-                      ),
-                    ),
-                  ),
+            _buildNetworkOrAssetImage(imageUrl),
             // Gradient overlay for visual magic/premium feel
             Container(
               decoration: BoxDecoration(

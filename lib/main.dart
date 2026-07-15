@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'core/theme.dart';
 import 'views/home_view.dart';
+import 'core/api/config_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ConfigService.loadConfig();
   runApp(const MyApp());
 }
 

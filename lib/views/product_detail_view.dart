@@ -708,6 +708,13 @@ class _CustomizationFormState extends State<CustomizationForm> {
   bool _isDragging = false;
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() => setState(() {}));
+    _emailController.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
@@ -1076,6 +1083,13 @@ class _CustomizationFormState extends State<CustomizationForm> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isNameValid = _nameController.text.trim().isNotEmpty;
+    final bool isEmailValid = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(_emailController.text.trim());
+    final bool isPhotoValid = _selectedFiles.isNotEmpty;
+    final bool isFormValid = isNameValid && isEmailValid && isPhotoValid && _hasConsent;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.7),
@@ -1090,7 +1104,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Child\'s Name',
+            'Child\'s Name *',
             style: GoogleFonts.plusJakartaSans(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
@@ -1150,7 +1164,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Age Range',
+                'Age Range *',
                 style: GoogleFonts.plusJakartaSans(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,
@@ -1189,7 +1203,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
           const SizedBox(height: 24.0),
 
           Text(
-            'Gender / Pronoun',
+            'Gender / Pronoun *',
             style: GoogleFonts.plusJakartaSans(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
@@ -1216,7 +1230,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
           const SizedBox(height: 24.0),
 
           Text(
-            'Upload Child\'s Photo',
+            'Upload Child\'s Photo *',
             style: GoogleFonts.plusJakartaSans(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
@@ -1565,7 +1579,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
 
           // Parent's Email Address
           Text(
-            "Parent's Email Address",
+            "Parent's Email Address *",
             style: GoogleFonts.plusJakartaSans(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
@@ -1698,8 +1712,8 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       '🚚 Delivery Timeline:',
                       style: TextStyle(
                         color: AppTheme.secondary,
@@ -1724,23 +1738,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
           const SizedBox(height: 32.0),
 
           MouseRegion(
-            onEnter: (_) => setState(() => _isGenerateBtnHovered = true),
-            onExit: (_) => setState(() => _isGenerateBtnHovered = false),
-            cursor: SystemMouseCursors.click,
+            onEnter: isFormValid ? (_) => setState(() => _isGenerateBtnHovered = true) : null,
+            onExit: isFormValid ? (_) => setState(() => _isGenerateBtnHovered = false) : null,
+            cursor: isFormValid ? SystemMouseCursors.click : SystemMouseCursors.basic,
             child: GestureDetector(
-              onTap: () {
+              onTap: isFormValid ? () {
                 _triggerGeneratePreview();
-              },
+              } : null,
               child: AnimatedScale(
-                scale: _isGenerateBtnHovered ? 1.02 : 1.0,
+                scale: (_isGenerateBtnHovered && isFormValid) ? 1.02 : 1.0,
                 duration: const Duration(milliseconds: 200),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.secondary,
+                    color: isFormValid ? AppTheme.secondary : AppTheme.onSurfaceVariant.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(
                       AppConstants.radiusDefault,
                     ),
-                    boxShadow: _isGenerateBtnHovered
+                    boxShadow: (_isGenerateBtnHovered && isFormValid)
                         ? const [
                             BoxShadow(
                               color: Color(0x66A258F3),
@@ -1748,13 +1762,15 @@ class _CustomizationFormState extends State<CustomizationForm> {
                               offset: Offset(0, 6),
                             ),
                           ]
-                        : const [
-                            BoxShadow(
-                              color: Color(0x33A258F3),
-                              blurRadius: 10.0,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
+                        : (isFormValid
+                            ? const [
+                                BoxShadow(
+                                  color: Color(0x33A258F3),
+                                  blurRadius: 10.0,
+                                  offset: Offset(0, 4),
+                                ),
+                              ]
+                            : null),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Row(
@@ -1764,16 +1780,16 @@ class _CustomizationFormState extends State<CustomizationForm> {
                         'GENERATE MY FREE PREVIEW',
                         style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(
-                              color: AppTheme.onPrimary,
+                              color: isFormValid ? AppTheme.onPrimary : AppTheme.onSurfaceVariant.withOpacity(0.5),
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               letterSpacing: 0.8,
                             ),
                       ),
                       const SizedBox(width: 8.0),
-                      const Icon(
+                      Icon(
                         Icons.auto_awesome,
-                        color: Colors.white,
+                        color: isFormValid ? Colors.white : AppTheme.onSurfaceVariant.withOpacity(0.5),
                         size: 18.0,
                       ),
                     ],

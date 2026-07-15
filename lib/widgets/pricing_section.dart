@@ -84,6 +84,8 @@ class _PricingSectionState extends State<PricingSection> {
                               ],
                               isPopular: false,
                               isHovered: _isSoftcoverHovered,
+                              imagePath: LegalConfig.softcoverImageUrl ?? 'assets/images/softcover.png',
+                              isNetworkImage: LegalConfig.softcoverImageUrl != null,
                             ),
                           ),
                         ),
@@ -110,6 +112,8 @@ class _PricingSectionState extends State<PricingSection> {
                               ],
                               isPopular: true,
                               isHovered: _isHardcoverHovered,
+                              imagePath: LegalConfig.hardcoverImageUrl ?? 'assets/images/hardcover.png',
+                              isNetworkImage: LegalConfig.hardcoverImageUrl != null,
                             ),
                           ),
                         ),
@@ -133,6 +137,8 @@ class _PricingSectionState extends State<PricingSection> {
                           ],
                           isPopular: false,
                           isHovered: false,
+                          imagePath: LegalConfig.softcoverImageUrl ?? 'assets/images/softcover.png',
+                          isNetworkImage: LegalConfig.softcoverImageUrl != null,
                         ),
                         const SizedBox(height: 32.0),
                         _buildPricingCard(
@@ -151,6 +157,8 @@ class _PricingSectionState extends State<PricingSection> {
                           ],
                           isPopular: true,
                           isHovered: false,
+                          imagePath: LegalConfig.hardcoverImageUrl ?? 'assets/images/hardcover.png',
+                          isNetworkImage: LegalConfig.hardcoverImageUrl != null,
                         ),
                       ],
                     ),
@@ -175,6 +183,8 @@ class _PricingSectionState extends State<PricingSection> {
     required List<String> features,
     required bool isPopular,
     required bool isHovered,
+    required String imagePath,
+    bool isNetworkImage = false,
   }) {
     return AnimatedScale(
       scale: isHovered ? 1.02 : 1.0,
@@ -228,6 +238,35 @@ class _PricingSectionState extends State<PricingSection> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
+
+                // Image
+                AnimatedScale(
+                  scale: isHovered ? 1.05 : 1.0,
+                  duration: const Duration(milliseconds: 300),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: isNetworkImage
+                        ? Image.network(
+                            imagePath,
+                            height: 200,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              debugPrint('Error loading network image: $error');
+                              return Image.asset(
+                                isPopular ? 'assets/images/hardcover.png' : 'assets/images/softcover.png',
+                                height: 200,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            imagePath,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
 
                 // Price
                 Row(

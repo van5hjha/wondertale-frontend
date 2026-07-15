@@ -1,5 +1,5 @@
 class ApiConfig {
   static const String baseUrl =
-      'https://wondertal-backend-production.up.railway.app';
-  static const bool underMaintenance = true;
+      'http://127.0.0.1:8000';
+  static bool underMaintenance = true;
 }
