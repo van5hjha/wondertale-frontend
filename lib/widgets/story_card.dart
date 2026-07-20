@@ -28,20 +28,50 @@ class _StoryCardState extends State<StoryCard> {
   bool _isButtonHovered = false;
   int _currentImageIndex = 0;
   Timer? _sliderTimer;
+  bool _imagesPrecached = false;
 
   @override
   void initState() {
     super.initState();
-    _startSliderTimer();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_imagesPrecached) {
+      _precacheImages();
+      _imagesPrecached = true;
+    }
+  }
+
+  @override
+  void didUpdateWidget(StoryCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.imageUrls != widget.imageUrls) {
+      _imagesPrecached = false;
+      _precacheImages();
+      _imagesPrecached = true;
+    }
+  }
+
+  void _precacheImages() {
+    for (final url in widget.imageUrls) {
+      if (url.isEmpty) continue;
+      final ImageProvider provider = url.startsWith('http')
+          ? NetworkImage(url)
+          : AssetImage(url) as ImageProvider;
+      precacheImage(provider, context);
+    }
   }
 
   @override
   void dispose() {
-    _sliderTimer?.cancel();
+    _stopSliderTimer();
     super.dispose();
   }
 
   void _startSliderTimer() {
+    _stopSliderTimer();
     if (widget.imageUrls.length <= 1) return;
     _sliderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
@@ -51,6 +81,11 @@ class _StoryCardState extends State<StoryCard> {
         });
       }
     });
+  }
+
+  void _stopSliderTimer() {
+    _sliderTimer?.cancel();
+    _sliderTimer = null;
   }
 
   Widget _buildImage(String url) {
@@ -95,8 +130,17 @@ class _StoryCardState extends State<StoryCard> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onEnter: (_) {
+          setState(() => _isHovered = true);
+          _startSliderTimer();
+        },
+        onExit: (_) {
+          _stopSliderTimer();
+          setState(() {
+            _isHovered = false;
+            _currentImageIndex = 0;
+          });
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
@@ -129,25 +173,31 @@ class _StoryCardState extends State<StoryCard> {
                     children: [
                       AnimatedScale(
                         scale: _isHovered ? 1.05 : 1.0,
-                        duration: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 200),
                         curve: Curves.easeOut,
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 800),
-                          child: widget.imageUrls.isEmpty
-                              ? Container(
-                                  key: const ValueKey('empty'),
-                                  color: AppTheme.surfaceContainerLow,
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.broken_image,
-                                      color: AppTheme.outline,
-                                    ),
+                        child: widget.imageUrls.isEmpty
+                            ? Container(
+                                key: const ValueKey('empty'),
+                                color: AppTheme.surfaceContainerLow,
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    color: AppTheme.outline,
                                   ),
-                                )
-                              : _buildImage(
-                                  widget.imageUrls[_currentImageIndex],
                                 ),
-                        ),
+                              )
+                            : Stack(
+                                fit: StackFit.expand,
+                                children: List.generate(
+                                  widget.imageUrls.length,
+                                  (index) => AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 300),
+                                    opacity: index == _currentImageIndex ? 1.0 : 0.0,
+                                    curve: Curves.easeInOut,
+                                    child: _buildImage(widget.imageUrls[index]),
+                                  ),
+                                ),
+                              ),
                       ),
                       if (widget.imageUrls.length > 1)
                         Positioned(
