@@ -139,7 +139,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             final totalSpacing = 24.0 * (crossAxisCount - 1);
             final cardWidth = (width - totalSpacing) / crossAxisCount;
             final imageHeight = cardWidth * (2.0 / 3.0);
-            final totalHeight = imageHeight + 200.0;
+            final totalHeight = imageHeight + 230.0;
             final childAspectRatio = cardWidth / totalHeight;
 
             return GridView.builder(
@@ -1103,12 +1103,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Child\'s Name *',
-            style: GoogleFonts.plusJakartaSans(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-              color: AppTheme.primary,
+          Text.rich(
+            TextSpan(
+              text: "Child's Name ",
+              style: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: AppTheme.primary,
+              ),
+              children: const [
+                TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: AppTheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8.0),
@@ -1163,12 +1174,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Age Range *',
-                style: GoogleFonts.plusJakartaSans(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                  color: AppTheme.primary,
+              Text.rich(
+                TextSpan(
+                  text: 'Age Range ',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: AppTheme.primary,
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: '*',
+                      style: TextStyle(
+                        color: AppTheme.error,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               if (MediaQuery.of(context).size.width >= 400.0)
@@ -1202,12 +1224,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
           ),
           const SizedBox(height: 24.0),
 
-          Text(
-            'Gender / Pronoun *',
-            style: GoogleFonts.plusJakartaSans(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-              color: AppTheme.primary,
+          Text.rich(
+            TextSpan(
+              text: 'Gender / Pronoun ',
+              style: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: AppTheme.primary,
+              ),
+              children: const [
+                TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: AppTheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12.0),
@@ -1229,12 +1262,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
           ),
           const SizedBox(height: 24.0),
 
-          Text(
-            'Upload Child\'s Photo *',
-            style: GoogleFonts.plusJakartaSans(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-              color: AppTheme.primary,
+          Text.rich(
+            TextSpan(
+              text: "Upload Child's Photo ",
+              style: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: AppTheme.primary,
+              ),
+              children: const [
+                TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: AppTheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12.0),
@@ -1578,12 +1622,23 @@ class _CustomizationFormState extends State<CustomizationForm> {
           const SizedBox(height: 24.0),
 
           // Parent's Email Address
-          Text(
-            "Parent's Email Address *",
-            style: GoogleFonts.plusJakartaSans(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-              color: AppTheme.primary,
+          Text.rich(
+            TextSpan(
+              text: "Parent's Email Address ",
+              style: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: AppTheme.primary,
+              ),
+              children: const [
+                TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: AppTheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12.0),

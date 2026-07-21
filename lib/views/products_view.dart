@@ -87,6 +87,7 @@ class _ProductsViewState extends State<ProductsView> {
       extendBodyBehindAppBar: true,
       appBar: NavBar(
         activeIndex: -1,
+        showCreatePreviewButton: false,
         onHomeTap: () =>
             Navigator.of(context).popUntil((route) => route.isFirst),
         onExploreStoriesTap: () {
@@ -98,7 +99,6 @@ class _ProductsViewState extends State<ProductsView> {
         onPricingTap: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
-        onCreatePreviewTap: () {},
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -184,7 +184,7 @@ class _ProductsViewState extends State<ProductsView> {
                           final cardWidth =
                               (width - totalSpacing) / crossAxisCount;
                           final imageHeight = cardWidth * (2.0 / 3.0);
-                          final totalHeight = imageHeight + 200.0;
+                          final totalHeight = imageHeight + 230.0;
                           final childAspectRatio = cardWidth / totalHeight;
 
                           return Column(

@@ -351,10 +351,9 @@ class _HomeViewState extends State<HomeView> {
                                   bottom: isTablet ? 120.0 : 64.0,
                                 ),
                                 child: isDesktop
-                                    ? IntrinsicHeight(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                           children: [
                                             // Left Content Column
                                             Expanded(
@@ -381,8 +380,7 @@ class _HomeViewState extends State<HomeView> {
                                               ),
                                             ),
                                           ],
-                                        ),
-                                      )
+                                        )
                                     : Column(
                                         children: [
                                           Padding(
@@ -551,7 +549,7 @@ class _HomeViewState extends State<HomeView> {
                                     final cardWidth =
                                         (width - totalSpacing) / crossAxisCount;
                                     final imageHeight = cardWidth * (2.0 / 3.0);
-                                    final totalHeight = imageHeight + 200.0;
+                                    final totalHeight = imageHeight + 230.0;
                                     final childAspectRatio =
                                         cardWidth / totalHeight;
 

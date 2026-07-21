@@ -9,6 +9,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onHowItWorksTap;
   final VoidCallback? onPricingTap;
   final VoidCallback? onCreatePreviewTap;
+  final bool showCreatePreviewButton;
   final int activeIndex;
 
   const NavBar({
@@ -18,6 +19,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     this.onHowItWorksTap,
     this.onPricingTap,
     this.onCreatePreviewTap,
+    this.showCreatePreviewButton = true,
     this.activeIndex = 0,
   });
 
@@ -94,38 +96,39 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
 
                 // Action Button
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onCreatePreviewTap,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.magicButtonColor,
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.radiusFull,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x4DA258F3), // magic button shadow
-                            blurRadius: 15.0,
-                            offset: Offset(0, 4),
+                if (showCreatePreviewButton)
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: onCreatePreviewTap,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.magicButtonColor,
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusFull,
                           ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 10.0,
-                      ),
-                      child: Text(
-                        'CREATE PREVIEW',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.onPrimary,
-                          letterSpacing: 0.8,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x4DA258F3), // magic button shadow
+                              blurRadius: 15.0,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0,
+                          vertical: 10.0,
+                        ),
+                        child: Text(
+                          'CREATE PREVIEW',
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color: AppTheme.onPrimary,
+                            letterSpacing: 0.8,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

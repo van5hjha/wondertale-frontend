@@ -242,110 +242,135 @@ class _StoryCardState extends State<StoryCard> {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title
-                        Expanded(
-                          child: Text(
-                            widget.title,
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.primary,
-                                ),
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        // Age Badge
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.tertiary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(
-                              AppConstants.radiusFull,
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 4.0,
-                          ),
-                          child: Text(
-                            'Age: ${widget.ageRange}',
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  color: AppTheme.onTertiaryContainer,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12.0),
-
-                    // Description
-                    Text(
-                      widget.description,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurfaceVariant,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 16.0),
-
-                    // Action Button
-                    MouseRegion(
-                      onEnter: (_) => setState(() => _isButtonHovered = true),
-                      onExit: (_) => setState(() => _isButtonHovered = false),
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: widget.onTap,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          decoration: BoxDecoration(
-                            color: _isButtonHovered
-                                ? AppTheme.secondary
-                                : AppTheme.surfaceContainer,
-                            borderRadius: BorderRadius.circular(
-                              AppConstants.radiusLg,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 14.0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.edit,
-                                size: 16.0,
-                                color: _isButtonHovered
-                                    ? AppTheme.onPrimary
-                                    : AppTheme.primary,
+                              // Title
+                              Expanded(
+                                child: Text(
+                                  widget.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.primary,
+                                      ),
+                                ),
                               ),
                               const SizedBox(width: 8.0),
-                              Text(
-                                'Personalize',
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
-                                      color: _isButtonHovered
-                                          ? AppTheme.onPrimary
-                                          : AppTheme.primary,
-                                    ),
+                              // Age Badge
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.tertiary.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(
+                                    AppConstants.radiusFull,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0,
+                                  vertical: 4.0,
+                                ),
+                                child: Text(
+                                  'Age: ${widget.ageRange}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        color: AppTheme.onTertiaryContainer,
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
                               ),
                             ],
                           ),
+                          const SizedBox(height: 8.0),
+
+                          // Description
+                          Text(
+                            widget.description,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: AppTheme.onSurfaceVariant,
+                                  fontSize: 13.0,
+                                ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+
+                      // Action Button
+                      MouseRegion(
+                        onEnter: (_) => setState(() => _isButtonHovered = true),
+                        onExit: (_) => setState(() => _isButtonHovered = false),
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: widget.onTap,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _isButtonHovered
+                                  ? AppTheme.secondary
+                                  : AppTheme.surfaceContainer,
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusLg,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  size: 16.0,
+                                  color: _isButtonHovered
+                                      ? AppTheme.onPrimary
+                                      : AppTheme.primary,
+                                ),
+                                const SizedBox(width: 8.0),
+                                Text(
+                                  'Personalize',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        color: _isButtonHovered
+                                            ? AppTheme.onPrimary
+                                            : AppTheme.primary,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

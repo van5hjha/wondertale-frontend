@@ -1,10 +1,12 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
 import '../core/theme.dart';
+import '../views/products_view.dart';
 
 class CtaSection extends StatefulWidget {
-  const CtaSection({super.key});
+  final VoidCallback? onStartStoryTap;
+
+  const CtaSection({super.key, this.onStartStoryTap});
 
   @override
   State<CtaSection> createState() => _CtaSectionState();
@@ -87,7 +89,14 @@ class _CtaSectionState extends State<CtaSection> {
                   onExit: (_) => setState(() => _isHovered = false),
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: widget.onStartStoryTap ??
+                        () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const ProductsView(),
+                            ),
+                          );
+                        },
                     child: AnimatedScale(
                       scale: _isHovered ? 1.05 : 1.0,
                       duration: const Duration(milliseconds: 200),
