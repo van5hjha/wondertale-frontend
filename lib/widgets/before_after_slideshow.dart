@@ -55,14 +55,7 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
         ).loadString('assets/data/sliders.json');
         final List<dynamic> list = json.decode(jsonString);
         final fallbackList = list
-            .map(
-              (json) => SliderModel(
-                id: 0,
-                title: '',
-                beforeImageUrl: json['beforeImageUrl'] as String,
-                afterImageUrl: json['afterImageUrl'] as String,
-              ),
-            )
+            .map((item) => SliderModel.fromJson(item as Map<String, dynamic>))
             .toList();
 
         if (mounted) {
@@ -77,10 +70,17 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
           setState(() {
             _slides = [
               SliderModel(
-                id: 0,
-                title: '',
+                id: 1,
+                title: 'Space Explorer',
+                type: 'before_after',
                 beforeImageUrl: "assets/images/before_image.png",
                 afterImageUrl: "assets/images/after_image.jpg",
+              ),
+              SliderModel(
+                id: 2,
+                title: 'Magic Art Showcase',
+                type: 'static',
+                imageUrl: "assets/images/after_image.jpg",
               ),
             ];
             _isLoading = false;
@@ -187,6 +187,58 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
     );
   }
 
+  Widget _buildSlideContent(SliderModel slide) {
+    if (slide.isBeforeAfter) {
+      return BeforeAfterSlider(
+        key: ValueKey<int>(_currentIndex),
+        beforeImageUrl: slide.beforeImageUrl!,
+        afterImageUrl: slide.afterImageUrl!,
+      );
+    } else {
+      return _buildStaticSlide(slide);
+    }
+  }
+
+  Widget _buildStaticSlide(SliderModel slide) {
+    final url = slide.effectiveImageUrl;
+    return AspectRatio(
+      key: ValueKey<int>(_currentIndex),
+      aspectRatio: 4 / 3,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppConstants.radiusCard),
+          boxShadow: const [
+            BoxShadow(
+              color: AppTheme.shadowColor,
+              blurRadius: 30.0,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: url.startsWith('http://') || url.startsWith('https://')
+                  ? Image.network(url, fit: BoxFit.cover)
+                  : Image.asset(url, fit: BoxFit.cover),
+            ),
+            Positioned.fill(
+              child: IgnorePointer(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppConstants.radiusCard),
+                    border: Border.all(color: Colors.white, width: 4.0),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -242,11 +294,7 @@ class _BeforeAfterSlideshowState extends State<BeforeAfterSlideshow> {
                       child: child,
                     );
                   },
-                  child: BeforeAfterSlider(
-                    key: ValueKey<int>(_currentIndex),
-                    beforeImageUrl: currentSlide.beforeImageUrl,
-                    afterImageUrl: currentSlide.afterImageUrl,
-                  ),
+                  child: _buildSlideContent(currentSlide),
                 ),
               ),
               if (_slides.length > 1) ...[
