@@ -2,6 +2,7 @@
   {
     "id": "galactic-kid",
     "title": "The Galactic Kid",
+    "category": "storybook",
     "ageRange": "3-8 yrs",
     "description": "An interstellar journey to save the Stardust Star. Perfect for dreamers.",
     "rating": 4.9,
@@ -29,6 +30,7 @@
   {
     "id": "jurassic-friend",
     "title": "Jurassic Friend",
+    "category": "storybook",
     "ageRange": "2-6 yrs",
     "description": "Travel back in time to find the friendliest dinosaurs in the valley.",
     "rating": 4.8,
@@ -52,6 +54,7 @@
   {
     "id": "wild-safari",
     "title": "Wild Safari Trip",
+    "category": "storybook",
     "ageRange": "4-9 yrs",
     "description": "A thrilling exploration through the deepest jungles to find the Golden Lion.",
     "rating": 4.9,
@@ -70,6 +73,81 @@
       "Empathy",
       "Discovery",
       "Patience"
+    ]
+  },
+  {
+    "id": "cosmic-memory-frame",
+    "title": "Cosmic Memory Frame",
+    "category": "frame",
+    "ageRange": "All ages",
+    "description": "Turn your favorite moments into magical space artifacts.",
+    "rating": 4.9,
+    "reviewCount": 85,
+    "priceHardcover": 0,
+    "priceSoftcover": 1099,
+    "originalPriceSoftcover": 1299,
+    "originalPriceHardcover": 0,
+    "previewImages": [
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDmrejXDU-3DH3VZ6jvnww0MEK_sTmSDSsD8cgyi_DDOXkbZIRpn2iZIbeCiEh6hZYJuaBNdvg_o0miJ4c3faghNZC1ERy6aX9gnU0ibn8DRbw7yTxj_rJeZg_wCMR5lw624_KbvLPAmoR7GK0UD_53kfdTSxpzcHR1xyPPF3QNJI4a2zV1YPznKQpQjjoPTvrWlxTnNA_z1nArg8AHbX8u0JzPQ8doR3h4oND7dxQKmv8h0mATWyZB"
+    ],
+    "features": [
+      "Waterproof Printing",
+      "Premium Wooden Frame",
+      "Custom AI Galaxy Mapping"
+    ],
+    "tags": [
+      "Gratitude",
+      "Creativity"
+    ]
+  },
+  {
+    "id": "stardust-sticker-pack",
+    "title": "Stardust Sticker Pack",
+    "category": "sticker",
+    "ageRange": "3-12 yrs",
+    "description": "Durable, waterproof stickers featuring your child as the hero.",
+    "rating": 4.8,
+    "reviewCount": 142,
+    "priceHardcover": 0,
+    "priceSoftcover": 374,
+    "originalPriceSoftcover": 499,
+    "originalPriceHardcover": 0,
+    "previewImages": [
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBfvYakLsWO4lfiytNJCwqfd3C988ojziKsmAXhut5JqkjPCwYsTnm6VArY_pCk8ndNJBLwhqORnkE-buLGewcMgKz_Sv0yv-YI0JUiRuVXugAYVrH1CgGHdnDsRt_mgGcRC3RszMhFfNn3Yc1AfFEd9RMV5K5VF5rH_Z-HAtyU1sBMx4o55weG9AKeiEj2NJPe4VM_TJVJB6wDurIoK04pppbRocJON2_F6JdcYEkz5bpNj8w2hfvP"
+    ],
+    "features": [
+      "Waterproof & UV Resistant",
+      "Vinyl Material",
+      "Includes 15 Custom Stickers"
+    ],
+    "tags": [
+      "Self-Expression",
+      "Fun"
+    ]
+  },
+  {
+    "id": "galactic-name-labels",
+    "title": "Galactic Name Labels",
+    "category": "label",
+    "ageRange": "5-10 yrs",
+    "description": "Personalized labels for school gear that never get lost in orbit.",
+    "rating": 4.7,
+    "reviewCount": 99,
+    "priceHardcover": 0,
+    "priceSoftcover": 639,
+    "originalPriceSoftcover": 799,
+    "originalPriceHardcover": 0,
+    "previewImages": [
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBiH4JAp1i3KlSYauyvP8ya4BimL1SuCZIiLBi6wWIHues_m7Gt-ZS5v2uvtKEgvhslz_PCsDDgMRudL4dyqKZ2UJY9Cpp3DptQEU-82omZsr2hzRnXCEOEHEqzkkX81RL9O3XkcxCpD-SNYJW8Jrt4YlU4AXBExlHN2ZJ-eUYmwhH05SbmPgxlbXMTkYTdIRUiBa6eMgSiF3O53xLRURSNRAT4Y0pkz0-5AqEvbJAcu1yKyXuDyIhL"
+    ],
+    "features": [
+      "Scratch Resistant",
+      "Super Sticky Glue",
+      "Pack of 40 Labels"
+    ],
+    "tags": [
+      "Responsibility",
+      "Organization"
     ]
   }
 ]
