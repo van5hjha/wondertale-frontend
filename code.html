@@ -1,0 +1,521 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Stardust Tales | Personalised AI Storybooks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#000000",
+                    "on-tertiary-container": "#c96b00",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fbf9f6",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc4",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container-high": "#eae8e5",
+                    "surface-tint": "#5e5b79",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-container": "#fffbff",
+                    "on-secondary-fixed-variant": "#6a02b0",
+                    "on-primary-fixed-variant": "#464460",
+                    "surface-container-low": "#f5f3f0",
+                    "on-surface-variant": "#47464d",
+                    "outline-variant": "#c9c5ce",
+                    "on-primary-fixed": "#1a1833",
+                    "inverse-surface": "#30312f",
+                    "secondary-container": "#9c4be1",
+                    "surface-bright": "#fbf9f6",
+                    "surface-container": "#efeeeb",
+                    "on-secondary-fixed": "#2d004f",
+                    "tertiary-container": "#2f1500",
+                    "background": "#fbf9f6",
+                    "tertiary-fixed-dim": "#ffb77f",
+                    "inverse-on-surface": "#f2f0ed",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#dfb7ff",
+                    "on-background": "#1b1c1a",
+                    "primary-fixed": "#e3dfff",
+                    "surface-dim": "#dbdad7",
+                    "surface-container-highest": "#e4e2df",
+                    "secondary": "#812dc6",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#f1daff",
+                    "outline": "#78767e",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#000000",
+                    "on-tertiary-fixed-variant": "#6f3900",
+                    "primary-fixed-dim": "#c7c3e6",
+                    "surface-variant": "#e4e2df",
+                    "primary-container": "#1a1833",
+                    "on-primary-container": "#8480a0",
+                    "inverse-primary": "#c7c3e6",
+                    "magic-lilac": "#a258f3",
+                    "sunset-gold": "#ff9933",
+                    "soft-sand": "#fbf9f6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1120px",
+                    "margin-desktop": "40px",
+                    "margin-mobile": "20px",
+                    "base": "8px",
+                    "section-gap-lg": "120px",
+                    "section-gap-sm": "64px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Literata"],
+                    "headline-md": ["Literata"],
+                    "headline-sm": ["Literata"],
+                    "display-lg-mobile": ["Literata"],
+                    "body-lg": ["Literata"],
+                    "body-md": ["Literata"],
+                    "display-lg": ["Literata"]
+            },
+            "fontSize": {
+                    "label-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .stardust-glow {
+            box-shadow: 0 4px 30px -4px rgba(17, 15, 45, 0.05);
+        }
+        .magic-button {
+            background: #a258f3;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 15px rgba(162, 88, 243, 0.3);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .magic-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 8px 25px rgba(162, 88, 243, 0.4);
+        }
+        
+        /* Scalloped Divider */
+        .scalloped-border {
+            mask-image: radial-gradient(circle at 10px 50%, black 10px, transparent 10px);
+            mask-size: 20px 20px;
+            mask-repeat: repeat-y;
+            mask-position: 0 0;
+            background-color: white;
+            width: 20px;
+            height: 100%;
+            position: absolute;
+            right: -10px;
+            top: 0;
+            z-index: 20;
+        }
+
+        .stamp-edge {
+            background-image: radial-gradient(circle at 0px 50%, transparent 10px, #fbf9f6 10px);
+            background-size: 20px 20px;
+            background-position: -10px 0;
+            background-repeat: repeat-y;
+            width: 10px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 20;
+        }
+
+        /* Floating Animation */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        #stardust-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.6;
+        }
+
+        .warm-nebula {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 153, 51, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(162, 88, 243, 0.08) 0%, transparent 50%);
+            filter: blur(60px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-float {
+                animation: none !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar -->
+<div class="fixed top-0 w-full z-[60] bg-secondary text-on-primary py-2 text-center font-bold text-label-sm tracking-wide">
+    ✨ New Story Alert: "The Crystal Cave" is now available for personalization! ✨
+</div><nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-sm border-b border-outline-variant/30 mt-9">
+<div class="flex justify-between items-center px-margin-mobile md:px-gutter max-w-container-max mx-auto h-20">
+<div class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight">Stardust Tales</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary transition-all duration-200" href="#">Explore Stories</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-transform hover:scale-105" href="#">How It Works</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-transform hover:scale-105" href="#">Pricing</a>
+</div>
+<button class="magic-button text-on-primary px-6 py-2.5 rounded-full font-label-sm text-label-sm active:scale-95">
+            CREATE PREVIEW
+        </button>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Redesigned Hero Section -->
+<section class="relative overflow-hidden bg-soft-sand min-h-[600px] flex items-stretch shadow-2xl border-b border-outline-variant/30">
+<div class="warm-nebula"></div><div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: radial-gradient(circle, rgb(162, 88, 243) 0.5px, transparent 0.5px); background-size: 32px 32px;"></div>
+<canvas id="stardust-canvas" width="1280" height="640"></canvas>
+<div class="max-w-container-max mx-auto w-full flex flex-col lg:flex-row relative z-10">
+<!-- Content Side -->
+<div class="lg:w-1/2 flex flex-col justify-center px-margin-mobile md:px-gutter py-16 lg:py-24 relative"><div class="max-w-xl relative">
+    <!-- Background Glow Effect -->
+    <div class="absolute -inset-10 bg-gradient-to-r from-magic-lilac/20 via-sunset-gold/20 to-secondary/20 blur-[100px] -z-10"></div>
+    
+    <div class="flex items-center gap-2 mb-6">
+        <span class="material-symbols-outlined text-sunset-gold animate-pulse">auto_awesome</span>
+        <span class="text-label-sm font-label-sm tracking-widest uppercase text-secondary">Magical AI Storytelling</span>
+        <span class="material-symbols-outlined text-magic-lilac animate-pulse">auto_awesome</span>
+    </div>
+
+    <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 leading-[1.1] tracking-tight">
+        Make your Child the <br>
+        <span class="relative inline-block">
+            <span class="text-magic-lilac relative z-10">Star</span>
+            <span class="absolute bottom-2 left-0 w-full h-4 bg-sunset-gold/30 -rotate-2 -z-10"></span>
+        </span> 
+        of their <span class="text-secondary">own Story!</span>
+    </h1>
+
+    <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 leading-relaxed">
+        A keepsake they'll treasure for years to come. <span class="text-primary font-bold">Upload a photo</span> and watch them transform into a premium, custom-illustrated storybook.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-8">
+        <div class="relative">
+            <button class="magic-button text-on-primary px-10 py-5 rounded-full font-headline-sm text-headline-sm relative z-10 shadow-2xl" id="cta-button" style="transform: translate(0px, 0px) scale(1);">
+                GENERATE INSTANT PREVIEW
+            </button>
+            <!-- Enhanced FREE Badge -->
+            <div class="absolute -top-6 -right-6 bg-sunset-gold text-white text-sm font-bold px-4 py-2 rounded-full shadow-[0_0_20px_rgba(255,153,51,0.6)] z-20 animate-bounce border-2 border-white">
+                FREE
+            </div>
+        </div>
+
+        <div class="flex flex-col">
+            <div class="flex -space-x-2 mb-2">
+                <div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold">JP</div>
+                <div class="w-8 h-8 rounded-full border-2 border-white bg-magic-lilac/20 flex items-center justify-center text-[10px] font-bold">AM</div>
+                <div class="w-8 h-8 rounded-full border-2 border-white bg-sunset-gold/20 flex items-center justify-center text-[10px] font-bold">SK</div>
+            </div>
+            <p class="text-label-sm font-label-sm text-on-surface-variant">
+                <span class="text-primary font-bold">Join 10,000+</span> happy parents
+            </p>
+        </div>
+    </div>
+
+    <p class="mt-6 text-on-surface-variant text-label-sm font-label-sm opacity-70 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">timer</span> takes only 2 minutes
+    </p>
+</div>
+<!-- Stamp Edge Decorative Divider -->
+<div class="hidden lg:block stamp-edge"></div></div>
+<!-- Image Side -->
+<div class="lg:w-1/2 relative min-h-[400px] lg:min-h-0">
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAgdp6BdlWHtQP_TceoHYO37wnj1DB6baMo95kNUqcTcDwAd1ANYoZntJBE_iEG5KxwIFACDhfPDy77grq-rCLBgROwuutaRmqMkVFr2MmrWBlgoZwPEjugseyMVAvnKibcY7U9ovV0deV34IuIHqc2c9VX6elWENOq7qDBXg2EDt7RtCANZtcGzcNl1xkS2-FgdwoDs6mvuhO01mE-xSHVMuTTzznXJYr83bckEE6hWJbawiV6E-EKMUCUOJRfwp16gpMLXC7F9CI&quot;);">
+<!-- Overlay with magical glow from IMAGE_4 -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+<!-- Magical Glow Effects -->
+<div class="absolute top-1/4 right-1/4 w-32 h-32 bg-sunset-gold/30 blur-[60px] rounded-full"></div>
+<div class="absolute bottom-1/3 left-1/4 w-48 h-48 bg-magic-lilac/20 blur-[80px] rounded-full"></div>
+</div>
+<!-- Decorative "Magical Glow" Sparkles Overlay -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="relative w-full h-full">
+<img alt="Magical Glow Particles" class="w-full h-full object-cover mix-blend-screen opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiZPEF3MkA14netuVkz5UNlLDgQNO1LIbKPCYqYi96koQBLYbAtbFr-1yG-xsy0oZf_rRBkvXV6kil0tAKNvBFpN823hAMnW2nUkySfCgb7nB7Gi2bM30NRLCVkWA4FpnpxzpYy7S1XbKU_YjNd0WjcwKdlrIz8Rr7fsvlvkflJuRWaFSj7F-knyrlKUofjOEVYBK_LVvtnbFE4P8CkE-ZQb28BWGGSUdVMm5ZZRyVv4UCSP2FzVug1_-M1UQ5ARcxi3SWL8agwoc">
+</div>
+</div>
+</div>
+</div>
+</section>
+<script>
+    // Stardust Particle System
+    const canvas = document.getElementById('stardust-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const particleCount = 40;
+
+    function initCanvas() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.alpha = Math.random() * 0.5 + 0.1;
+            this.color = Math.random() > 0.6 ? '#a258f3' : (Math.random() > 0.5 ? '#ff9933' : '#ffffff');
+            this.twinkleSpeed = Math.random() * 0.01 + 0.005;
+            this.twinkleDirection = 1;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            this.alpha += this.twinkleSpeed * this.twinkleDirection;
+            if (this.alpha > 0.7 || this.alpha < 0.1) {
+                this.twinkleDirection *= -1;
+            }
+
+            if (this.y < -10) this.y = canvas.height + 10;
+            if (this.y > canvas.height + 10) this.y = -10;
+            if (this.x < -10) this.x = canvas.width + 10;
+            if (this.x > canvas.width + 10) this.x = -10;
+        }
+
+        draw() {
+            ctx.globalAlpha = this.alpha;
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function animate() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+
+    function startParticles() {
+        initCanvas();
+        particles = Array.from({ length: particleCount }, () => new Particle());
+        animate();
+    }
+
+    window.addEventListener('resize', initCanvas);
+    startParticles();
+
+    // Magnetic Button Effect
+    const btn = document.getElementById('cta-button');
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) scale(1.05)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate(0, 0) scale(1)`;
+    });
+</script>
+<!-- Popular Stories Gallery -->
+<section class="py-section-gap-lg">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-gutter">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline-md text-headline-md uppercase mb-2">POPULAR STORIES</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Bestselling adventures loved by thousands of kids.</p>
+</div>
+<button class="hidden md:flex items-center text-secondary font-label-sm text-label-sm hover:underline">
+                VIEW ALL THEMES <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group bg-surface-container-lowest rounded-[32px] overflow-hidden border border-outline-variant/30 hover:shadow-2xl transition-all duration-300">
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A vivid storybook cover titled 'The Galactic Kid' showing a young boy in a high-tech spacesuit sitting on the edge of a crescent moon. The planet Earth glows in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_hda6FstAb1vhPwzma0-54zyDYCocSC_z5lvkFdbGT5hIGS7q_JONS2PADswxJBTMccwVwUdPizaCncDOIpN-svBUgPdXd-Pbub0KJM82aJ9FBJwm-QGh3ec3DMwuinM9sumYBTuC9V4HFnu1TANt925sc_f5l2I1FBtxaDmKxVz8ZZXn93ZK049KLD1YC2MfCpLYE7_ftmrDazfCkFgTmB9L1-hIKo12Yc40kAj-cruNZ49KkDyMFgJIgPir6Uy0c57MfbvWxfM">
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm">The Galactic Kid</h3>
+<span class="bg-sunset-gold/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Age: 3-8 yrs</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">An interstellar journey to save the Stardust Star. Perfect for dreamers.</p><div class="flex flex-wrap gap-2 mb-6"><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Persistence</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Kindness</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Curiosity</span></div>
+<div class="flex items-center justify-between mb-4 px-1">
+    <div class="flex items-baseline gap-2">
+        <span class="text-headline-sm font-bold text-primary">$27.99</span>
+        <span class="text-label-sm text-on-surface-variant line-through">$34.99</span>
+    </div>
+    <span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">20% OFF</span>
+</div><button class="w-full py-4 rounded-2xl bg-surface-container hover:bg-secondary hover:text-on-primary transition-colors font-label-sm text-label-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span> Personalize
+                    </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-lowest rounded-[32px] overflow-hidden border border-outline-variant/30 hover:shadow-2xl transition-all duration-300">
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A lush prehistoric jungle scene with a friendly, large brachiosaurus leaning down to greet a small child." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC809sEA-5iptDaCin_DQRyUp2xRw_1BGTdAOAQrsj7xo_j2bGl-fUgCcnWUGRJRtCWcC3887NKb7kJFQCOKUXzK8krcp48t7UjbGsm0usL6T4oLMJSCorTz9oxokWkHKuNPoHU-54DrThkAa0ZeLVERzUSujSDfP2lOVS6Q6Odbr-POPRCelw1fyIcc1rlcgAqaWGBz6UMzwk1zbJR3BHTErT3I8en7vecnxQiTDp6zn2THM3DzSf0ympJ0TvgttHkbCxqdYRPDWg">
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm">Jurassic Friend</h3>
+<span class="bg-sunset-gold/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Age: 2-6 yrs</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Travel back in time to find the friendliest dinosaurs in the valley.</p><div class="flex flex-wrap gap-2 mb-6"><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Teamwork</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Bravery</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Friendship</span></div>
+<div class="flex items-center justify-between mb-4 px-1">
+    <div class="flex items-baseline gap-2">
+        <span class="text-headline-sm font-bold text-primary">$27.99</span>
+        <span class="text-label-sm text-on-surface-variant line-through">$34.99</span>
+    </div>
+    <span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">20% OFF</span>
+</div><button class="w-full py-4 rounded-2xl bg-surface-container hover:bg-secondary hover:text-on-primary transition-colors font-label-sm text-label-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span> Personalize
+                    </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-lowest rounded-[32px] overflow-hidden border border-outline-variant/30 hover:shadow-2xl transition-all duration-300">
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-fantasy jungle illustration featuring a golden-furred lion with glowing manes walking alongside a child explorer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQJM42nfpvGAiqU2QYX-11Y1-SGay2uWbeIoSVAACkchZdWOLDWBZZa_lkd-KM4Og1krHxQD5TGMHWUY2V5JNePSvdJJg0d97BjPNdg6pGOJXTTGWIMftMkMsIgKZShzYAg8A7c8XzUQH5pFcU5wcTtUZFEUn65glh1hBUAaB4SYbzw5U4WICG-0MxPLXRpOxqrp8QFqXoxDV8KMwozRTL8js1pVnmseoas9rDeP924I6Z4awRlk43q64kudZ2K6AbJPEMPMh7a8">
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm">Wild Safari Trip</h3>
+<span class="bg-sunset-gold/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Age: 4-9 yrs</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">A thrilling exploration through the deepest jungles to find the Golden Lion.</p><div class="flex flex-wrap gap-2 mb-6"><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Empathy</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Discovery</span><span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-label-sm uppercase tracking-wider">Patience</span></div>
+<div class="flex items-center justify-between mb-4 px-1">
+    <div class="flex items-baseline gap-2">
+        <span class="text-headline-sm font-bold text-primary">$27.99</span>
+        <span class="text-label-sm text-on-surface-variant line-through">$34.99</span>
+    </div>
+    <span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">20% OFF</span>
+</div><button class="w-full py-4 rounded-2xl bg-surface-container hover:bg-secondary hover:text-on-primary transition-colors font-label-sm text-label-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span> Personalize
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Magic CTA Section -->
+<section class="py-section-gap-lg px-margin-mobile">
+<div class="max-w-container-max mx-auto glass-card p-12 md:p-24 rounded-[60px] relative overflow-hidden text-center border border-white stardust-glow">
+<div class="absolute inset-0 bg-secondary/5 -z-10"></div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8">Ready to see the magic?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto">It takes less than 2 minutes to create a digital preview of your child's magical book. No credit card required.</p>
+<button class="magic-button text-on-primary px-12 py-6 rounded-full font-headline-sm text-headline-sm">
+            START MY STORY
+        </button>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-section-gap-lg bg-primary text-on-primary relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #ff9933 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-gutter relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-display-lg-mobile md:font-headline-md text-display-lg-mobile md:text-headline-md mb-4 uppercase">HOW IT WORKS</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim">3 Simple Steps to Magic</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-white/5 backdrop-blur-sm p-10 rounded-[40px] text-center border border-white/10 flex flex-col items-center">
+<div class="w-20 h-20 rounded-full bg-secondary/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-4xl" data-weight="fill">auto_stories</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Pick a Book</h3>
+<p class="font-body-md text-body-md text-primary-fixed-dim">Choose from epic space travels, dinosaur jungles, or future career adventures.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-white/5 backdrop-blur-sm p-10 rounded-[40px] text-center border border-white/10 flex flex-col items-center">
+<div class="w-20 h-20 rounded-full bg-sunset-gold/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-sunset-gold text-4xl" data-weight="fill">add_a_photo</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Upload Photo</h3>
+<p class="font-body-md text-body-md text-primary-fixed-dim">Our AI magic maps their face into every single illustration of the story.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-white/5 backdrop-blur-sm p-10 rounded-[40px] text-center border border-white/10 flex flex-col items-center">
+<div class="w-20 h-20 rounded-full bg-secondary/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-4xl" data-weight="fill">shopping_bag</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Preview &amp; Order</h3>
+<p class="font-body-md text-body-md text-primary-fixed-dim">Flip through your entire book for free. Only pay when you're in love with it.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="w-full py-section-gap-sm bg-surface-container-low">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-gutter max-w-container-max mx-auto space-y-8 md:space-y-0">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight">Stardust Tales</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-center md:text-left">© 2024 Stardust Tales. Hand-crafted with magic.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Us</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">FAQ</a>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-primary cursor-pointer hover:bg-secondary hover:text-on-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-xl">share</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-primary cursor-pointer hover:bg-secondary hover:text-on-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-xl">local_activity</span>
+</div>
+</div>
+</div>
+</footer>
+
+
+
+
+
+
+</body></html>

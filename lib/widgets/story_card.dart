@@ -8,6 +8,10 @@ class StoryCard extends StatefulWidget {
   final String ageRange;
   final String description;
   final List<String> imageUrls;
+  final List<String> tags;
+  final int priceSoftcover;
+  final int originalPriceSoftcover;
+  final String currencySymbol;
   final VoidCallback onTap;
 
   const StoryCard({
@@ -16,6 +20,10 @@ class StoryCard extends StatefulWidget {
     required this.ageRange,
     required this.description,
     required this.imageUrls,
+    this.tags = const [],
+    this.priceSoftcover = 999,
+    this.originalPriceSoftcover = 1499,
+    this.currencySymbol = '₹',
     required this.onTap,
   });
 
@@ -317,6 +325,108 @@ class _StoryCardState extends State<StoryCard> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
+                          if (widget.tags.isNotEmpty) ...[
+                            const SizedBox(height: 10.0),
+                            Wrap(
+                              spacing: 6.0,
+                              runSpacing: 6.0,
+                              children: widget.tags
+                                  .map(
+                                    (tag) => Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0,
+                                        vertical: 4.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.surfaceContainer,
+                                        borderRadius: BorderRadius.circular(
+                                          AppConstants.radiusFull,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        tag.toUpperCase(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(
+                                              color: AppTheme.onSurfaceVariant,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.8,
+                                            ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+
+                      // Price & Discount Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text(
+                                '${widget.currencySymbol}${widget.priceSoftcover}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.primary,
+                                    ),
+                              ),
+                              if (widget.originalPriceSoftcover > widget.priceSoftcover) ...[
+                                const SizedBox(width: 6.0),
+                                Text(
+                                  '${widget.currencySymbol}${widget.originalPriceSoftcover}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        color: AppTheme.onSurfaceVariant
+                                            .withOpacity(0.7),
+                                        decoration: TextDecoration.lineThrough,
+                                        fontSize: 12.0,
+                                      ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          if (widget.originalPriceSoftcover > widget.priceSoftcover) ...[
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 3.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppTheme.secondary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(
+                                  AppConstants.radiusSm,
+                                ),
+                              ),
+                              child: Text(
+                                '${(((widget.originalPriceSoftcover - widget.priceSoftcover) / widget.originalPriceSoftcover) * 100).round()}% OFF',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(
+                                      color: AppTheme.secondary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10.0,
+                                      letterSpacing: 0.5,
+                                    ),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                       const SizedBox(height: 10.0),

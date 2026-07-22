@@ -52,4 +52,38 @@ class LegalConfig {
   // --- CANCELLATION & REFUND POLICIES ---
   /// Time frame (in hours) within which an order can be cancelled before design/print queue begins.
   static int cancellationWindowHours = 2;
+
+  // --- SOCIAL PROOF COUNTERS ---
+  /// Minimum active viewing count range (default 60).
+  static int viewingMin = 60;
+
+  /// Maximum active viewing count range (default 99).
+  static int viewingMax = 99;
+
+  /// Minimum stories crafting count range (default 8).
+  static int craftingMin = 8;
+
+  /// Maximum stories crafting count range (default 50).
+  static int craftingMax = 50;
+
+  /// Backend pre-computed active viewing count (optional).
+  static int? activeViewingCount;
+
+  /// Backend pre-computed active crafting count (optional).
+  static int? activeCraftingCount;
+
+  // --- ANNOUNCEMENT & DISCOUNT BANNERS ---
+  /// Top header announcement text.
+  static String announcementText =
+      '✨ New Story Alert: "The Crystal Cave" is now available for personalization! ✨';
+
+  /// Whether the top announcement bar is enabled.
+  static bool announcementEnabled = true;
+
+  /// Promotional discount bar text.
+  static String discountBarText =
+      '⚡ Limited Time Offer: Save up to 33% OFF on all custom storybooks today!';
+
+  /// Whether the promotional discount bar is enabled.
+  static bool discountBarEnabled = true;
 }

@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -20,6 +21,67 @@ import 'maintenance_view.dart';
 import 'preview_loading_view.dart';
 import 'products_view.dart';
 
+class PulsingLiveDot extends StatefulWidget {
+  const PulsingLiveDot({super.key});
+
+  @override
+  State<PulsingLiveDot> createState() => _PulsingLiveDotState();
+}
+
+class _PulsingLiveDotState extends State<PulsingLiveDot>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: 12.0 * _animation.value,
+              height: 12.0 * _animation.value,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF22C55E).withOpacity(0.4 * _animation.value),
+              ),
+            ),
+            Container(
+              width: 8.0,
+              height: 8.0,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFF22C55E),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class ProductDetailView extends StatefulWidget {
   final Product product;
 
@@ -33,11 +95,37 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   List<Product> _allProducts = [];
   bool _isLoadingProducts = true;
   final ProductsService _productsService = ProductsService();
+  late int _viewingCount;
+  Timer? _viewingTimer;
+  final Random _random = Random();
 
   @override
   void initState() {
     super.initState();
+    _initViewingCount();
     _loadAllProducts();
+  }
+
+  void _initViewingCount() {
+    final vMin = min(LegalConfig.viewingMin, LegalConfig.viewingMax);
+    final vMax = max(LegalConfig.viewingMin, LegalConfig.viewingMax);
+    _viewingCount =
+        LegalConfig.activeViewingCount ??
+        (vMin + _random.nextInt(max(1, vMax - vMin + 1)));
+    _viewingTimer = Timer.periodic(const Duration(seconds: 8), (timer) {
+      if (mounted) {
+        setState(() {
+          final delta = _random.nextInt(3) - 1;
+          _viewingCount = (_viewingCount + delta).clamp(vMin, vMax);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _viewingTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadAllProducts() async {
@@ -139,7 +227,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             final totalSpacing = 24.0 * (crossAxisCount - 1);
             final cardWidth = (width - totalSpacing) / crossAxisCount;
             final imageHeight = cardWidth * (2.0 / 3.0);
-            final totalHeight = imageHeight + 230.0;
+            final totalHeight = imageHeight + 265.0;
             final childAspectRatio = cardWidth / totalHeight;
 
             return GridView.builder(
@@ -159,6 +247,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ageRange: prod.ageRange,
                   description: prod.description,
                   imageUrls: prod.getCardImages(),
+                  tags: prod.tags,
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -321,27 +410,59 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: AppTheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.star, color: AppTheme.secondary, size: 16.0),
-              const SizedBox(width: 4.0),
-              Text(
-                '${widget.product.rating}/5',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppTheme.onSecondaryContainer,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13.0,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppTheme.secondaryContainer.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                border: Border.all(
+                  color: AppTheme.secondary.withOpacity(0.2),
+                  width: 1.0,
                 ),
               ),
-            ],
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const PulsingLiveDot(),
+                  const SizedBox(width: 8.0),
+                  Text(
+                    '$_viewingCount people exploring now',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppTheme.secondary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8.0),
+            Container(
+              decoration: BoxDecoration(
+                color: AppTheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.star, color: AppTheme.secondary, size: 16.0),
+                  const SizedBox(width: 4.0),
+                  Text(
+                    '${widget.product.rating}/5',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppTheme.onSecondaryContainer,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -707,15 +828,37 @@ class _CustomizationFormState extends State<CustomizationForm> {
   bool _isGenerateBtnHovered = false;
   bool _isDragging = false;
 
+  late int _craftingCount;
+  Timer? _craftingTimer;
+  final Random _random = Random();
+
   @override
   void initState() {
     super.initState();
+    _initCraftingCount();
     _nameController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
   }
 
+  void _initCraftingCount() {
+    final cMin = min(LegalConfig.craftingMin, LegalConfig.craftingMax);
+    final cMax = max(LegalConfig.craftingMin, LegalConfig.craftingMax);
+    _craftingCount =
+        LegalConfig.activeCraftingCount ??
+        (cMin + _random.nextInt(max(1, cMax - cMin + 1)));
+    _craftingTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      if (mounted) {
+        setState(() {
+          final delta = _random.nextInt(3) - 1;
+          _craftingCount = (_craftingCount + delta).clamp(cMin, cMax);
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
+    _craftingTimer?.cancel();
     _nameController.dispose();
     _emailController.dispose();
     super.dispose();
@@ -1746,22 +1889,66 @@ class _CustomizationFormState extends State<CustomizationForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Starting Price:',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: AppTheme.onSurfaceVariant,
-                        fontSize: 12.0,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          'Starting Price:',
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color: AppTheme.onSurfaceVariant,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        if (widget.product.discountPercent > 0) ...[
+                          const SizedBox(width: 8.0),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0,
+                              vertical: 2.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.secondary.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusSm,
+                              ),
+                            ),
+                            child: Text(
+                              'SAVE UP TO ${widget.product.discountPercent}%',
+                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                color: AppTheme.secondary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     const SizedBox(height: 4.0),
-                    Text(
-                      '${LegalConfig.currencySymbol}${widget.product.priceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.priceHardcover}',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(
-                            color: AppTheme.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          '${LegalConfig.currencySymbol}${widget.product.priceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.priceHardcover}',
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(
+                                color: AppTheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
+                        ),
+                        if (widget.product.originalPriceSoftcover > widget.product.priceSoftcover) ...[
+                          const SizedBox(width: 8.0),
+                          Text(
+                            '${LegalConfig.currencySymbol}${widget.product.originalPriceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.originalPriceHardcover}',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppTheme.onSurfaceVariant.withOpacity(0.7),
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 13.0,
+                            ),
                           ),
+                        ],
+                      ],
                     ),
                   ],
                 ),
@@ -1776,10 +1963,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
                         fontSize: 12.0,
                       ),
                     ),
-                    SizedBox(height: 4.0),
+                    const SizedBox(height: 4.0),
                     Text(
                       LegalConfig.estimatedDeliveryTime,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppTheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 14.0,
@@ -1790,7 +1977,43 @@ class _CustomizationFormState extends State<CustomizationForm> {
               ],
             ),
           ),
-          const SizedBox(height: 32.0),
+          const SizedBox(height: 24.0),
+
+          // Social Proof Crafting Badge
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.secondaryContainer.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+              border: Border.all(
+                color: AppTheme.secondary.withOpacity(0.15),
+                width: 1.0,
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.auto_fix_high,
+                  color: AppTheme.secondary,
+                  size: 18.0,
+                ),
+                const SizedBox(width: 8.0),
+                Flexible(
+                  child: Text(
+                    '$_craftingCount stories currently being crafted',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppTheme.onSecondaryContainer,
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16.0),
 
           MouseRegion(
             onEnter: isFormValid ? (_) => setState(() => _isGenerateBtnHovered = true) : null,

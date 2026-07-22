@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/constants.dart';
 import '../core/theme.dart';
+import '../core/legal_config.dart';
 import '../models/product.dart';
 import '../core/api/products_service.dart';
 import '../widgets/navbar.dart';
@@ -184,7 +185,7 @@ class _ProductsViewState extends State<ProductsView> {
                           final cardWidth =
                               (width - totalSpacing) / crossAxisCount;
                           final imageHeight = cardWidth * (2.0 / 3.0);
-                          final totalHeight = imageHeight + 230.0;
+                          final totalHeight = imageHeight + 265.0;
                           final childAspectRatio = cardWidth / totalHeight;
 
                           return Column(
@@ -208,6 +209,10 @@ class _ProductsViewState extends State<ProductsView> {
                                     ageRange: product.ageRange,
                                     description: product.description,
                                     imageUrls: product.getCardImages(),
+                                    tags: product.tags,
+                                    priceSoftcover: product.priceSoftcover,
+                                    originalPriceSoftcover: product.originalPriceSoftcover,
+                                    currencySymbol: LegalConfig.currencySymbol,
                                     onTap: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

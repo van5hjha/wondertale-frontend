@@ -21,9 +21,12 @@ class Product {
   final int reviewCount;
   final int priceHardcover;
   final int priceSoftcover;
+  final int originalPriceHardcover;
+  final int originalPriceSoftcover;
   final String coverImageUrl;
   final List<PreviewItem> previewItems;
   final List<String> features;
+  final List<String> tags;
   final int? bookTemplateId;
 
   Product({
@@ -35,11 +38,20 @@ class Product {
     required this.reviewCount,
     required this.priceHardcover,
     required this.priceSoftcover,
+    this.originalPriceHardcover = 1999,
+    this.originalPriceSoftcover = 1499,
     required this.coverImageUrl,
     required this.previewItems,
     required this.features,
+    this.tags = const [],
     this.bookTemplateId,
   });
+
+  int get discountPercent {
+    final orig = originalPriceSoftcover > 0 ? originalPriceSoftcover : 1499;
+    if (orig <= priceSoftcover) return 0;
+    return (((orig - priceSoftcover) / orig) * 100).round();
+  }
 
   factory Product.fromJson(Map<String, dynamic> json) {
     final List<PreviewItem> pItems = [];
@@ -60,20 +72,46 @@ class Product {
       defaultCover = pItems.first.urls.first;
     }
 
+    final pSoft = json['priceSoftcover'] as int? ?? 999;
+    final pHard = json['priceHardcover'] as int? ?? 1499;
+    final oSoft = json['originalPriceSoftcover'] as int? ?? (pSoft > 0 ? (pSoft * 1.5).round() : 1499);
+    final oHard = json['originalPriceHardcover'] as int? ?? (pHard > 0 ? (pHard * 1.4).round() : 1999);
+
+    final String productId = json['id'] as String? ?? '';
+    final String productTitle = (json['title'] as String? ?? '').toLowerCase();
+    List<String> defaultTags = [];
+    if (productId == 'galactic-kid' || productTitle.contains('galactic')) {
+      defaultTags = ['Persistence', 'Kindness', 'Curiosity'];
+    } else if (productId == 'jurassic-friend' || productTitle.contains('jurassic')) {
+      defaultTags = ['Teamwork', 'Bravery', 'Friendship'];
+    } else if (productId == 'wild-safari' || productTitle.contains('safari')) {
+      defaultTags = ['Empathy', 'Discovery', 'Patience'];
+    } else if (productId == 'personalized-alphabet-book' || productTitle.contains('alphabet')) {
+      defaultTags = ['Learning', 'Creativity', 'Fun'];
+    }
+
+    final rawTags = json['tags'];
+    final List<String> parsedTags = (rawTags != null && (rawTags as List).isNotEmpty)
+        ? List<String>.from(rawTags)
+        : defaultTags;
+
     return Product(
-      id: json['id'] as String? ?? '',
+      id: productId,
       title: json['title'] as String? ?? '',
       ageRange: json['ageRange'] as String? ?? '',
       description: json['description'] as String? ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       reviewCount: json['reviewCount'] as int? ?? 0,
-      priceHardcover: json['priceHardcover'] as int? ?? 0,
-      priceSoftcover: json['priceSoftcover'] as int? ?? 0,
+      priceHardcover: pHard,
+      priceSoftcover: pSoft,
+      originalPriceHardcover: oHard,
+      originalPriceSoftcover: oSoft,
       coverImageUrl: json['coverImageUrl'] as String? ?? defaultCover,
       previewItems: pItems,
       features: json['features'] != null
           ? List<String>.from(json['features'] as List)
           : [],
+      tags: parsedTags,
       bookTemplateId: json['bookTemplateId'] as int?,
     );
   }

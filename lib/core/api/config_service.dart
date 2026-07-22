@@ -33,6 +33,18 @@ class ConfigService {
         LegalConfig.hardcoverImageUrl = data['hardcoverImageUrl'];
         
         LegalConfig.cancellationWindowHours = data['cancellation_window_hours'] ?? LegalConfig.cancellationWindowHours;
+
+        LegalConfig.viewingMin = data['viewing_min'] ?? LegalConfig.viewingMin;
+        LegalConfig.viewingMax = data['viewing_max'] ?? LegalConfig.viewingMax;
+        LegalConfig.craftingMin = data['crafting_min'] ?? LegalConfig.craftingMin;
+        LegalConfig.craftingMax = data['crafting_max'] ?? LegalConfig.craftingMax;
+        LegalConfig.activeViewingCount = data['active_viewing_count'];
+        LegalConfig.activeCraftingCount = data['active_crafting_count'];
+
+        LegalConfig.announcementText = data['announcement_text'] ?? LegalConfig.announcementText;
+        LegalConfig.announcementEnabled = data['announcement_enabled'] ?? LegalConfig.announcementEnabled;
+        LegalConfig.discountBarText = data['discount_bar_text'] ?? LegalConfig.discountBarText;
+        LegalConfig.discountBarEnabled = data['discount_bar_enabled'] ?? LegalConfig.discountBarEnabled;
       } else {
         debugPrint('Failed to load remote config. Using fallback config. Status code: ${response.statusCode}');
       }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
 import '../core/theme.dart';
+import '../core/legal_config.dart';
 import '../models/product.dart';
 import '../core/api/products_service.dart';
+import '../core/api/sliders_service.dart';
+import '../models/slider_model.dart';
 import '../widgets/navbar.dart';
 import '../widgets/footer.dart';
 import '../widgets/before_after_slideshow.dart';
@@ -39,32 +42,36 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _loadProducts();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadProducts();
+    });
   }
 
   Future<void> _loadProducts() async {
     final startTime = DateTime.now();
+    List<Product> loadedProducts = [];
+
     try {
       final paginated = await _productsService.fetchProducts();
-      if (mounted) {
-        setState(() {
-          _products = paginated.products;
-        });
-      }
+      loadedProducts = paginated.products;
     } catch (e) {
       debugPrint(
         'Error loading products from API: $e. Falling back to local assets.',
       );
       try {
         final paginated = await _productsService.loadLocalProducts();
-        if (mounted) {
-          setState(() {
-            _products = paginated.products;
-          });
-        }
+        loadedProducts = paginated.products;
       } catch (assetErr) {
         debugPrint('Error loading fallback products.json: $assetErr');
       }
+    }
+
+    if (mounted) {
+      setState(() {
+        _products = loadedProducts;
+      });
+      // Precache ALL website images before completing loading animation screen
+      await _precacheAllImages(loadedProducts);
     }
 
     final elapsed = DateTime.now().difference(startTime);
@@ -77,6 +84,59 @@ class _HomeViewState extends State<HomeView> {
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _precacheAllImages(List<Product> products) async {
+    if (!mounted) return;
+    final List<Future<void>> futures = [];
+
+    void safePrecache(String pathOrUrl) {
+      if (pathOrUrl.isEmpty) return;
+      try {
+        final ImageProvider provider =
+            (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://'))
+                ? NetworkImage(pathOrUrl)
+                : AssetImage(pathOrUrl) as ImageProvider;
+        futures.add(precacheImage(provider, context).catchError((_) {}));
+      } catch (e) {
+        debugPrint('Precache error for $pathOrUrl: $e');
+      }
+    }
+
+    // 1. App logo & hero fallback assets
+    safePrecache('assets/images/logo.png');
+    safePrecache('assets/images/before_image.png');
+    safePrecache('assets/images/after_image.jpg');
+
+    // 2. Fetch & precache Hero Sliders
+    try {
+      final slidersService = SlidersService();
+      final sliders = await slidersService
+          .fetchSliders()
+          .catchError((_) async => <SliderModel>[]);
+      for (final s in sliders) {
+        if (s.beforeImageUrl != null) safePrecache(s.beforeImageUrl!);
+        if (s.afterImageUrl != null) safePrecache(s.afterImageUrl!);
+        if (s.imageUrl != null) safePrecache(s.imageUrl!);
+      }
+    } catch (e) {
+      debugPrint('Precache sliders warning: $e');
+    }
+
+    // 3. Precache product card images
+    for (final product in products) {
+      for (final imgUrl in product.getCardImages()) {
+        safePrecache(imgUrl);
+      }
+    }
+
+    // Wait for precaching with 6-second max timeout
+    if (futures.isNotEmpty) {
+      await Future.wait(futures).timeout(
+        const Duration(seconds: 6),
+        onTimeout: () => <void>[],
+      );
     }
   }
 
@@ -549,7 +609,7 @@ class _HomeViewState extends State<HomeView> {
                                     final cardWidth =
                                         (width - totalSpacing) / crossAxisCount;
                                     final imageHeight = cardWidth * (2.0 / 3.0);
-                                    final totalHeight = imageHeight + 230.0;
+                                    final totalHeight = imageHeight + 265.0;
                                     final childAspectRatio =
                                         cardWidth / totalHeight;
 
@@ -572,6 +632,10 @@ class _HomeViewState extends State<HomeView> {
                                           ageRange: product.ageRange,
                                           description: product.description,
                                           imageUrls: product.getCardImages(),
+                                          tags: product.tags,
+                                          priceSoftcover: product.priceSoftcover,
+                                          originalPriceSoftcover: product.originalPriceSoftcover,
+                                          currencySymbol: LegalConfig.currencySymbol,
                                           onTap: () {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
