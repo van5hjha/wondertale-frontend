@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../core/constants.dart';
 import '../core/theme.dart';
 import '../core/legal_config.dart';
@@ -360,7 +361,17 @@ class _HomeViewState extends State<HomeView> {
                     _activeIndex = -1;
                   });
                 },
-                onExploreStoriesTap: () => _scrollToSection(_storiesKey, 0),
+                onExploreStoriesTap: (category) {
+                  if (category == null) {
+                    _scrollToSection(_storiesKey, 0);
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => ProductsView(initialCategory: category),
+                      ),
+                    );
+                  }
+                },
                 onHowItWorksTap: () => _scrollToSection(_howItWorksKey, 1),
                 onPricingTap: () => _scrollToSection(_pricingKey, 2),
                 onCreatePreviewTap: () {
@@ -491,102 +502,38 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.secondaryContainer,
-                                      borderRadius: BorderRadius.circular(
-                                        AppConstants.radiusFull,
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 6.0,
-                                    ),
-                                    child: Text(
-                                      'POPULAR STORIES',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(
-                                            color:
-                                                AppTheme.onSecondaryContainer,
-                                            fontSize: 12.0,
-                                            letterSpacing: 1.5,
-                                          ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16.0),
-                                  Text(
-                                    'Trending Tales',
-                                    style: isTablet
-                                        ? Theme.of(
-                                            context,
-                                          ).textTheme.displayMedium
-                                        : Theme.of(
-                                            context,
-                                          ).textTheme.headlineLarge,
-                                  ),
-                                ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.secondaryContainer,
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusFull,
                               ),
-                              if (isTablet)
-                                MagneticHoverButton(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => const ProductsView(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppTheme.outlineVariant,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                        AppConstants.radiusFull,
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24.0,
-                                      vertical: 12.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'VIEW ALL STORIES',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(
-                                                color: AppTheme.onSurface,
-                                                fontSize: 12.0,
-                                                letterSpacing: 1.0,
-                                              ),
-                                        ),
-                                        const SizedBox(width: 8.0),
-                                        const Icon(
-                                          Icons.arrow_forward,
-                                          size: 16.0,
-                                          color: AppTheme.onSurface,
-                                        ),
-                                      ],
-                                    ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 6.0,
+                            ),
+                            child: Text(
+                              'EXPLORE OUR MAGICAL COLLECTION',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    color:
+                                        AppTheme.onSecondaryContainer,
+                                    fontSize: 12.0,
+                                    letterSpacing: 1.5,
                                   ),
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          Text(
+                            'Bestselling adventures loved by thousands of kids.',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.onSurfaceVariant,
                                 ),
-                            ],
                           ),
                           const SizedBox(height: 48.0),
-
-                          // Stories Grid
                           _isLoading
                               ? const Center(
                                   child: Padding(
@@ -598,104 +545,50 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                   ),
                                 )
-                              : LayoutBuilder(
-                                  builder: (context, constraints) {
-                                    final width = constraints.maxWidth;
-                                    final crossAxisCount = width >= 1024
-                                        ? 3
-                                        : (width >= 640 ? 2 : 1);
-                                    final totalSpacing =
-                                        32.0 * (crossAxisCount - 1);
-                                    final cardWidth =
-                                        (width - totalSpacing) / crossAxisCount;
-                                    final imageHeight = cardWidth * (2.0 / 3.0);
-                                    final totalHeight = imageHeight + 265.0;
-                                    final childAspectRatio =
-                                        cardWidth / totalHeight;
-
-                                    return GridView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: crossAxisCount,
-                                            crossAxisSpacing: 32.0,
-                                            mainAxisSpacing: 48.0,
-                                            childAspectRatio: childAspectRatio,
-                                          ),
-                                      itemCount: _products.length,
-                                      itemBuilder: (context, index) {
-                                        final product = _products[index];
-                                        return StoryCard(
-                                          title: product.title,
-                                          ageRange: product.ageRange,
-                                          description: product.description,
-                                          imageUrls: product.getCardImages(),
-                                          tags: product.tags,
-                                          priceSoftcover: product.priceSoftcover,
-                                          originalPriceSoftcover: product.originalPriceSoftcover,
-                                          currencySymbol: LegalConfig.currencySymbol,
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    ProductDetailView(
-                                                      product: product,
-                                                    ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                          if (!isTablet) ...[
-                            const SizedBox(height: 32.0),
-                            SizedBox(
-                              width: double.infinity,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => const ProductsView(),
-                                    ),
-                                  );
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(
-                                    color: AppTheme.outlineVariant,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16.0,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      AppConstants.radiusFull,
-                                    ),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'VIEW ALL STORIES',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(
-                                            color: AppTheme.onSurface,
-                                            fontSize: 14.0,
-                                          ),
+                                    _buildProductSection(
+                                      context,
+                                      'Personalized Storybooks',
+                                      'Magical custom books where your child is the star.',
+                                      'VIEW ALL THEMES',
+                                      'storybook',
+                                      _products.where((p) => p.category == 'storybook').toList(),
+                                      isTablet,
                                     ),
-                                    const SizedBox(width: 8.0),
-                                    const Icon(Icons.arrow_forward, size: 16.0),
+                                    const SizedBox(height: 80.0),
+                                    _buildProductSection(
+                                      context,
+                                      'Cosmic Memory Frames',
+                                      'Turn your favorite moments into magical space artifacts.',
+                                      'VIEW ALL FRAMES',
+                                      'frame',
+                                      _products.where((p) => p.category == 'frame').toList(),
+                                      isTablet,
+                                    ),
+                                    const SizedBox(height: 80.0),
+                                    _buildProductSection(
+                                      context,
+                                      'Stardust Sticker Packs',
+                                      'Durable, waterproof stickers featuring your child as the hero.',
+                                      'VIEW ALL STICKERS',
+                                      'sticker',
+                                      _products.where((p) => p.category == 'sticker').toList(),
+                                      isTablet,
+                                    ),
+                                    const SizedBox(height: 80.0),
+                                    _buildProductSection(
+                                      context,
+                                      'Galactic Name Labels',
+                                      'Personalized labels for school gear that never get lost in orbit.',
+                                      'VIEW ALL LABELS',
+                                      'label',
+                                      _products.where((p) => p.category == 'label').toList(),
+                                      isTablet,
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     ),
@@ -829,6 +722,131 @@ class _HomeViewState extends State<HomeView> {
               TextSpan(text: " happy parents"),
             ],
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductSection(
+    BuildContext context,
+    String sectionTitle,
+    String sectionSubtitle,
+    String viewAllText,
+    String? categoryFilter,
+    List<Product> productsList,
+    bool isTablet,
+  ) {
+    if (productsList.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sectionTitle,
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: isTablet ? 28.0 : 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.primary,
+                    ),
+                  ),
+                  if (sectionSubtitle.isNotEmpty) ...[
+                    const SizedBox(height: 8.0),
+                    Text(
+                      sectionSubtitle,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14.0,
+                        color: AppTheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ProductsView(initialCategory: categoryFilter),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    viewAllText,
+                    style: GoogleFonts.plusJakartaSans(
+                      color: AppTheme.secondary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet ? 13.0 : 11.0,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(width: 4.0),
+                  Icon(
+                    Icons.arrow_forward,
+                    size: isTablet ? 14.0 : 12.0,
+                    color: AppTheme.secondary,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 32.0),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth;
+            final crossAxisCount = width >= 1024
+                ? 3
+                : (width >= 640 ? 2 : 1);
+            final totalSpacing = 32.0 * (crossAxisCount - 1);
+            final cardWidth = (width - totalSpacing) / crossAxisCount;
+            final imageHeight = cardWidth * (2.0 / 3.0);
+            final totalHeight = imageHeight + 265.0;
+            final childAspectRatio = cardWidth / totalHeight;
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: 32.0,
+                mainAxisSpacing: 48.0,
+                childAspectRatio: childAspectRatio,
+              ),
+              itemCount: productsList.length,
+              itemBuilder: (context, index) {
+                final product = productsList[index];
+                return StoryCard(
+                  title: product.title,
+                  ageRange: product.ageRange,
+                  description: product.description,
+                  imageUrls: product.getCardImages(),
+                  tags: product.tags,
+                  priceSoftcover: product.priceSoftcover,
+                  originalPriceSoftcover: product.originalPriceSoftcover,
+                  currencySymbol: LegalConfig.currencySymbol,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailView(product: product),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
         ),
       ],
     );

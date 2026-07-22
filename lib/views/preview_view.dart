@@ -212,8 +212,16 @@ class _PreviewViewState extends State<PreviewView> {
         activeIndex: -1, // No active section highlight
         onHomeTap: () =>
             Navigator.of(context).popUntil((route) => route.isFirst),
-        onExploreStoriesTap: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+        onExploreStoriesTap: (category) {
+          if (category == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ProductsView(initialCategory: category),
+              ),
+            );
+          }
         },
         onHowItWorksTap: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -243,113 +251,128 @@ class _PreviewViewState extends State<PreviewView> {
                 ),
                 child: Column(
                   children: [
-                    // Dynamic Interactive Book
-                    BookWidget(
-                      key: _bookKey,
-                      product: widget.product,
-                      childName: widget.childName,
-                      ageRange: widget.ageRange,
-                      gender: widget.gender,
-                      bookType: _selectedBookType,
-                      generatedPageUrls: _pageUrls,
-                      previewRequestId: widget.previewRequestId,
-                      onPageChanged: (index) {
-                        setState(() {
-                          _currentSpreadIndex = index;
-                        });
-                      },
-                    ),
+                    if (widget.product.category == 'storybook') ...[
+                      // Dynamic Interactive Book
+                      BookWidget(
+                        key: _bookKey,
+                        product: widget.product,
+                        childName: widget.childName,
+                        ageRange: widget.ageRange,
+                        gender: widget.gender,
+                        bookType: _selectedBookType,
+                        generatedPageUrls: _pageUrls,
+                        previewRequestId: widget.previewRequestId,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentSpreadIndex = index;
+                          });
+                        },
+                      ),
 
-                    const SizedBox(height: 32.0),
+                      const SizedBox(height: 32.0),
 
-                    // Book Pagination Controls
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Previous Button
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              final canGoBack = _currentSpreadIndex > 0;
-                              if (canGoBack) {
-                                _bookKey.currentState?.flipBackward();
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.chevron_left,
-                                  color: (_currentSpreadIndex > 0)
-                                      ? AppTheme.secondary
-                                      : AppTheme.outlineVariant,
-                                ),
-                                const SizedBox(width: 4.0),
-                                Text(
-                                  "Previous Page",
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13.0,
+                      // Book Pagination Controls
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Previous Button
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                final canGoBack = _currentSpreadIndex > 0;
+                                if (canGoBack) {
+                                  _bookKey.currentState?.flipBackward();
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.chevron_left,
                                     color: (_currentSpreadIndex > 0)
-                                        ? AppTheme.primary
+                                        ? AppTheme.secondary
                                         : AppTheme.outlineVariant,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 4.0),
+                                  Text(
+                                    "Previous Page",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13.0,
+                                      color: (_currentSpreadIndex > 0)
+                                          ? AppTheme.primary
+                                          : AppTheme.outlineVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
 
-                        const SizedBox(width: 32.0),
+                          const SizedBox(width: 32.0),
 
-                        // Page Counter pill
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.surfaceContainer,
-                            borderRadius: BorderRadius.circular(
-                              AppConstants.radiusFull,
+                          // Page Counter pill
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.surfaceContainer,
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusFull,
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 8.0,
+                            ),
+                            child: Text(
+                              isMobile
+                                  ? "Page ${_currentSpreadIndex + 1} of ${math.max(1, _pageUrls.length)}"
+                                  : "Pages ${_currentSpreadIndex * 2 + 1}-${_currentSpreadIndex * 2 + 2} of ${math.max(1, _pageUrls.length)}",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13.0,
+                                color: AppTheme.secondary,
+                              ),
                             ),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                            vertical: 8.0,
-                          ),
-                          child: Text(
-                            isMobile
-                                ? "Page ${_currentSpreadIndex + 1} of ${math.max(1, _pageUrls.length)}"
-                                : "Pages ${_currentSpreadIndex * 2 + 1}-${_currentSpreadIndex * 2 + 2} of ${math.max(1, _pageUrls.length)}",
-                            style: GoogleFonts.plusJakartaSans(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13.0,
-                              color: AppTheme.secondary,
-                            ),
-                          ),
-                        ),
 
-                        const SizedBox(width: 32.0),
+                          const SizedBox(width: 32.0),
 
-                        // Next Button
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              final totalSpreads = math.max(
-                                1,
-                                (_pageUrls.length / 2).ceil(),
-                              );
-                              final canGoForward =
-                                  _currentSpreadIndex < totalSpreads - 1;
-                              if (canGoForward) {
-                                _bookKey.currentState?.flipForward();
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Next Page",
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13.0,
+                          // Next Button
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                final totalSpreads = math.max(
+                                  1,
+                                  (_pageUrls.length / 2).ceil(),
+                                );
+                                final canGoForward =
+                                    _currentSpreadIndex < totalSpreads - 1;
+                                if (canGoForward) {
+                                  _bookKey.currentState?.flipForward();
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Next Page",
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13.0,
+                                      color:
+                                          (_currentSpreadIndex <
+                                              math.max(
+                                                    1,
+                                                    (_pageUrls.length / 2).ceil(),
+                                                  ) -
+                                                  1)
+                                          ? AppTheme.primary
+                                          : AppTheme.outlineVariant,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4.0),
+                                  Icon(
+                                    Icons.chevron_right,
                                     color:
                                         (_currentSpreadIndex <
                                             math.max(
@@ -357,29 +380,54 @@ class _PreviewViewState extends State<PreviewView> {
                                                   (_pageUrls.length / 2).ceil(),
                                                 ) -
                                                 1)
-                                        ? AppTheme.primary
+                                        ? AppTheme.secondary
                                         : AppTheme.outlineVariant,
                                   ),
-                                ),
-                                const SizedBox(width: 4.0),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color:
-                                      (_currentSpreadIndex <
-                                          math.max(
-                                                1,
-                                                (_pageUrls.length / 2).ceil(),
-                                              ) -
-                                              1)
-                                      ? AppTheme.secondary
-                                      : AppTheme.outlineVariant,
-                                ),
-                              ],
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ] else ...[
+                      // Single Preview Image for Frames / Stickers / Labels
+                      Center(
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxHeight: isDesktop ? 500.0 : 350.0,
+                            maxWidth: isDesktop ? 500.0 : 350.0,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 30.0,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                            child: Image.network(
+                              _pageUrls.isNotEmpty ? _pageUrls.first : widget.product.coverImageUrl,
+                              fit: BoxFit.contain,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(40.0),
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(AppTheme.secondary),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -452,37 +500,39 @@ class _PreviewViewState extends State<PreviewView> {
         ),
         const SizedBox(height: 32.0),
 
-        // 1. Book Format Selection
-        Text(
-          'SELECT BOOK FORMAT',
-          style: GoogleFonts.plusJakartaSans(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.0,
-            letterSpacing: 1.0,
-            color: AppTheme.primary,
+        if (widget.product.category == 'storybook') ...[
+          // 1. Book Format Selection
+          Text(
+            'SELECT BOOK FORMAT',
+            style: GoogleFonts.plusJakartaSans(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+              letterSpacing: 1.0,
+              color: AppTheme.primary,
+            ),
           ),
-        ),
-        const SizedBox(height: 12.0),
-        Row(
-          children: [
-            Expanded(
-              child: _buildBookFormatSelectionCard(
-                'Softcover',
-                widget.product.priceSoftcover,
-                'Lightweight & flexible cover',
+          const SizedBox(height: 12.0),
+          Row(
+            children: [
+              Expanded(
+                child: _buildBookFormatSelectionCard(
+                  'Softcover',
+                  widget.product.priceSoftcover,
+                  'Lightweight & flexible cover',
+                ),
               ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: _buildBookFormatSelectionCard(
-                'Hardcover',
-                widget.product.priceHardcover,
-                'Sturdy & premium keepsake',
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: _buildBookFormatSelectionCard(
+                  'Hardcover',
+                  widget.product.priceHardcover,
+                  'Sturdy & premium keepsake',
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24.0),
+            ],
+          ),
+          const SizedBox(height: 24.0),
+        ],
 
         // Selected Format Line-Item
         Container(
@@ -499,7 +549,9 @@ class _PreviewViewState extends State<PreviewView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${widget.product.title} ($_selectedBookType)',
+                widget.product.category == 'storybook'
+                    ? '${widget.product.title} ($_selectedBookType)'
+                    : widget.product.title,
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,

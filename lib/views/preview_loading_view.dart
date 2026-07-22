@@ -264,8 +264,17 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView>
         activeIndex: -1,
         onHomeTap: () =>
             Navigator.of(context).popUntil((route) => route.isFirst),
-        onExploreStoriesTap: () =>
-            Navigator.of(context).popUntil((route) => route.isFirst),
+        onExploreStoriesTap: (category) {
+          if (category == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => ProductsView(initialCategory: category),
+              ),
+            );
+          }
+        },
         onHowItWorksTap: () =>
             Navigator.of(context).popUntil((route) => route.isFirst),
         onPricingTap: () =>

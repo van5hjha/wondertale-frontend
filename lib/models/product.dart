@@ -15,6 +15,7 @@ class PreviewItem {
 class Product {
   final String id;
   final String title;
+  final String category;
   final String ageRange;
   final String description;
   final double rating;
@@ -32,6 +33,7 @@ class Product {
   Product({
     required this.id,
     required this.title,
+    required this.category,
     required this.ageRange,
     required this.description,
     required this.rating,
@@ -98,6 +100,7 @@ class Product {
     return Product(
       id: productId,
       title: json['title'] as String? ?? '',
+      category: json['category'] as String? ?? 'storybook',
       ageRange: json['ageRange'] as String? ?? '',
       description: json['description'] as String? ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,

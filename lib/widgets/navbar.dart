@@ -6,7 +6,7 @@ import '../core/legal_config.dart';
 
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onHomeTap;
-  final VoidCallback? onExploreStoriesTap;
+  final ValueChanged<String?>? onExploreStoriesTap;
   final VoidCallback? onHowItWorksTap;
   final VoidCallback? onPricingTap;
   final VoidCallback? onCreatePreviewTap;
@@ -23,6 +23,65 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     this.showCreatePreviewButton = true,
     this.activeIndex = 0,
   });
+
+  Widget _buildProductsDropdown(BuildContext context) {
+    return PopupMenuButton<String>(
+      tooltip: 'Products',
+      offset: const Offset(0, 40),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConstants.radiusDefault),
+      ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Products',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: activeIndex == 0 ? FontWeight.bold : FontWeight.normal,
+                    color: activeIndex == 0 ? AppTheme.primary : AppTheme.onSurfaceVariant,
+                  ),
+            ),
+            const SizedBox(width: 4.0),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 18.0,
+              color: activeIndex == 0 ? AppTheme.primary : AppTheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+      onSelected: (value) {
+        if (onExploreStoriesTap != null) {
+          onExploreStoriesTap!(value == 'all' ? null : value);
+        }
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: 'all',
+          child: Text('All Products'),
+        ),
+        const PopupMenuItem(
+          value: 'storybook',
+          child: Text('Storybooks'),
+        ),
+        const PopupMenuItem(
+          value: 'frame',
+          child: Text('Memory Frames'),
+        ),
+        const PopupMenuItem(
+          value: 'sticker',
+          child: Text('Stickers'),
+        ),
+        const PopupMenuItem(
+          value: 'label',
+          child: Text('Name Labels'),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +156,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     if (isDesktop)
                       Row(
                         children: [
-                          _buildNavLink(
-                            context,
-                            'Explore Stories',
-                            onExploreStoriesTap,
-                            isActive: activeIndex == 0,
-                          ),
+                          _buildProductsDropdown(context),
                           const SizedBox(width: 32.0),
                           _buildNavLink(
                             context,

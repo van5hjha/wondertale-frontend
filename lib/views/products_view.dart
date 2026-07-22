@@ -11,7 +11,8 @@ import '../widgets/story_card.dart';
 import 'product_detail_view.dart';
 
 class ProductsView extends StatefulWidget {
-  const ProductsView({super.key});
+  final String? initialCategory;
+  const ProductsView({super.key, this.initialCategory});
 
   @override
   State<ProductsView> createState() => _ProductsViewState();
@@ -21,6 +22,7 @@ class _ProductsViewState extends State<ProductsView> {
   List<Product> _products = [];
   bool _isLoading = true;
   final ProductsService _productsService = ProductsService();
+  String? _selectedCategory;
 
   int _currentPage = 1;
   int _totalPages = 1;
@@ -31,7 +33,15 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     super.initState();
+    _selectedCategory = widget.initialCategory;
     _loadProducts();
+  }
+
+  void _selectCategory(String? category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+    _loadProducts(page: 1);
   }
 
   Future<void> _loadProducts({int page = 1}) async {
@@ -40,12 +50,12 @@ class _ProductsViewState extends State<ProductsView> {
       _currentPage = page;
     });
     try {
-      final paginated = await _productsService.fetchProducts(page: page);
+      final paginated = await _productsService.fetchProducts(page: page, category: _selectedCategory);
       if (mounted) {
         setState(() {
           _products = paginated.products;
           _totalCount = paginated.count;
-          _totalPages = (paginated.count / 6).ceil();
+          _totalPages = paginated.count > 0 ? (paginated.count / 6).ceil() : 1;
           _hasNext = paginated.nextUrl != null;
           _hasPrevious = paginated.previousUrl != null;
           _isLoading = false;
@@ -56,12 +66,12 @@ class _ProductsViewState extends State<ProductsView> {
         'Error loading products from API: $e. Falling back to local assets.',
       );
       try {
-        final paginated = await _productsService.loadLocalProducts();
+        final paginated = await _productsService.loadLocalProducts(category: _selectedCategory);
         if (mounted) {
           setState(() {
             _products = paginated.products;
             _totalCount = paginated.count;
-            _totalPages = (paginated.count / 6).ceil();
+            _totalPages = paginated.count > 0 ? (paginated.count / 6).ceil() : 1;
             _hasNext = paginated.nextUrl != null;
             _hasPrevious = paginated.previousUrl != null;
             _isLoading = false;
@@ -91,8 +101,8 @@ class _ProductsViewState extends State<ProductsView> {
         showCreatePreviewButton: false,
         onHomeTap: () =>
             Navigator.of(context).popUntil((route) => route.isFirst),
-        onExploreStoriesTap: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+        onExploreStoriesTap: (category) {
+          _selectCategory(category);
         },
         onHowItWorksTap: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -119,7 +129,7 @@ class _ProductsViewState extends State<ProductsView> {
                   child: Column(
                     children: [
                       Text(
-                        'CHOOSE YOUR MAGICAL ADVENTURE',
+                        'EXPLORE OUR MAGICAL COLLECTION',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: isTablet ? 36.0 : 28.0,
@@ -130,7 +140,7 @@ class _ProductsViewState extends State<ProductsView> {
                       ),
                       const SizedBox(height: 16.0),
                       Text(
-                        'Select from our bestselling custom themes to start creating your personalized storybook preview.',
+                        'Select from our bestselling custom themes, photo frames, name labels, and sticker packs.',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 16.0,
@@ -146,6 +156,19 @@ class _ProductsViewState extends State<ProductsView> {
                           color: AppTheme.secondary,
                           borderRadius: BorderRadius.circular(2.0),
                         ),
+                      ),
+                      const SizedBox(height: 32.0),
+                      Wrap(
+                        spacing: 12.0,
+                        runSpacing: 12.0,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          _buildFilterChip(context, 'All Products', null),
+                          _buildFilterChip(context, 'Storybooks', 'storybook'),
+                          _buildFilterChip(context, 'Memory Frames', 'frame'),
+                          _buildFilterChip(context, 'Stickers', 'sticker'),
+                          _buildFilterChip(context, 'Name Labels', 'label'),
+                        ],
                       ),
                     ],
                   ),
@@ -285,6 +308,28 @@ class _ProductsViewState extends State<ProductsView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterChip(BuildContext context, String label, String? categoryValue) {
+    final isSelected = _selectedCategory == categoryValue;
+    return ChoiceChip(
+      label: Text(
+        label,
+        style: GoogleFonts.plusJakartaSans(
+          color: isSelected ? Colors.white : AppTheme.onSurfaceVariant,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          fontSize: 14.0,
+        ),
+      ),
+      selected: isSelected,
+      selectedColor: AppTheme.secondary,
+      backgroundColor: AppTheme.surfaceContainerLow,
+      onSelected: (selected) {
+        if (selected) {
+          _selectCategory(categoryValue);
+        }
+      },
     );
   }
 }

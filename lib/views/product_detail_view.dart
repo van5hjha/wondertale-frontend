@@ -275,7 +275,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       appBar: NavBar(
         activeIndex: -1,
         onHomeTap: () => _navigateBack(context, -1),
-        onExploreStoriesTap: () => _navigateBack(context, 0),
+        onExploreStoriesTap: (category) {
+          if (category == null) {
+            _navigateBack(context, 0);
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ProductsView(initialCategory: category),
+              ),
+            );
+          }
+        },
         onHowItWorksTap: () => _navigateBack(context, 1),
         onPricingTap: () => _navigateBack(context, 2),
         onCreatePreviewTap: () {
@@ -835,6 +845,7 @@ class _CustomizationFormState extends State<CustomizationForm> {
   @override
   void initState() {
     super.initState();
+    _selectedBookType = widget.product.category == 'storybook' ? 'Hardcover' : 'Standard';
     _initCraftingCount();
     _nameController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
@@ -1929,7 +1940,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          '${LegalConfig.currencySymbol}${widget.product.priceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.priceHardcover}',
+                          widget.product.category == 'storybook'
+                              ? '${LegalConfig.currencySymbol}${widget.product.priceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.priceHardcover}'
+                              : '${LegalConfig.currencySymbol}${widget.product.priceSoftcover}',
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
                                 color: AppTheme.primary,
@@ -1940,7 +1953,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
                         if (widget.product.originalPriceSoftcover > widget.product.priceSoftcover) ...[
                           const SizedBox(width: 8.0),
                           Text(
-                            '${LegalConfig.currencySymbol}${widget.product.originalPriceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.originalPriceHardcover}',
+                            widget.product.category == 'storybook'
+                                ? '${LegalConfig.currencySymbol}${widget.product.originalPriceSoftcover} - ${LegalConfig.currencySymbol}${widget.product.originalPriceHardcover}'
+                                : '${LegalConfig.currencySymbol}${widget.product.originalPriceSoftcover}',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: AppTheme.onSurfaceVariant.withOpacity(0.7),
                               decoration: TextDecoration.lineThrough,

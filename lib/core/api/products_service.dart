@@ -21,8 +21,9 @@ class PaginatedProducts {
 
 class ProductsService {
   /// Calls `GET /api/products/` to fetch active products from the Django backend.
-  Future<PaginatedProducts> fetchProducts({int page = 1}) async {
-    final url = Uri.parse('${ApiConfig.baseUrl}/api/products/?page=$page');
+  Future<PaginatedProducts> fetchProducts({int page = 1, String? category}) async {
+    final categoryFilter = category != null ? '&category=$category' : '';
+    final url = Uri.parse('${ApiConfig.baseUrl}/api/products/?page=$page$categoryFilter');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -42,10 +43,13 @@ class ProductsService {
   }
 
   /// Loads products from the local assets products.json file as a fallback.
-  Future<PaginatedProducts> loadLocalProducts() async {
+  Future<PaginatedProducts> loadLocalProducts({String? category}) async {
     final jsonString = await rootBundle.loadString('assets/data/products.json');
     final List<dynamic> jsonList = json.decode(jsonString);
-    final products = jsonList.map((j) => Product.fromJson(j)).toList();
+    var products = jsonList.map((j) => Product.fromJson(j)).toList();
+    if (category != null) {
+      products = products.where((p) => p.category == category).toList();
+    }
     return PaginatedProducts(
       count: products.length,
       nextUrl: null,

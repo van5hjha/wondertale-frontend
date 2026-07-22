@@ -102,14 +102,16 @@ class _InfoViewState extends State<InfoView> {
             MaterialPageRoute(builder: (_) => const HomeView()),
           );
         },
-        onExploreStoriesTap: () {
-          Navigator.of(context)
-              .pushReplacement(
-                MaterialPageRoute(builder: (_) => const HomeView()),
-              )
-              .then((_) {
-                // Scroll to stories key after routing
-              });
+        onExploreStoriesTap: (category) {
+          if (category == null) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const HomeView()),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => ProductsView(initialCategory: category)),
+            );
+          }
         },
         onHowItWorksTap: () {
           Navigator.of(context).pushReplacement(
