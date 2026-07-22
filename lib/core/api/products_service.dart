@@ -21,9 +21,10 @@ class PaginatedProducts {
 
 class ProductsService {
   /// Calls `GET /api/products/` to fetch active products from the Django backend.
-  Future<PaginatedProducts> fetchProducts({int page = 1, String? category}) async {
+  Future<PaginatedProducts> fetchProducts({int page = 1, String? category, int? pageSize}) async {
     final categoryFilter = category != null ? '&category=$category' : '';
-    final url = Uri.parse('${ApiConfig.baseUrl}/api/products/?page=$page$categoryFilter');
+    final limit = pageSize != null ? '&page_size=$pageSize' : '';
+    final url = Uri.parse('${ApiConfig.baseUrl}/api/products/?page=$page$categoryFilter$limit');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

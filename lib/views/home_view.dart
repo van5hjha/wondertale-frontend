@@ -53,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
     List<Product> loadedProducts = [];
 
     try {
-      final paginated = await _productsService.fetchProducts();
+      final paginated = await _productsService.fetchProducts(pageSize: 100);
       loadedProducts = paginated.products;
     } catch (e) {
       debugPrint(
