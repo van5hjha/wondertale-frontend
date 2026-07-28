@@ -91,6 +91,8 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _precacheAllImages(List<Product> products) async {
     if (!mounted) return;
     final List<Future<void>> futures = [];
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 600.0;
 
     void safePrecache(String pathOrUrl) {
       if (pathOrUrl.isEmpty) return;
@@ -132,10 +134,22 @@ class _HomeViewState extends State<HomeView> {
       }
     }
 
-    // Wait for precaching with 6-second max timeout
+    // 4. Precache pricing section images
+    if (LegalConfig.softcoverImageUrl != null) {
+      safePrecache(LegalConfig.softcoverImageUrl!);
+    } else {
+      safePrecache('assets/images/softcover.png');
+    }
+    if (LegalConfig.hardcoverImageUrl != null) {
+      safePrecache(LegalConfig.hardcoverImageUrl!);
+    } else {
+      safePrecache('assets/images/hardcover.png');
+    }
+
+    // Wait for precaching with custom timeout (longer for mobile networks)
     if (futures.isNotEmpty) {
       await Future.wait(futures).timeout(
-        const Duration(seconds: 6),
+        isMobile ? const Duration(seconds: 12) : const Duration(seconds: 8),
         onTimeout: () => <void>[],
       );
     }
@@ -554,17 +568,17 @@ class _HomeViewState extends State<HomeView> {
                                       'Magical custom books where your child is the star.',
                                       'VIEW ALL THEMES',
                                       'storybook',
-                                      _products.where((p) => p.category == 'storybook').toList(),
+                                      _products.where((p) => p.category == 'storybook').take(6).toList(),
                                       isTablet,
                                     ),
                                     const SizedBox(height: 80.0),
                                     _buildProductSection(
                                       context,
-                                      'Cosmic Memory Frames',
+                                      'Personalized Photo Frames',
                                       'Turn your favorite moments into magical space artifacts.',
                                       'VIEW ALL FRAMES',
                                       'frame',
-                                      _products.where((p) => p.category == 'frame').toList(),
+                                      _products.where((p) => p.category == 'frame').take(4).toList(),
                                       isTablet,
                                     ),
                                     const SizedBox(height: 80.0),
@@ -574,7 +588,7 @@ class _HomeViewState extends State<HomeView> {
                                       'Durable, waterproof stickers featuring your child as the hero.',
                                       'VIEW ALL STICKERS',
                                       'sticker',
-                                      _products.where((p) => p.category == 'sticker').toList(),
+                                      _products.where((p) => p.category == 'sticker').take(4).toList(),
                                       isTablet,
                                     ),
                                     const SizedBox(height: 80.0),
@@ -584,7 +598,7 @@ class _HomeViewState extends State<HomeView> {
                                       'Personalized labels for school gear that never get lost in orbit.',
                                       'VIEW ALL LABELS',
                                       'label',
-                                      _products.where((p) => p.category == 'label').toList(),
+                                      _products.where((p) => p.category == 'label').take(4).toList(),
                                       isTablet,
                                     ),
                                   ],
@@ -806,13 +820,15 @@ class _HomeViewState extends State<HomeView> {
         LayoutBuilder(
           builder: (context, constraints) {
             final width = constraints.maxWidth;
+            final isFourColumns = categoryFilter == 'frame' || categoryFilter == 'sticker' || categoryFilter == 'label';
             final crossAxisCount = width >= 1024
-                ? 3
+                ? (isFourColumns ? 4 : 3)
                 : (width >= 640 ? 2 : 1);
-            final totalSpacing = 32.0 * (crossAxisCount - 1);
+            final spacingValue = isFourColumns ? 24.0 : 32.0;
+            final totalSpacing = spacingValue * (crossAxisCount - 1);
             final cardWidth = (width - totalSpacing) / crossAxisCount;
             final imageHeight = cardWidth * (2.0 / 3.0);
-            final totalHeight = imageHeight + 265.0;
+            final totalHeight = imageHeight + (isFourColumns ? 295.0 : 265.0);
             final childAspectRatio = cardWidth / totalHeight;
 
             return GridView.builder(
@@ -820,7 +836,7 @@ class _HomeViewState extends State<HomeView> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                crossAxisSpacing: 32.0,
+                crossAxisSpacing: spacingValue,
                 mainAxisSpacing: 48.0,
                 childAspectRatio: childAspectRatio,
               ),

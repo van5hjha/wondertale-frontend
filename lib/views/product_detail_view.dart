@@ -193,29 +193,23 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'EXPLORE MORE MAGICAL ADVENTURES',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: isTablet ? 20.0 : 16.0,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'Personalize another bedtime story for your little ones.',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
+            Text(
+              'EXPLORE MORE MAGICAL ADVENTURES',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: isTablet ? 20.0 : 16.0,
+                letterSpacing: 1.0,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              'Personalize another bedtime story for your little ones.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppTheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -573,30 +567,42 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
     showDialog(
       context: context,
       builder: (context) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenHeight = MediaQuery.of(context).size.height;
+        final mobileLayout = screenWidth < 600.0;
+
         return Dialog(
           backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: mobileLayout ? 12.0 : 40.0,
+            vertical: mobileLayout ? 24.0 : 24.0,
+          ),
           child: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 800.0,
-              maxHeight: 600.0,
+            constraints: BoxConstraints(
+              maxWidth: mobileLayout ? screenWidth : 800.0,
+              maxHeight: mobileLayout ? screenHeight * 0.85 : 600.0,
             ),
             decoration: BoxDecoration(
               color: AppTheme.surface,
-              borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+              borderRadius: BorderRadius.circular(
+                mobileLayout ? AppConstants.radiusDefault : AppConstants.radiusMd,
+              ),
             ),
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(mobileLayout ? 16.0 : 24.0),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Sample Interior Pages',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.primary,
-                          ),
+                    Expanded(
+                      child: Text(
+                        'Sample Interior Pages',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primary,
+                          fontSize: mobileLayout ? 20.0 : 24.0,
+                        ),
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.close),
@@ -607,37 +613,112 @@ class _ProductPreviewSectionState extends State<ProductPreviewSection> {
                 const SizedBox(height: 16.0),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16.0,
-                          mainAxisSpacing: 16.0,
-                          childAspectRatio: 4 / 3,
-                        ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: mobileLayout ? 1 : 2,
+                      crossAxisSpacing: 16.0,
+                      mainAxisSpacing: 16.0,
+                      childAspectRatio: 4 / 3,
+                    ),
                     itemCount: widget.product.previewImages.length,
                     itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.radiusDefault,
+                      final imageUrl = widget.product.previewImages[index];
+                      return GestureDetector(
+                        onTap: () {
+                          _showFullScreenImage(context, widget.product.previewImages, index);
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusDefault,
+                          ),
+                          child: imageUrl.startsWith('http')
+                              ? Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
-                        child:
-                            widget.product.previewImages[index].startsWith(
-                              'http',
-                            )
-                            ? Image.network(
-                                widget.product.previewImages[index],
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                widget.product.previewImages[index],
-                                fit: BoxFit.cover,
-                              ),
                       );
                     },
                   ),
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showFullScreenImage(BuildContext context, List<String> images, int initialIndex) {
+    showDialog(
+      context: context,
+      useSafeArea: false,
+      builder: (context) {
+        return Dialog.fullscreen(
+          backgroundColor: Colors.black,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: PageView.builder(
+                  itemCount: images.length,
+                  controller: PageController(initialPage: initialIndex),
+                  itemBuilder: (context, index) {
+                    final imageUrl = images[index];
+                    return Center(
+                      child: InteractiveViewer(
+                        minScale: 0.8,
+                        maxScale: 4.0,
+                        child: imageUrl.startsWith('http')
+                            ? Image.network(
+                                imageUrl,
+                                fit: BoxFit.contain,
+                              )
+                            : Image.asset(
+                                imageUrl,
+                                fit: BoxFit.contain,
+                              ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16.0,
+                left: 16.0,
+                right: 16.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.black54,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                          size: 20.0,
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                    Text(
+                      'Sample Pages',
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const SizedBox(width: 48.0),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -1237,6 +1318,9 @@ class _CustomizationFormState extends State<CustomizationForm> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isTablet = width >= 640.0;
+
     final bool isNameValid = _nameController.text.trim().isNotEmpty;
     final bool isEmailValid = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
@@ -1894,8 +1978,12 @@ class _CustomizationFormState extends State<CustomizationForm> {
               ),
             ),
             padding: const EdgeInsets.all(16.0),
-            child: Row(
+            child: Flex(
+              direction: isTablet ? Axis.horizontal : Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: isTablet
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1967,8 +2055,10 @@ class _CustomizationFormState extends State<CustomizationForm> {
                     ),
                   ],
                 ),
+                if (!isTablet) const SizedBox(height: 16.0),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment:
+                      isTablet ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
                     const Text(
                       '🚚 Delivery Timeline:',

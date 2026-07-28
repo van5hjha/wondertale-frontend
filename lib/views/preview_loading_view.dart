@@ -93,6 +93,17 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView>
         'assets/data/preview_loading.json',
       );
       final data = json.decode(response);
+
+      // Precache hovering image before displaying the main view to prevent flicker
+      final hoveringImageUrl = data['hovering_image'] as String?;
+      if (hoveringImageUrl != null && hoveringImageUrl.isNotEmpty && mounted) {
+        final ImageProvider provider =
+            (hoveringImageUrl.startsWith('http://') || hoveringImageUrl.startsWith('https://'))
+                ? NetworkImage(hoveringImageUrl)
+                : AssetImage(hoveringImageUrl) as ImageProvider;
+        await precacheImage(provider, context).catchError((_) {});
+      }
+
       if (mounted) {
         setState(() {
           _loadingData = data;
@@ -682,77 +693,83 @@ class _PreviewLoadingViewState extends State<PreviewLoadingView>
   }
 
   List<Widget> _buildFactCards() {
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 600.0;
     final list = _loadingData?['facts'] as List<dynamic>? ?? [];
     return list.map<Widget>((fact) {
-      final card = ClipRRect(
-        borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-              border: Border.all(
-                color: Colors.black.withOpacity(0.05),
-                width: 1.0,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
-                  blurRadius: 24.0,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Icon
-                Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: AppTheme.secondary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(
-                      AppConstants.radiusDefault,
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      _getFactIcon(fact['icon']),
-                      color: AppTheme.secondary,
-                      size: 20.0,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                // Title
-                Text(
-                  fact['title'] ?? '',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                    color: AppTheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                // Description
-                Text(
-                  fact['description'] ?? '',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14.0,
-                    color: AppTheme.onSurfaceVariant,
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
+      final cardContent = Container(
+        decoration: BoxDecoration(
+          color: isMobile ? Colors.white : Colors.white.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+          border: Border.all(
+            color: Colors.black.withOpacity(0.05),
+            width: 1.0,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 24.0,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Icon
+            Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                color: AppTheme.secondary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.radiusDefault,
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  _getFactIcon(fact['icon']),
+                  color: AppTheme.secondary,
+                  size: 20.0,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            // Title
+            Text(
+              fact['title'] ?? '',
+              style: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 17.0,
+                color: AppTheme.primary,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            // Description
+            Text(
+              fact['description'] ?? '',
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14.0,
+                color: AppTheme.onSurfaceVariant,
+                height: 1.5,
+              ),
+            ),
+          ],
         ),
       );
 
-      if (MediaQuery.of(context).size.width >= 768.0) {
+      final card = ClipRRect(
+        borderRadius: BorderRadius.circular(AppConstants.radiusLg),
+        child: isMobile
+            ? cardContent
+            : BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+                child: cardContent,
+              ),
+      );
+
+      if (width >= 768.0) {
         return Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),

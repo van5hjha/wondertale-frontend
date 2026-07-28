@@ -42,6 +42,14 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 600.0;
+
+    final glowSize = isMobile ? 250.0 : 350.0;
+    final lottieSize = isMobile ? 180.0 : 260.0;
+    final fontSize = isMobile ? 16.0 : 20.0;
+    final gapHeight = isMobile ? 16.0 : 24.0;
+
     return Container(
       color: Colors.white, // White background
       child: Stack(
@@ -50,8 +58,8 @@ class _LoadingScreenState extends State<LoadingScreen>
           Positioned.fill(
             child: Center(
               child: Container(
-                width: 350.0,
-                height: 350.0,
+                width: glowSize,
+                height: glowSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
@@ -79,8 +87,8 @@ class _LoadingScreenState extends State<LoadingScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 260.0,
-                    height: 260.0,
+                    width: lottieSize,
+                    height: lottieSize,
                     child: Lottie.asset(
                       'assets/animations/loading.json',
                       controller: _lottieController,
@@ -92,12 +100,12 @@ class _LoadingScreenState extends State<LoadingScreen>
                       },
                     ),
                   ),
-                  const SizedBox(height: 24.0),
+                  SizedBox(height: gapHeight),
                   Text(
                     'Opening the storybook...',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: AppTheme.primary, // Dark text color on white
-                      fontSize: 20.0,
+                      fontSize: fontSize,
                       letterSpacing: 0.5,
                       fontWeight: FontWeight.w500,
                     ),

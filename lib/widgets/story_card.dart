@@ -36,6 +36,7 @@ class _StoryCardState extends State<StoryCard> {
   bool _isButtonHovered = false;
   int _currentImageIndex = 0;
   Timer? _sliderTimer;
+  Timer? _visibilityCheckTimer;
   bool _imagesPrecached = false;
 
   @override
@@ -50,6 +51,7 @@ class _StoryCardState extends State<StoryCard> {
       _precacheImages();
       _imagesPrecached = true;
     }
+    _setupMobileVisibilityCheck();
   }
 
   @override
@@ -59,6 +61,52 @@ class _StoryCardState extends State<StoryCard> {
       _imagesPrecached = false;
       _precacheImages();
       _imagesPrecached = true;
+    }
+    _setupMobileVisibilityCheck();
+  }
+
+  void _setupMobileVisibilityCheck() {
+    if (!mounted) return;
+    final isMobile = MediaQuery.of(context).size.width < 600.0;
+    if (isMobile) {
+      _visibilityCheckTimer ??= Timer.periodic(const Duration(milliseconds: 500), (_) {
+        _checkVisibility();
+      });
+    } else {
+      _visibilityCheckTimer?.cancel();
+      _visibilityCheckTimer = null;
+    }
+  }
+
+  void _checkVisibility() {
+    if (!mounted) return;
+    try {
+      final renderBox = context.findRenderObject() as RenderBox?;
+      if (renderBox == null || !renderBox.hasSize) return;
+
+      final position = renderBox.localToGlobal(Offset.zero);
+      final size = renderBox.size;
+      final screenHeight = MediaQuery.of(context).size.height;
+
+      // Check if the card is vertically visible in the viewport
+      final isVisible = (position.dy + size.height > 0) && (position.dy < screenHeight);
+
+      if (isVisible) {
+        if (_sliderTimer == null) {
+          _startSliderTimer();
+        }
+      } else {
+        if (_sliderTimer != null) {
+          _stopSliderTimer();
+          if (mounted) {
+            setState(() {
+              _currentImageIndex = 0;
+            });
+          }
+        }
+      }
+    } catch (e) {
+      // Render context might not be ready or laid out yet
     }
   }
 
@@ -75,6 +123,8 @@ class _StoryCardState extends State<StoryCard> {
   @override
   void dispose() {
     _stopSliderTimer();
+    _visibilityCheckTimer?.cancel();
+    _visibilityCheckTimer = null;
     super.dispose();
   }
 
@@ -331,6 +381,7 @@ class _StoryCardState extends State<StoryCard> {
                               spacing: 6.0,
                               runSpacing: 6.0,
                               children: widget.tags
+                                  .take(2)
                                   .map(
                                     (tag) => Container(
                                       padding: const EdgeInsets.symmetric(

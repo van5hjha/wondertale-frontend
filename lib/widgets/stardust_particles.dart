@@ -21,7 +21,22 @@ class _StardustParticlesState extends State<StardustParticles>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
-    )..repeat();
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final isMobile = MediaQuery.of(context).size.width < 600.0;
+    if (isMobile) {
+      if (_controller.isAnimating) {
+        _controller.stop();
+      }
+    } else {
+      if (!_controller.isAnimating) {
+        _controller.repeat();
+      }
+    }
   }
 
   @override
@@ -32,14 +47,22 @@ class _StardustParticlesState extends State<StardustParticles>
 
   void _initializeParticles(Size size) {
     if (_initialized) return;
-    for (int i = 0; i < 40; i++) {
-      _particles.add(StardustParticle.random(size, _random));
+    final isMobile = MediaQuery.of(context).size.width < 600.0;
+    if (!isMobile) {
+      for (int i = 0; i < 40; i++) {
+        _particles.add(StardustParticle.random(size, _random));
+      }
     }
     _initialized = true;
   }
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600.0;
+    if (isMobile) {
+      return const SizedBox.shrink();
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = Size(constraints.maxWidth, constraints.maxHeight);
